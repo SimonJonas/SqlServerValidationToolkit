@@ -1,0 +1,10 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="SqlServerValidationToolkit.UnitTests.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="ConnectionString" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">data source=localhost;initial catalog=ValidationToolkit_UnitTest
+;integrated security=True;MultipleActiveResultSets=True;</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
