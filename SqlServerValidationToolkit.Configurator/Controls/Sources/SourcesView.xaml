@@ -32,10 +32,10 @@
                     </Grid.ColumnDefinitions>
                     <WrapPanel>
                         <Button Command="{Binding Path=AddNewSourceCommand}" ToolTip="Add new source">
-                            <Image Source="../Images/16x16/Add.png" Width="16" Height="16" />
+                            <Image Source="../../Images/16x16/Add.png" Width="16" Height="16" />
                         </Button>
                         <Button Command="{Binding Path=DeleteSelectedSourcesCommand}" ToolTip="Delete selected sources">
-                            <Image Source="../Images/16x16/Delete.png" Width="16" Height="16" />
+                            <Image Source="../../Images/16x16/Delete.png" Width="16" Height="16" />
                         </Button>
                     </WrapPanel>
                 </Grid>
@@ -95,10 +95,10 @@
                     </Grid.ColumnDefinitions>
 
                     <Button Grid.Column="0" Command="{Binding Path=AddNewColumnCommand}" ToolTip="Add new column">
-                        <Image Source="../Images/16x16/Add.png" Width="16" Height="16" />
+                        <Image Source="../../Images/16x16/Add.png" Width="16" Height="16" />
                     </Button>
                     <Button Grid.Column="1" Command="{Binding Path=DeletedSelectedColumnsCommand}" ToolTip="Delete selected columns">
-                        <Image Source="../Images/16x16/Delete.png" Width="16" Height="16" />
+                        <Image Source="../../Images/16x16/Delete.png" Width="16" Height="16" />
                     </Button>
                 </Grid>
             </Grid>
@@ -134,19 +134,19 @@
                 </ListBox>
                 <WrapPanel Grid.Row="1">
                     <Button Command="{Binding Path=AddMinMaxRuleCommand}" ToolTip="Add MinMax-Rule" IsEnabled="{Binding Path=SelectedColumn.IsNumeric}">
-                        <Image Source="../Images/16x16/AddMinMaxRule.png" Width="16" Height="16" />
+                        <Image Source="../../Images/16x16/AddMinMaxRule.png" Width="16" Height="16" />
                     </Button>
                     <Button Command="{Binding Path=AddComparisonRuleCommand}" ToolTip="Add Comparison-Rule" IsEnabled="{Binding Path=SelectedColumn.IsNumeric}">
-                        <Image Source="../Images/16x16/AddComparisonRule.png" Width="16" Height="16" />
+                        <Image Source="../../Images/16x16/AddComparisonRule.png" Width="16" Height="16" />
                     </Button>
                     <Button Command="{Binding Path=AddLikeRuleCommand}" ToolTip="Add Like-Rule" IsEnabled="{Binding Path=SelectedColumn.IsString}" >
-                        <Image Source="../Images/16x16/AddLikeRule.png" Width="16" Height="16" />
+                        <Image Source="../../Images/16x16/AddLikeRule.png" Width="16" Height="16" />
                     </Button>
                     <Button Command="{Binding Path=AddCustomQueryRuleCommand}" ToolTip="Add CustomQuery-Rule">
-                        <Image Source="../Images/16x16/AddCustomQueryRule.png" Width="16" Height="16" />
+                        <Image Source="../../Images/16x16/AddCustomQueryRule.png" Width="16" Height="16" />
                     </Button>
                     <Button Command="{Binding Path=DeleteSelectedValidationRulesCommand}" ToolTip="Delete selected rules">
-                        <Image Source="../Images/16x16/Delete.png" Width="16" Height="16" />
+                        <Image Source="../../Images/16x16/Delete.png" Width="16" Height="16" />
                     </Button>
                 </WrapPanel>
             </Grid>

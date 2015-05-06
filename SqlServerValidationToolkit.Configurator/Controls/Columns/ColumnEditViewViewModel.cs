@@ -4,8 +4,6 @@ using GalaSoft.MvvmLight.Messaging;
 using SqlServerValidationToolkit.Model.Entities;
 using SqlServerValidationToolkit.Model.Entities.Rule;
 using SqlServerValidationToolkit.Model.Validation;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;

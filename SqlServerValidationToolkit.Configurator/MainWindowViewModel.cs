@@ -157,11 +157,6 @@ namespace SqlServerValidationToolkit.Configurator
             WrongValues = _validator.WrongValues.Select(view => new WrongValueViewModel(view, _validator.GetWrongValue(view))).ToList();
         }
 
-        int logId = 0;
-
-
-
-
         private IEnumerable<ErrorType> _errorTypes;
         public IEnumerable<ErrorType> ErrorTypes
         {

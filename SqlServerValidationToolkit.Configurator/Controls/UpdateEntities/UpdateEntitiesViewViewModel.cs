@@ -27,6 +27,10 @@ namespace SqlServerValidationToolkit.Configurator.Controls.UpdateEntities
     {
         private MainWindowViewModel _mainWindowViewModel;
 
+        public UpdateEntitiesViewViewModel()
+        {
+        }
+
         public UpdateEntitiesViewViewModel(MainWindowViewModel mainWindowViewModel)
         {
             UpdateSourcesCommand = new RelayCommand(UpdateSourcesAndRefreh);
