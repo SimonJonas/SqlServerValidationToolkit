@@ -1,0 +1,51 @@
+﻿<UserControl x:Class="SqlServerValidationToolkit.Configurator.Controls.ValidationRules.ComparisonRuleEditView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             xmlns:vr="clr-namespace:SqlServerValidationToolkit.Configurator.Controls.ValidationRules"
+             d:DataContext="{d:DesignInstance Type=vr:CustomQueryRuleEditViewViewModel, IsDesignTimeCreatable=True}"
+             d:DesignHeight="300" d:DesignWidth="300">
+
+    <UserControl.Resources>
+        <vr:ComparisonSymbolOptions x:Key="comparisonSymbolOptions" />
+    </UserControl.Resources>
+    <GroupBox Header="Comparison" >
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Style="{StaticResource ResourceKey=DetailLabelColumn}" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Label>
+                <Label.ToolTip>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <TextBlock>The comparison to the other column</TextBlock>
+                        <TextBlock Grid.Row="1">All values that don't fulfill the comparison are invalid</TextBlock>
+                    </Grid>
+                </Label.ToolTip> Comparison Symbol
+            </Label>
+            <ComboBox Grid.Column="1" SelectedItem="{Binding Path=ComparisonSymbol}" ItemsSource="{Binding Source={StaticResource comparisonSymbolOptions}, Path=ComparisonSymbols}" />
+            <Label Grid.Row="1">
+                <Label.ToolTip>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <TextBlock>The column that is compared to the current column</TextBlock>
+                    </Grid>
+                </Label.ToolTip> compared Column
+            </Label>
+            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=ComparedColumn, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+        </Grid>
+    </GroupBox>
+</UserControl>

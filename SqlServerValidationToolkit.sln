@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlServerValidationToolkit.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlServerValidationToolkit.UnitTests", "SqlServerValidationToolkit.UnitTests\SqlServerValidationToolkit.UnitTests.csproj", "{1F359B37-379A-4155-A0E1-6C4F387DA7EA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlServerValidationToolkit.Configurator", "SqlServerValidationToolkit.Configurator\SqlServerValidationToolkit.Configurator.csproj", "{81575041-C0BB-4205-A7E2-D66BD05BBF6E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{1F359B37-379A-4155-A0E1-6C4F387DA7EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F359B37-379A-4155-A0E1-6C4F387DA7EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1F359B37-379A-4155-A0E1-6C4F387DA7EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81575041-C0BB-4205-A7E2-D66BD05BBF6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81575041-C0BB-4205-A7E2-D66BD05BBF6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81575041-C0BB-4205-A7E2-D66BD05BBF6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81575041-C0BB-4205-A7E2-D66BD05BBF6E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,74 @@
+﻿<Window x:Class="SqlServerValidationToolkit.Configurator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:configurator="clr-namespace:SqlServerValidationToolkit.Configurator"
+        xmlns:wrongValues="clr-namespace:SqlServerValidationToolkit.Configurator.Controls.WrongValues"
+        xmlns:controls="clr-namespace:SqlServerValidationToolkit.Configurator.Controls"
+        xmlns:sources="clr-namespace:SqlServerValidationToolkit.Configurator.Controls.Sources"
+        Title="MainWindow" Height="350" Width="525">
+    <Window.DataContext>
+        <configurator:MainWindowViewModel />
+    </Window.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <DockPanel >
+
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="_Data">
+                    <MenuItem Header="_Save" 
+                          Command="{Binding Path=SaveCommand}" 
+                           InputGestureText="Ctrl+S"/>
+                    <MenuItem Header="_Refresh" 
+                          Command="{Binding Path=RefreshCommand}"
+                          InputGestureText="Ctrl+R"/>
+                    <MenuItem Header="_Update entities from database" 
+                          Command="{Binding Path=UpdateEntitiesCommand}"
+                          InputGestureText="Ctrl+U"/>
+                </MenuItem>
+                <MenuItem Header="_Stored Procedures">
+                    <MenuItem Header="Execute _Validation" Command="{Binding Path=ExecuteValidationCommand}" />
+                </MenuItem>
+                <MenuItem Header="_Settings">
+                    <MenuItem Header="Change DB _Connection string" Command="{Binding Path=ChangeDbConnectionStringCommand}" />
+                </MenuItem>
+
+            </Menu>
+            <StatusBar DockPanel.Dock="Bottom" >
+                <StatusBarItem>Connected to database</StatusBarItem>
+                <StatusBarItem Content="{Binding Path=Database}"  />
+                <StatusBarItem>on server</StatusBarItem>
+                <StatusBarItem Content="{Binding Path=DatabaseServer}"  />
+            </StatusBar>
+            <Grid >
+
+                <TabControl >
+                    <TabItem Header="Sources">
+
+                        <sources:SourcesView DataContext="{Binding Path=SourcesViewViewModel}" />
+
+                    </TabItem>
+
+                    <TabItem Header="Error Types" >
+                        <DataGrid ItemsSource="{Binding Path=ErrorTypes}" AutoGenerateColumns="False" IsReadOnly="True">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Type" Binding="{Binding Path=Check_Type}" />
+                                <DataGridTextColumn Header="Description" Binding="{Binding Path=Description}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </TabItem>
+
+
+                    <TabItem Header="Wrong Values">
+                        <wrongValues:WrongValuesView />
+                    </TabItem>
+                </TabControl>
+            </Grid>
+
+        </DockPanel>
+
+    </Grid>
+</Window>

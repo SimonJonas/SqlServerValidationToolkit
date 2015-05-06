@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="SqlServerValidationToolkit.Configurator.Controls.ValidationRules.CustomQueryRuleEditView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             xmlns:vr="clr-namespace:SqlServerValidationToolkit.Configurator.Controls.ValidationRules"
+             d:DataContext="{d:DesignInstance Type=vr:CustomQueryRuleEditViewViewModel, IsDesignTimeCreatable=True}"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <GroupBox Header="custom Query">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Label>
+                    <Label.ToolTip>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <TextBlock>A query that returns the id of the invalid entry and it's errortype</TextBlock>
+                            <TextBlock Grid.Row="1">errorTypes can be added and deleted in the errortype-list</TextBlock>
+                        </Grid>
+                    </Label.ToolTip>
+                    Query
+                </Label>
+                <TextBox x:Name="txtQuery" Grid.Column="1" AcceptsReturn="True" Text="{Binding Path=CustomQuery, UpdateSourceTrigger=PropertyChanged}" />
+            </Grid>
+        </GroupBox>
+    </Grid>
+</UserControl>

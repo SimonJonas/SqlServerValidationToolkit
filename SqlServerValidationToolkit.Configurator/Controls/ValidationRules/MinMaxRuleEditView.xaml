@@ -1,0 +1,112 @@
+﻿<UserControl x:Class="SqlServerValidationToolkit.Configurator.Controls.ValidationRules.MinMaxRuleEditView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             xmlns:vr="clr-namespace:SqlServerValidationToolkit.Configurator.Controls.ValidationRules"
+             d:DataContext="{d:DesignInstance Type=vr:MinMaxRuleEditViewViewModel, IsDesignTimeCreatable=True}"
+             d:DesignHeight="300" d:DesignWidth="300">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <GroupBox Grid.Row="0" Header="Validation rule">
+            <Grid>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Style="{StaticResource ResourceKey=DetailLabelColumn}" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Row="0" Grid.Column="0">
+                    <Label.ToolTip>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <TextBlock>The active state of the rule</TextBlock>
+                            <TextBlock Grid.Row="1">An inactive rule will not be evaluated</TextBlock>
+                        </Grid>
+                    </Label.ToolTip>
+                    State
+                </Label>
+
+                <CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding Path=Rule.IsActive}" >
+                    Is active
+                </CheckBox>
+
+                <Label Grid.Row="1" Grid.Column="0">
+                    <Label.ToolTip>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <TextBlock>Determines how Null-values should be treated</TextBlock>
+                            <TextBlock Grid.Row="1">You can ignore, the null-values, interpret them as errors or convert them to the default value</TextBlock>
+                        </Grid>
+                    </Label.ToolTip>
+                    Null-value-treatment
+                </Label>
+                <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Path=NullValueTreatments}" SelectedValue="{Binding Path=SelectedNullValueTreatment}"></ComboBox>
+                <Expander Grid.Row="2" Grid.ColumnSpan="2" Header="Show query">
+                    <TextBox
+                        IsReadOnly="True"
+                        Text="{Binding Path=Query, Mode=OneWay}" />
+                </Expander>
+                <Expander Header="Error-types"
+                          Grid.Row="3" Grid.ColumnSpan="2">
+                    <Grid>
+                        <Grid.Resources>
+                            <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+                        </Grid.Resources>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <DataGrid ItemsSource="{Binding Path=ErrorTypes}" SelectedItem="{Binding Path=SelectedErrorType}" 
+                          AutoGenerateColumns="False"
+                          CanUserAddRows="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Id" Binding="{Binding Path=ErrorType_id, Mode=OneWay}" IsReadOnly="True" />
+                                <DataGridTextColumn Header="Errortext" Binding="{Binding Path=Description}" />
+
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <WrapPanel Grid.Row="1" Visibility="{Binding Path=RuleIsCustomQueryRule, Converter={StaticResource ResourceKey=BoolToVis}}">
+                            <Button Command="{Binding Path=AddNewErrorTypeCommand}" ToolTip="Add new error type">
+                                <Image Source="../../Images/16x16/Add.png" Width="16" Height="16" />
+                            </Button>
+                            <Button Command="{Binding Path=DeleteSelectedErrorTypeCommand}" ToolTip="Delete selected error type" IsEnabled="{Binding Path=ErrorTypeIsSelected}">
+                                <Image Source="../../Images/16x16/Delete.png" Width="16" Height="16" />
+                            </Button>
+                        </WrapPanel>
+                        <TextBlock Grid.Row="2" 
+                                   Foreground="Red"
+                                   Visibility="{Binding Path=RuleContainsUnsavedErrorTypes, Converter={StaticResource ResourceKey=BoolToVis}}">
+                        The rule contains unsaved errortypes. After saving, the primary key of each errortype is set and can be used in the query
+                        </TextBlock>
+                    </Grid>
+                </Expander>
+
+                <!--<Button Grid.Row="2" Click="Button_Click">Show query</Button>-->
+            </Grid>
+
+        </GroupBox>
+
+        <ContentPresenter x:Name="detailPresenter" Grid.Row="1" />
+
+    </Grid>
+</UserControl>

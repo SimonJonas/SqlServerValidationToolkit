@@ -1,0 +1,62 @@
+﻿<UserControl x:Class="SqlServerValidationToolkit.Configurator.Controls.Sources.SourceEditView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:controls="clr-namespace:SqlServerValidationToolkit.Configurator.Controls.Sources"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+
+    <Grid>
+
+        <GroupBox Header="Source" >
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Style="{StaticResource ResourceKey=DetailLabelColumn}" />
+                    <ColumnDefinition MinWidth="100" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <!--<ComboBox Grid.Row="0" ItemsSource="{Binding Path=Tables}" />-->
+
+                <Label Grid.Row="1" Grid.Column="0">
+                    <Label.ToolTip>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <TextBlock>The name of the table</TextBlock>
+                            <TextBlock Grid.Row="1">The name will be used to construct the query.</TextBlock>
+                        </Grid>
+                    </Label.ToolTip> Name
+                </Label>
+                <TextBox Name="txtName" Grid.Row="1" Grid.Column="1" Text="{Binding Path=Source.Name, UpdateSourceTrigger=PropertyChanged}" />
+
+                <Label Grid.Row="2" Grid.Column="0">
+                    <Label.ToolTip>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <TextBlock>The column that is the primary key column.</TextBlock>
+                            <TextBlock Grid.Row="1">The validation toolkit only supports one primary key column per table</TextBlock>
+                        </Grid>
+                    </Label.ToolTip>
+                    Id-Column-Name
+                </Label>
+                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Path=Source.IdColumnName, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <Label Grid.Row="3" Grid.Column="0">Description</Label>
+                <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Path=Source.Description}"/>
+
+            </Grid>
+        </GroupBox>
+    </Grid>
+</UserControl>

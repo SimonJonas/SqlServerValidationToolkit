@@ -1,0 +1,71 @@
+﻿<UserControl x:Class="SqlServerValidationToolkit.Configurator.Controls.Columns.ColumnEditView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d"
+             xmlns:column="clr-namespace:SqlServerValidationToolkit.Configurator.Controls.Columns"
+             d:DataContext="{d:DesignInstance Type=column:ColumnEditViewViewModel, IsDesignTimeCreatable=True}" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <column:ColumnTypeOptions x:Key="columnTypeOptions" />
+    </UserControl.Resources>
+    <GroupBox>
+        <Grid>
+            <Grid.Resources>
+                <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+            </Grid.Resources>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Style="{StaticResource ResourceKey=DetailLabelColumn}" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!--Column-Fields-->
+            <Label Grid.Row="0" Grid.Column="0">
+                <Label.ToolTip>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <TextBlock>The name of the column that is validated</TextBlock>
+                        <TextBlock Grid.Row="1">The name will be used to construct the query</TextBlock>
+                    </Grid>
+                </Label.ToolTip> Name
+            </Label>
+            <TextBox x:Name="txtName" Grid.Row="0" Grid.Column="1" Text="{Binding Path=Column.Name, UpdateSourceTrigger=PropertyChanged}" />
+
+            <!--Type-->
+            <Label Grid.Row="1" Grid.Column="0">
+                <Label.ToolTip>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <TextBlock>The type of the column.</TextBlock>
+                        <TextBlock Grid.Row="1">The _from_String-types convert the value to the datatype</TextBlock>
+                    </Grid>
+                </Label.ToolTip>
+                Type
+            </Label>
+            <ComboBox Grid.Row="1" Grid.Column="1" SelectedItem="{Binding Path=ColumnTypeTrimmed}" ItemsSource="{Binding Source={StaticResource columnTypeOptions}, Path=ColumnTypes}" />
+
+            <!--Who is responsible-->
+            <Label Grid.Row="2" Grid.Column="0">Who is responsible</Label>
+            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Path=Column.WhoIsResponsible}" />
+
+            <Label Grid.Row="3" Grid.Column="0">Description</Label>
+            <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Path=Column.Description}" AcceptsReturn="True" />
+
+        </Grid>
+    </GroupBox>
+</UserControl>
