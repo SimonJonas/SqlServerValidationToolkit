@@ -14,11 +14,11 @@ namespace SqlServerValidationToolkit.Configurator.Controls.ValidationRules
         {
             ComparisonSymbols = new List<string>()
             {
-                "< ",
-                "> ",
+                "<",
+                ">",
                 "<=",
                 ">=",
-                "= ",
+                "=",
                 "!="
             };
         }
