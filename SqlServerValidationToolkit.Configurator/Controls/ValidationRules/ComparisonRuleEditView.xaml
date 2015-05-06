@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              xmlns:vr="clr-namespace:SqlServerValidationToolkit.Configurator.Controls.ValidationRules"
-             d:DataContext="{d:DesignInstance Type=vr:CustomQueryRuleEditViewViewModel, IsDesignTimeCreatable=True}"
+             d:DataContext="{d:DesignInstance Type=vr:ComparisonRuleEditViewViewModel, IsDesignTimeCreatable=True}"
              d:DesignHeight="300" d:DesignWidth="300">
 
     <UserControl.Resources>
