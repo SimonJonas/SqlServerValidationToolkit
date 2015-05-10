@@ -87,7 +87,8 @@ namespace SqlServerValidationToolkit.Configurator.Controls.UpdateEntities
                 .SingleOrDefault(s => s.Name.Equals(table.Name));
             if (existingSource == null)
             {
-                string pkColumnName = GetPrimaryKeyColumnName(ctx, table.Name);
+
+                string pkColumnName = table.PrimaryKeyColumnName; 
                 existingSource = new Source()
                 {
                     Name = table.Name,
@@ -99,7 +100,7 @@ namespace SqlServerValidationToolkit.Configurator.Controls.UpdateEntities
             return existingSource;
         }
 
-        private static string GetPrimaryKeyColumnName(SqlServerValidationToolkitContext ctx, string name)
+        private static string GetPrimaryKeyColumnName(DbConnection connection, string name)
         {
             string query = @"SELECT column_name
 FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE
@@ -107,12 +108,21 @@ WHERE OBJECTPROPERTY(OBJECT_ID(constraint_name), 'IsPrimaryKey') = 1
 AND table_name = '{0}'";
             string sql = string.Format(query, name);
             //TODO: Test for views
-            string pkName = ctx.Database.SqlQuery<string>(sql).SingleOrDefault();
-            if (pkName == null)
+            var commands = connection.CreateCommand();
+            commands.CommandText = sql;
+
+            try
             {
-                throw new ArgumentException(string.Format("No primary Key is defined for {0}", name));
+                var columnName = commands.ExecuteScalar();
+                if (columnName==null)
+                {
+                    return null;
+                }
+                return columnName.ToString();
+            } catch (Exception e)
+            {
+                return null;
             }
-            return pkName;
         }
 
         private void UpdateColumns(TableViewModel table, Source source)
@@ -207,8 +217,11 @@ AND table_name = '{0}'";
             List<TableViewModel> tables = new List<TableViewModel>();
             foreach (DataRow row in schema.Rows)
             {
-
-                tables.Add(GetTable(connection, row));
+                TableViewModel tableViewModel = GetTable(connection, row);
+                if (tableViewModel != null)
+                {
+                    tables.Add(GetTable(connection, row));
+                }
             }
             connection.Close();
             return tables;
@@ -216,7 +229,14 @@ AND table_name = '{0}'";
 
         private static TableViewModel GetTable(DbConnection connection, DataRow row)
         {
-            var t = new TableViewModel(row[2].ToString());
+            string name = row[2].ToString();
+            var t = new TableViewModel(name);
+            t.PrimaryKeyColumnName = GetPrimaryKeyColumnName(connection, name);
+
+            if (t.PrimaryKeyColumnName==null)
+            {
+                return null;
+            }
 
             var c = connection.CreateCommand();
 
@@ -237,13 +257,6 @@ WHERE TABLE_NAME = N'{0}'", t.Name);
                 string clName = reader.GetValue(0).ToString();
                 var nullable = reader.GetValue(1).ToString().Equals("YES");
                 string dataType = reader.GetValue(2).ToString();
-                //if (reader.IsDBNull(3))
-                //{
-
-                //}
-                //var varCharMaxLenght = reader.GetInt32(3);
-                //var numericPrecition = reader.GetInt32(4);
-                //var numericScale = reader.GetInt32(5);
 
                 var col = new ColumnViewModel()
                 {

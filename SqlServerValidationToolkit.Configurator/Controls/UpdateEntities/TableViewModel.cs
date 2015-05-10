@@ -14,6 +14,7 @@ namespace SqlServerValidationToolkit.Configurator.Controls.UpdateEntities
             Columns = new List<ColumnViewModel>();
         }
 
+        public string PrimaryKeyColumnName { get; set; }
         public string Name { get; set; }
         public bool IsSelected { get; set; }
         public List<ColumnViewModel> Columns { get; set; }
