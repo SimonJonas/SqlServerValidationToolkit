@@ -1,4 +1,5 @@
-﻿using SqlServerValidationToolkit.Configurator.Messages;
+﻿using Microsoft.Data.ConnectionUI;
+using SqlServerValidationToolkit.Configurator.Messages;
 using SqlServerValidationToolkit.Configurator.Properties;
 using SqlServerValidationToolkit.Model.Context;
 using SqlServerValidationToolkit.Model.DatabaseInitialization;
@@ -91,26 +92,26 @@ namespace SqlServerValidationToolkit.Configurator
 
         public static void UpdateDbConnectionString(GetDbConnectionStringMessage m)
         {
-            //DataConnectionDialog dcd = new DataConnectionDialog();
+            DataConnectionDialog dcd = new DataConnectionDialog();
 
-            //DataProvider dataProvider = DataProvider.SqlDataProvider;
-            //DataSource dataSource = new DataSource(dataProvider.Name, dataProvider.DisplayName);
+            DataProvider dataProvider = DataProvider.SqlDataProvider;
+            DataSource dataSource = new DataSource(dataProvider.Name, dataProvider.DisplayName);
 
-            //dataSource.Providers.Add(dataProvider);
+            dataSource.Providers.Add(dataProvider);
 
-            //dcd.DataSources.Add(dataSource);
-            //dcd.SelectedDataSource = dataSource;
-            //dcd.SelectedDataProvider = dataProvider;
+            dcd.DataSources.Add(dataSource);
+            dcd.SelectedDataSource = dataSource;
+            dcd.SelectedDataProvider = dataProvider;
 
-            //if (m.ConnectionString != string.Empty)
-            //{
-            //    dcd.ConnectionString = m.ConnectionString;
-            //}
+            if (m.ConnectionString != string.Empty)
+            {
+                dcd.ConnectionString = m.ConnectionString;
+            }
 
-            //if (DataConnectionDialog.Show(dcd) == System.Windows.Forms.DialogResult.OK)
-            //{
-            //    m.ConnectionString = dcd.ConnectionString;
-            //}
+            if (DataConnectionDialog.Show(dcd) == System.Windows.Forms.DialogResult.OK)
+            {
+                m.ConnectionString = dcd.ConnectionString;
+            }
         }
     }
 }
