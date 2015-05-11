@@ -24,8 +24,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*" />
+                <RowDefinition />
             </Grid.RowDefinitions>
 
             <!--Column-Fields-->
@@ -59,12 +58,8 @@
             </Label>
             <ComboBox Grid.Row="1" Grid.Column="1" SelectedItem="{Binding Path=ColumnTypeTrimmed}" ItemsSource="{Binding Source={StaticResource columnTypeOptions}, Path=ColumnTypes}" />
 
-            <!--Who is responsible-->
-            <Label Grid.Row="2" Grid.Column="0">Who is responsible</Label>
-            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Path=Column.WhoIsResponsible}" />
-
-            <Label Grid.Row="3" Grid.Column="0">Description</Label>
-            <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Path=Column.Description}" AcceptsReturn="True" />
+            <Label Grid.Row="2" Grid.Column="0">Description</Label>
+            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Path=Column.Description}" AcceptsReturn="True" />
 
         </Grid>
     </GroupBox>
