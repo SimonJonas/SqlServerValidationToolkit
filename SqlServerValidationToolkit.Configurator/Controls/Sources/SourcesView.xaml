@@ -133,13 +133,13 @@
                     </ListBox.ItemContainerStyle>
                 </ListBox>
                 <WrapPanel Grid.Row="1">
-                    <Button Command="{Binding Path=AddMinMaxRuleCommand}" ToolTip="Add MinMax-Rule" IsEnabled="{Binding Path=SelectedColumn.IsNumeric}">
+                    <Button Command="{Binding Path=AddMinMaxRuleCommand}" ToolTip="Add MinMax-Rule" IsEnabled="{Binding Path=SelectedColumnIsNumeric}">
                         <Image Source="../../Images/16x16/AddMinMaxRule.png" Width="16" Height="16" />
                     </Button>
-                    <Button Command="{Binding Path=AddComparisonRuleCommand}" ToolTip="Add Comparison-Rule" IsEnabled="{Binding Path=SelectedColumn.IsNumeric}">
+                    <Button Command="{Binding Path=AddComparisonRuleCommand}" ToolTip="Add Comparison-Rule" IsEnabled="{Binding Path=SelectedColumnIsNumeric}">
                         <Image Source="../../Images/16x16/AddComparisonRule.png" Width="16" Height="16" />
                     </Button>
-                    <Button Command="{Binding Path=AddLikeRuleCommand}" ToolTip="Add Like-Rule" IsEnabled="{Binding Path=SelectedColumn.IsString}" >
+                    <Button Command="{Binding Path=AddLikeRuleCommand}" ToolTip="Add Like-Rule" IsEnabled="{Binding Path=SelectedColumnIsNotNumeric}">
                         <Image Source="../../Images/16x16/AddLikeRule.png" Width="16" Height="16" />
                     </Button>
                     <Button Command="{Binding Path=AddCustomQueryRuleCommand}" ToolTip="Add CustomQuery-Rule">

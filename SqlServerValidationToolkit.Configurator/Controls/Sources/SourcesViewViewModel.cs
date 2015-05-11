@@ -36,13 +36,11 @@ namespace SqlServerValidationToolkit.Configurator.Controls.Sources
             DeleteSelectedSourcesCommand = new RelayCommand(() => Delete(Sources.Where(s => s.IsSelected)));
             DeletedSelectedColumnsCommand = new RelayCommand(() => Delete(Columns.Where(c => c.IsSelected)));
 
-            Func<bool> columnIsSelected = () => SelectedColumn != null;
-
-            DeleteSelectedValidationRulesCommand = new RelayCommand(() => SelectedColumn.DeleteSelectedValidationRules(), columnIsSelected);
-            AddMinMaxRuleCommand = new RelayCommand(() => SelectedColumn.AddRule(new MinMaxRule()), columnIsSelected);
-            AddComparisonRuleCommand = new RelayCommand(() => SelectedColumn.AddRule(new ComparisonRule()), columnIsSelected);
-            AddLikeRuleCommand = new RelayCommand(() => SelectedColumn.AddRule(new LikeRule()), columnIsSelected);
-            AddCustomQueryRuleCommand = new RelayCommand(() => SelectedColumn.AddRule(new CustomQueryRule()), columnIsSelected);
+            DeleteSelectedValidationRulesCommand = new RelayCommand(() => SelectedColumn.DeleteSelectedValidationRules());
+            AddMinMaxRuleCommand = new RelayCommand(() => SelectedColumn.AddRule(new MinMaxRule()));
+            AddComparisonRuleCommand = new RelayCommand(() => SelectedColumn.AddRule(new ComparisonRule()));
+            AddLikeRuleCommand = new RelayCommand(() => SelectedColumn.AddRule(new LikeRule()));
+            AddCustomQueryRuleCommand = new RelayCommand(() => SelectedColumn.AddRule(new CustomQueryRule()));
         }
 
 
@@ -268,6 +266,8 @@ namespace SqlServerValidationToolkit.Configurator.Controls.Sources
             {
                 _selectedColumn = value;
                 RaisePropertyChanged(() => SelectedColumn);
+                RaisePropertyChanged(() => SelectedColumnIsNumeric);
+                RaisePropertyChanged(() => SelectedColumnIsNotNumeric);
                 Messenger.Default.Send(new EntitySelectedMessage(value));
             }
         }
@@ -288,5 +288,23 @@ namespace SqlServerValidationToolkit.Configurator.Controls.Sources
             SelectedColumn = vm;
         }
 
+        public bool SelectedColumnIsNumeric
+        {
+            get
+            {
+                return SelectedColumn != null
+                    &&
+                    SelectedColumn.IsNumeric;
+            }
+        }
+        public bool SelectedColumnIsNotNumeric
+        {
+            get
+            {
+                return SelectedColumn != null
+                    &&
+                    !SelectedColumn.IsNumeric;
+            }
+        }
     }
 }
