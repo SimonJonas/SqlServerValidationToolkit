@@ -107,7 +107,7 @@ DECLARE @Select_for_WrongValues varchar(MAX)
 --where no uncorrected wrongValue exists with the same errorType, column, id and errorGroup.
 SELECT @Select_for_WrongValues = 'SELECT
 temp.ValidationRule_fk
-, [Id]
+, temp.[Id]
 , CONVERT(varchar(MAX),'+c.Name+@DateFormatNumberInConvert+')
 , ' + CASE 
 			WHEN (vr.discriminator='Comparison') 
