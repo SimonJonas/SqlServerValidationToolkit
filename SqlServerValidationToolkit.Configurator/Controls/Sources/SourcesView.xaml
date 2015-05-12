@@ -142,10 +142,10 @@
                     <Button Command="{Binding Path=AddLikeRuleCommand}" ToolTip="Add Like-Rule" IsEnabled="{Binding Path=SelectedColumnIsNotNumeric}">
                         <Image Source="../../Images/16x16/AddLikeRule.png" Width="16" Height="16" />
                     </Button>
-                    <Button Command="{Binding Path=AddCustomQueryRuleCommand}" ToolTip="Add CustomQuery-Rule">
+                    <Button Command="{Binding Path=AddCustomQueryRuleCommand}" ToolTip="Add CustomQuery-Rule" IsEnabled="{Binding Path=ColumnIsSelected}">
                         <Image Source="../../Images/16x16/AddCustomQueryRule.png" Width="16" Height="16" />
                     </Button>
-                    <Button Command="{Binding Path=DeleteSelectedValidationRulesCommand}" ToolTip="Delete selected rules">
+                    <Button Command="{Binding Path=DeleteSelectedValidationRulesCommand}" ToolTip="Delete selected rules" IsEnabled="{Binding Path=SelectedColumn.ValidationRuleIsSelected}"> 
                         <Image Source="../../Images/16x16/Delete.png" Width="16" Height="16" />
                     </Button>
                 </WrapPanel>

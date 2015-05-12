@@ -268,6 +268,7 @@ namespace SqlServerValidationToolkit.Configurator.Controls.Sources
                 RaisePropertyChanged(() => SelectedColumn);
                 RaisePropertyChanged(() => SelectedColumnIsNumeric);
                 RaisePropertyChanged(() => SelectedColumnIsNotNumeric);
+                RaisePropertyChanged(() => ColumnIsSelected);
                 Messenger.Default.Send(new EntitySelectedMessage(value));
             }
         }
@@ -304,6 +305,13 @@ namespace SqlServerValidationToolkit.Configurator.Controls.Sources
                 return SelectedColumn != null
                     &&
                     !SelectedColumn.IsNumeric;
+            }
+        }
+        public bool ColumnIsSelected
+        {
+            get
+            {
+                return SelectedColumn != null;
             }
         }
     }
