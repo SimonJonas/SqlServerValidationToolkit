@@ -36,7 +36,6 @@ namespace SqlServerValidationToolkit.Model.Context
         public DbSet<WrongValue> WrongValues { get; set; }
         public DbSet<ValidationRule> ValidationRules { get; set; }
         public DbSet<Column> Columns { get; set; }
-        public DbSet<ViewWrongValue> ViewWrongValues { get; set; }
 
         public DbSet<Log> Logs { get; set; }
         public DbSet<TempId> TempIds { get; set; }

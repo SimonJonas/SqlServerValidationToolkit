@@ -10,13 +10,22 @@ namespace SqlServerValidationToolkit.Configurator.Controls.WrongValues
 {
     class WrongValueViewModel : INotifyPropertyChanged
     {
-        public WrongValueViewModel(ViewWrongValue viewWrongValue, WrongValue wrongValue)
+        public WrongValueViewModel(WrongValue wrongValue)
         {
-            WrongValue = viewWrongValue;
             _wrongValue = wrongValue;
         }
 
-        public ViewWrongValue WrongValue { get; set; }
+        public WrongValue WrongValue
+        {
+            get
+            {
+                return _wrongValue;
+            }
+            set
+            {
+                _wrongValue = value;
+            }
+        }
         private WrongValue _wrongValue;
 
         public bool Ignore

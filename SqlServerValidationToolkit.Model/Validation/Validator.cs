@@ -96,11 +96,11 @@ namespace SqlServerValidationToolkit.Model.Validation
             }
         }
 
-        public IEnumerable<ViewWrongValue> WrongValues
+        public IEnumerable<WrongValue> WrongValues
         {
             get
             {
-                return _ctx.ViewWrongValues.OrderBy(wv => wv.Id).ThenBy(wv => wv.SourceName).ThenBy(wv => wv.ColumnName).ToList();
+                return _ctx.WrongValues.OrderBy(wv => wv.Id).ThenBy(wv => wv.Validation_ValidationRule.Column.Source.Name).ThenBy(wv => wv.Validation_ValidationRule.Column.Name).ToList();
             }
         }
 
@@ -110,12 +110,6 @@ namespace SqlServerValidationToolkit.Model.Validation
             {
                 return _ctx.ChangeTracker.HasChanges();
             }
-        }
-
-
-        public WrongValue GetWrongValue(ViewWrongValue view)
-        {
-            return _ctx.WrongValues.Single((wv => wv.Id == view.Id && wv.ErrorType_fk == view.ErrorType_id && wv.Validation_ValidationRule.Column.Column_id == view.Column_id));
         }
 
         public void Remove(ValidationRule vr)

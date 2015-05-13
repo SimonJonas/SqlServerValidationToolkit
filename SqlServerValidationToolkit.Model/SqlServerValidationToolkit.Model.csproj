@@ -59,7 +59,6 @@
     <Compile Include="Entities\Rule\ValidationRule.cs" />
     <Compile Include="Entities\Source.cs" />
     <Compile Include="Entities\Temp\TempId.cs" />
-    <Compile Include="Entities\ViewWrongValue.cs" />
     <Compile Include="Entities\WrongValue.cs" />
     <Compile Include="Factory\ErrorTypeAssigner.cs" />
     <Compile Include="Factory\ValidationRuleFactory.cs" />

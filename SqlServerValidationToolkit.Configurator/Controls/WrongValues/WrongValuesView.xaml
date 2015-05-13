@@ -56,13 +56,12 @@
         <DataGrid.Columns>
             <DataGridTextColumn Header="Id" Binding="{Binding Path=WrongValue.Id}" />
 
-            <DataGridTextColumn Header="Source" Binding="{Binding Path=WrongValue.SourceName}" 
+            <DataGridTextColumn Header="Source" Binding="{Binding Path=WrongValue.Validation_ValidationRule.Column.Source.Name}" 
                                                     />
-            <DataGridTextColumn Header="Column" Binding="{Binding Path=WrongValue.ColumnName}" />
+            <DataGridTextColumn Header="Column" Binding="{Binding Path=WrongValue.Validation_ValidationRule.Column.Name}" />
 
             <DataGridTextColumn Header="Value" Binding="{Binding Path=WrongValue.Value}" />
-            <DataGridTextColumn Header="Responsible person" Binding="{Binding Path=WrongValue.WhoIsResponsible}" />
-            <DataGridTextColumn Header="Description" Binding="{Binding Path=WrongValue.Description}" />
+            <DataGridTextColumn Header="Description" Binding="{Binding Path=WrongValue.Errortype.Description}" />
 
         </DataGrid.Columns>
     </DataGrid>

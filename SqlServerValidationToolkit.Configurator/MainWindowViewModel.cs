@@ -154,7 +154,7 @@ namespace SqlServerValidationToolkit.Configurator
 
         private void ResetWrongValues()
         {
-            WrongValues = _validator.WrongValues.Select(view => new WrongValueViewModel(view, _validator.GetWrongValue(view))).ToList();
+            WrongValues = _validator.WrongValues.Select(view => new WrongValueViewModel(view)).ToList();
         }
 
         private IEnumerable<ErrorType> _errorTypes;
