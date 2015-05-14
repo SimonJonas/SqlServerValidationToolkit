@@ -15,6 +15,7 @@ namespace SqlServerValidationToolkit.Model.Entities.Rule
         {
             this.Validation_WrongValue = new HashSet<WrongValue>();
             this.Errortypes = new HashSet<ErrorType>();
+            this.IsActive = true;
         }
 
         [Key]
