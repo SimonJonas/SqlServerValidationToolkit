@@ -13,6 +13,6 @@
         <Setter Property="Margin" Value="1,0,1,0" />
     </Style>
     <Style x:Key="DetailLabelColumn" TargetType="ColumnDefinition">
-        <Setter Property="Width" Value="150" />
+        <Setter Property="Width" Value="100" />
     </Style>
 </ResourceDictionary>

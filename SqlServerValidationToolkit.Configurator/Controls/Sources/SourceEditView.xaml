@@ -45,11 +45,11 @@
                                 <RowDefinition />
                                 <RowDefinition />
                             </Grid.RowDefinitions>
-                            <TextBlock>The column that is the primary key column.</TextBlock>
+                            <TextBlock>The name of the primary key column.</TextBlock>
                             <TextBlock Grid.Row="1">The validation toolkit only supports one primary key column per table</TextBlock>
                         </Grid>
                     </Label.ToolTip>
-                    Id-Column-Name
+                    Id-Column
                 </Label>
                 <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Path=Source.IdColumnName, UpdateSourceTrigger=PropertyChanged}"/>
 

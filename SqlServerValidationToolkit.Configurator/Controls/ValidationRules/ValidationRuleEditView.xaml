@@ -56,7 +56,7 @@
                             <TextBlock Grid.Row="1">You can ignore, the null-values, interpret them as errors or convert them to the default value</TextBlock>
                         </Grid>
                     </Label.ToolTip>
-                    Null-value-treatment
+                    Null-value
                 </Label>
                 <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Path=NullValueTreatments}" SelectedValue="{Binding Path=SelectedNullValueTreatment}"></ComboBox>
                 <Expander Grid.Row="2" Grid.ColumnSpan="2" Header="Show query">

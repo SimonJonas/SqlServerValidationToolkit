@@ -28,24 +28,19 @@
                             <RowDefinition />
                             <RowDefinition />
                         </Grid.RowDefinitions>
-                        <TextBlock>The comparison to the other column</TextBlock>
+                        <TextBlock>The comparison to the other column that is compared to the current column</TextBlock>
                         <TextBlock Grid.Row="1">All values that don't fulfill the comparison are invalid</TextBlock>
                     </Grid>
-                </Label.ToolTip> Comparison Symbol
+                </Label.ToolTip> Comparison
             </Label>
-            <ComboBox Grid.Column="1" SelectedItem="{Binding Path=ComparisonSymbol}" ItemsSource="{Binding Source={StaticResource comparisonSymbolOptions}, Path=ComparisonSymbols}" />
-            <Label Grid.Row="1">
-                <Label.ToolTip>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
-                        <TextBlock>The column that is compared to the current column</TextBlock>
-                    </Grid>
-                </Label.ToolTip> compared Column
-            </Label>
-            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=ComparedColumn, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+            <Grid Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <ComboBox Grid.Column="0" SelectedItem="{Binding Path=ComparisonSymbol}" ItemsSource="{Binding Source={StaticResource comparisonSymbolOptions}, Path=ComparisonSymbols}" />
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=ComparedColumn, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+            </Grid>
         </Grid>
     </GroupBox>
 </UserControl>
