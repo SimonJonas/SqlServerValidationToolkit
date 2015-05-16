@@ -21,6 +21,7 @@ namespace SqlServerValidationToolkit.Model.Entities
         [MaxLength(100)]
         public string Name { get; set; }
         [Column("Id_Name")]
+        [Required]
         public string IdColumnName { get; set; }
         public string Description { get; set; }
 

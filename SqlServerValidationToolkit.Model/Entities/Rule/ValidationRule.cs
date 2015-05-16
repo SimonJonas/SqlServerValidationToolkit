@@ -22,6 +22,7 @@ namespace SqlServerValidationToolkit.Model.Entities.Rule
         public int ValidationRule_id { get; set; }
         public int Column_fk { get; set; }
         public bool IsActive { get; set; }
+        
         public Nullable<NullValueTreatment> NullValueTreatment { get; set; }
         public string CompiledQuery { get; set; }
 

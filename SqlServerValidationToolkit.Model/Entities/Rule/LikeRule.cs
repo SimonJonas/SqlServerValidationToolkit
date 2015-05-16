@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ namespace SqlServerValidationToolkit.Model.Entities.Rule
 {
     public class LikeRule : ValidationRule
     {
+        [Required]
         public string LikeExpression { get; set; }
 
         public override string ToString()

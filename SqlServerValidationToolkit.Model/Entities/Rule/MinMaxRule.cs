@@ -10,7 +10,9 @@ namespace SqlServerValidationToolkit.Model.Entities.Rule
 {
     public class MinMaxRule : ValidationRule
     {
+        [Required]
         public Nullable<long> Minimum { get; set; }
+        [Required]
         public Nullable<long> Maximum { get; set; }
 
 
@@ -66,6 +68,7 @@ namespace SqlServerValidationToolkit.Model.Entities.Rule
         public override IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(System.ComponentModel.DataAnnotations.ValidationContext validationContext)
         {
             List<System.ComponentModel.DataAnnotations.ValidationResult> result = new List<ValidationResult>();
+            
             if (Minimum > Maximum)
             {
                 result.Add(new ValidationResult("The minimum must be smaller than the maximum", new List<string>()

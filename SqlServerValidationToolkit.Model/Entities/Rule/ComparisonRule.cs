@@ -12,8 +12,11 @@ namespace SqlServerValidationToolkit.Model.Entities.Rule
     /// </summary>
     public class ComparisonRule : ValidationRule
     {
+        [Required]
         public string ComparedColumn { get; set; }
         public string ComparedColumnDescription { get; set; }
+
+        [Required]
         public string ComparisonSymbol { get; set; }
 
         public override string ToString()
