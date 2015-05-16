@@ -28,7 +28,6 @@ namespace SqlServerValidationToolkit.Configurator
             InitializeComponent();
 
             MainWindowViewModel viewModel = (MainWindowViewModel)DataContext;
-            viewModel.AfterSave = () => { CommandManager.InvalidateRequerySuggested(); };
 
             Loaded += (object sender, RoutedEventArgs e) =>
             {

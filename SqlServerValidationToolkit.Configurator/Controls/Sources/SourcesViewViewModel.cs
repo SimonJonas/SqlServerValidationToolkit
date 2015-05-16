@@ -85,7 +85,7 @@ namespace SqlServerValidationToolkit.Configurator.Controls.Sources
         /// <summary>
         /// Saves all changed entities
         /// </summary>
-        public void Save(Action succeeded)
+        public void Save()
         {
             try
             {

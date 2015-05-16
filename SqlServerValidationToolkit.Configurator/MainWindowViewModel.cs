@@ -22,7 +22,6 @@ namespace SqlServerValidationToolkit.Configurator
 {
     class MainWindowViewModel : INotifyPropertyChanged
     {
-        public Action AfterSave;
 
         public ICommand SaveCommand
         {
@@ -71,7 +70,7 @@ namespace SqlServerValidationToolkit.Configurator
         {
             _sourcesViewViewModel = new SourcesViewViewModel();
 
-            SaveCommand = new RelayCommand(() => { Save(); }, () => IsSavable);
+            SaveCommand = new RelayCommand(() => { Save(); });
             RefreshCommand = new RelayCommand(() => Init());
 
             Func<bool> canExecute = () => _sourcesViewViewModel.SelectedSourceEditViewViewModel != null;
@@ -122,7 +121,7 @@ namespace SqlServerValidationToolkit.Configurator
 
         public void Save()
         {
-            _sourcesViewViewModel.Save(AfterSave);
+            _sourcesViewViewModel.Save();
         }
 
 
