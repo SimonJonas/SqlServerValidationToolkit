@@ -156,7 +156,34 @@ namespace SqlServerValidationToolkit.Configurator
 
         private void ResetWrongValues()
         {
-            WrongValues = _validator.WrongValues.Select(view => new WrongValueViewModel(view)).ToList();
+            if (WrongValues!=null)
+            {
+                foreach (var wrongValue in WrongValues)
+                {
+                    wrongValue.PropertyChanged -= wrongValue_PropertyChanged;
+                }
+            }
+
+            WrongValues = _validator
+                .WrongValues
+                .Where(view=>ShowIgnoredValues || !view.Ignore)
+                .Select(view => new WrongValueViewModel(view)).ToList();
+
+            
+            foreach (var wrongValue in WrongValues)
+            {
+                wrongValue.PropertyChanged +=wrongValue_PropertyChanged;
+            }
+        }
+
+        void wrongValue_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Ignore" && SelectedWrongValue.Ignore)
+            {
+                int selectedId = SelectedWrongValue.WrongValue.WrongValue_id;
+                ResetWrongValues();
+                SelectedWrongValue = WrongValues.SingleOrDefault(wv => wv.WrongValue.WrongValue_id == selectedId);
+            }
         }
 
         private IEnumerable<ErrorType> _errorTypes;
@@ -181,6 +208,23 @@ namespace SqlServerValidationToolkit.Configurator
             {
                 _wrongValues = value;
                 OnPropertyChanged("WrongValues");
+            }
+        }
+
+
+        private bool _showIgnoredValues;
+        public bool ShowIgnoredValues
+        {
+            get
+            {
+                return _showIgnoredValues;
+            }
+            set
+            {
+                _showIgnoredValues = value;
+                OnPropertyChanged("ShowIgnoredValues");
+
+                ResetWrongValues();
             }
         }
 

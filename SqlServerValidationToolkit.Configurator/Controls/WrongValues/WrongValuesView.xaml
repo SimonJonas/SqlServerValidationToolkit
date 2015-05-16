@@ -39,30 +39,37 @@
         </Style>
     </UserControl.Resources>
 
-    <DataGrid 
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition  Height="Auto" />
+            <RowDefinition  />
+        </Grid.RowDefinitions>
+        <CheckBox Grid.Row="0" IsChecked="{Binding Path=ShowIgnoredValues}">Show ignored values</CheckBox>
+        <DataGrid Grid.Row="1"
                             ItemsSource="{Binding Path=WrongValues}" 
                             AutoGenerateColumns="False" 
                             IsReadOnly="True" 
                             SelectedItem="{Binding Path=SelectedWrongValue}"
                             RowStyle="{StaticResource HighlightRow}">
-        <DataGrid.ContextMenu>
-            <ContextMenu>
-                <MenuItem Header="Ignore" Command="{Binding Path=IgnoreSelectedWrongValueCommand}"  />
-                <MenuItem Header="Un-ignore" Command="{Binding Path=UnIgnoreSelectedWrongValueCommand}" />
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Ignore" Command="{Binding Path=IgnoreSelectedWrongValueCommand}"  />
+                    <MenuItem Header="Un-ignore" Command="{Binding Path=UnIgnoreSelectedWrongValueCommand}" />
 
 
-            </ContextMenu>
-        </DataGrid.ContextMenu>
-        <DataGrid.Columns>
-            <DataGridTextColumn Header="Id" Binding="{Binding Path=WrongValue.Id}" />
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Binding="{Binding Path=WrongValue.Id}" />
 
-            <DataGridTextColumn Header="Source" Binding="{Binding Path=WrongValue.Validation_ValidationRule.Column.Source.Name}" 
+                <DataGridTextColumn Header="Source" Binding="{Binding Path=WrongValue.Validation_ValidationRule.Column.Source.Name}" 
                                                     />
-            <DataGridTextColumn Header="Column" Binding="{Binding Path=WrongValue.Validation_ValidationRule.Column.Name}" />
+                <DataGridTextColumn Header="Column" Binding="{Binding Path=WrongValue.Validation_ValidationRule.Column.Name}" />
 
-            <DataGridTextColumn Header="Value" Binding="{Binding Path=WrongValue.Value}" />
-            <DataGridTextColumn Header="Description" Binding="{Binding Path=WrongValue.Errortype.Description}" />
+                <DataGridTextColumn Header="Value" Binding="{Binding Path=WrongValue.Value}" />
+                <DataGridTextColumn Header="Description" Binding="{Binding Path=WrongValue.Errortype.Description}" />
 
-        </DataGrid.Columns>
-    </DataGrid>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
 </UserControl>
