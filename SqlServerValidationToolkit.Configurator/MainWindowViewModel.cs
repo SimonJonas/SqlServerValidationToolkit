@@ -11,6 +11,7 @@ using SqlServerValidationToolkit.Model.Validation;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -252,7 +253,7 @@ namespace SqlServerValidationToolkit.Configurator
                 switch (result)
                 {
                     case MessageBoxResult.Yes:
-                        Save();
+                        cancel = SaveOnClose();
                         break;
                     case MessageBoxResult.Cancel:
                         cancel = true;
@@ -260,6 +261,24 @@ namespace SqlServerValidationToolkit.Configurator
                 }
             }
             return cancel;
+        }
+
+        private bool SaveOnClose()
+        {
+            try
+            {
+
+                _validator.Save(this.SourcesViewViewModel.Sources.Select(s => s.Source).ToList());
+                return false;
+            }
+            catch (DbEntityValidationException e)
+            {
+                Messenger.Default.Send<ValidationErrorMessage>(new ValidationErrorMessage()
+                {
+                    Exception = e
+                });
+                return true;
+            }
         }
 
         public string Database
