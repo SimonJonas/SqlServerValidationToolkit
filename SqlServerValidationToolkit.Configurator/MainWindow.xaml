@@ -54,12 +54,16 @@
             <Grid >
 
                 <TabControl >
-                    <TabItem Header="Sources">
+                    <TabItem Header="Configuration">
 
                         <sources:SourcesView DataContext="{Binding Path=SourcesViewViewModel}" />
 
                     </TabItem>
 
+                    <TabItem Header="Wrong Values">
+                        <wrongValues:WrongValuesView />
+                    </TabItem>
+                    
                     <TabItem Header="Error Types" >
                         <DataGrid ItemsSource="{Binding Path=ErrorTypes}" AutoGenerateColumns="False" IsReadOnly="True">
                             <DataGrid.Columns>
@@ -67,11 +71,6 @@
                                 <DataGridTextColumn Header="Description" Binding="{Binding Path=Description}" />
                             </DataGrid.Columns>
                         </DataGrid>
-                    </TabItem>
-
-
-                    <TabItem Header="Wrong Values">
-                        <wrongValues:WrongValuesView />
                     </TabItem>
                 </TabControl>
             </Grid>
