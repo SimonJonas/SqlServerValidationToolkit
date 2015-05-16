@@ -32,5 +32,15 @@ namespace SqlServerValidationToolkit.Model.Entities
         public virtual ErrorType Errortype { get; set; }
         [ForeignKey("ValidationRule_fk")]
         public virtual ValidationRule Validation_ValidationRule { get; set; }
+
+        public string ErrorDescription
+        {
+            get
+            {
+                string format = Validation_ValidationRule.ErrorDescriptionFormat;
+
+                return string.Format(format, Errortype.Description);
+            }
+        }
     }
 }

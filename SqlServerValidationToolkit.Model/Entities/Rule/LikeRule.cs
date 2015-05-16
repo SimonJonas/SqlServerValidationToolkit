@@ -49,5 +49,13 @@ namespace SqlServerValidationToolkit.Model.Entities.Rule
             return base.GetErrorTypeId("Like");
         }
 
+        public override string ErrorDescriptionFormat
+        {
+            get
+            {
+                return string.Format("{0} {1} '{2}'", Column.Name, "{0}", LikeExpression);
+            }
+        }
+
     }
 }

@@ -67,7 +67,7 @@
                 <DataGridTextColumn Header="Column" Binding="{Binding Path=WrongValue.Validation_ValidationRule.Column.Name}" />
 
                 <DataGridTextColumn Header="Value" Binding="{Binding Path=WrongValue.Value}" />
-                <DataGridTextColumn Header="Description" Binding="{Binding Path=WrongValue.Errortype.Description}" />
+                <DataGridTextColumn Header="Description" Binding="{Binding Path=WrongValue.ErrorDescription}" />
 
             </DataGrid.Columns>
         </DataGrid>

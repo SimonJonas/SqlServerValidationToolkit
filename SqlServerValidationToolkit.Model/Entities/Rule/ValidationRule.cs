@@ -30,6 +30,13 @@ namespace SqlServerValidationToolkit.Model.Entities.Rule
         public virtual Column Column { get; set; }
         public virtual ICollection<WrongValue> Validation_WrongValue { get; set; }
         public virtual ICollection<ErrorType> Errortypes { get; set; }
+        public virtual string ErrorDescriptionFormat
+        {
+            get
+            {
+                return "{0}";
+            }
+        }
 
         /// <summary>
         /// The Query the returns the id and the errorId of the invalid entries

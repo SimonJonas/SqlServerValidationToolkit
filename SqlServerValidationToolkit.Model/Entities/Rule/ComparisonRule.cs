@@ -16,6 +16,14 @@ namespace SqlServerValidationToolkit.Model.Entities.Rule
         public string ComparedColumn { get; set; }
         public string ComparedColumnDescription { get; set; }
 
+        public override string ErrorDescriptionFormat
+        {
+            get
+            {
+                return string.Format("'{0}' {1} '{2}'", ComparedColumn, "{0}", Column.Name);
+            }
+        }
+
         [Required]
         public string ComparisonSymbol { get; set; }
 
