@@ -85,16 +85,12 @@ namespace SqlServerValidationToolkit.Configurator.Controls.Sources
         /// <summary>
         /// Saves all changed entities
         /// </summary>
-        public void Save()
+        public void Save(Action succeeded)
         {
             try
             {
                 _validator.Save(Sources.Select(s => s.Source).ToList());
 
-                if (SelectedColumn != null && SelectedColumn.SelectedValidationRule is CustomQueryRuleEditViewViewModel)
-                {
-                    Messenger.Default.Send(new EntitySelectedMessage(SelectedColumn.SelectedValidationRule));
-                }
             }
             catch (DbEntityValidationException e)
             {

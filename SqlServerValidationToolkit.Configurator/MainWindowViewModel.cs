@@ -21,6 +21,8 @@ namespace SqlServerValidationToolkit.Configurator
 {
     class MainWindowViewModel : INotifyPropertyChanged
     {
+        public Action AfterSave;
+
         public ICommand SaveCommand
         {
             get;
@@ -119,7 +121,7 @@ namespace SqlServerValidationToolkit.Configurator
 
         public void Save()
         {
-            _sourcesViewViewModel.Save();
+            _sourcesViewViewModel.Save(AfterSave);
         }
 
 

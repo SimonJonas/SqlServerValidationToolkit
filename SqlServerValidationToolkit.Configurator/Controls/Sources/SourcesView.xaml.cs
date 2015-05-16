@@ -98,6 +98,7 @@ namespace SqlServerValidationToolkit.Configurator.Controls.Sources
                 uc.DataContext = entity;
             }
             selectedEntityEditViewContainer.Content = uc;
+            CommandManager.InvalidateRequerySuggested();
         }
     }
 }
