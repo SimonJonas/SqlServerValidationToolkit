@@ -94,10 +94,10 @@
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
 
-                    <Button Grid.Column="0" Command="{Binding Path=AddNewColumnCommand}" ToolTip="Add new column">
+                    <Button Grid.Column="0" Command="{Binding Path=AddNewColumnCommand}" ToolTip="Add new column" IsEnabled="{Binding Path=SourceIsSelected}">
                         <Image Source="../../Images/16x16/Add.png" Width="16" Height="16" />
                     </Button>
-                    <Button Grid.Column="1" Command="{Binding Path=DeletedSelectedColumnsCommand}" ToolTip="Delete selected columns">
+                    <Button Grid.Column="1" Command="{Binding Path=DeletedSelectedColumnsCommand}" ToolTip="Delete selected columns" IsEnabled="{Binding Path=ColumnIsSelected}">
                         <Image Source="../../Images/16x16/Delete.png" Width="16" Height="16" />
                     </Button>
                 </Grid>

@@ -197,6 +197,8 @@ namespace SqlServerValidationToolkit.Configurator.Controls.Sources
             {
                 _sourceEditViewViewModel = value;
                 RaisePropertyChanged(() => SelectedSourceEditViewViewModel);
+                RaisePropertyChanged(() => SourceIsSelected);
+                
                 RefreshColumns(value);
 
                 Messenger.Default.Send(new EntitySelectedMessage(value));
@@ -308,6 +310,13 @@ namespace SqlServerValidationToolkit.Configurator.Controls.Sources
             get
             {
                 return SelectedColumn != null;
+            }
+        }
+        public bool SourceIsSelected
+        {
+            get
+            {
+                return SelectedSourceEditViewViewModel != null;
             }
         }
     }
