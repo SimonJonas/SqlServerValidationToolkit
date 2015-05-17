@@ -20,7 +20,7 @@ namespace SqlServerValidationToolkit.Model.Entities.Rule
         {
             get
             {
-                return string.Format("'{0}' {1} '{2}'", ComparedColumn, "{0}", Column.Name);
+                return string.Format("'{0}' {1} '{2}'", Column.Name, "{0}", ComparedColumn);
             }
         }
 
