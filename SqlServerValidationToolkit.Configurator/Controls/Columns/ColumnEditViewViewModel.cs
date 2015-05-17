@@ -187,20 +187,12 @@ namespace SqlServerValidationToolkit.Configurator.Controls.Columns
             {
                 _selectedValidationRule = value;
                 RaisePropertyChanged(() => SelectedValidationRule);
-                RaisePropertyChanged(() => ValidationRuleIsSelected);
 
                 _selectedValidationRule.PropertyChanged += _selectedValidationRule_PropertyChanged;
                 Messenger.Default.Send(new EntitySelectedMessage(value));
             }
         }
 
-        public bool ValidationRuleIsSelected
-        {
-            get
-            {
-                return SelectedValidationRule != null;
-            }
-        }
 
         void _selectedValidationRule_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {

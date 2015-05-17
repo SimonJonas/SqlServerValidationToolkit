@@ -262,12 +262,25 @@ namespace SqlServerValidationToolkit.Configurator.Controls.Sources
             }
             set
             {
+                if (_selectedColumn!=null)
+                {
+                    _selectedColumn.PropertyChanged -= _selectedColumn_PropertyChanged;
+                }
                 _selectedColumn = value;
+                _selectedColumn.PropertyChanged +=_selectedColumn_PropertyChanged;
                 RaisePropertyChanged(() => SelectedColumn);
                 RaisePropertyChanged(() => SelectedColumnIsNumeric);
                 RaisePropertyChanged(() => SelectedColumnIsNotNumeric);
                 RaisePropertyChanged(() => ColumnIsSelected);
                 Messenger.Default.Send(new EntitySelectedMessage(value));
+            }
+        }
+
+        void _selectedColumn_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "SelectedValidationRule")
+            {
+                RaisePropertyChanged(() => ValidationRuleIsSelected);
             }
         }
 
@@ -317,6 +330,17 @@ namespace SqlServerValidationToolkit.Configurator.Controls.Sources
             get
             {
                 return SelectedSourceEditViewViewModel != null;
+            }
+        }
+        public bool ValidationRuleIsSelected
+        {
+            get
+            {
+                if (ColumnIsSelected)
+                {
+                    return SelectedColumn.SelectedValidationRule != null;
+                }
+                return false;
             }
         }
     }
