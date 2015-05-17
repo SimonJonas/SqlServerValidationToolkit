@@ -84,7 +84,7 @@ namespace SqlServerValidationToolkit.Configurator
             ChangeDbConnectionStringCommand = new RelayCommand(() => ChangeDbConnectionString());
         }
 
-        private void ChangeDbConnectionString()
+        public void ChangeDbConnectionString()
         {
             ConnectionStringUpdater.UpdateDbConnectionString(
                 () =>

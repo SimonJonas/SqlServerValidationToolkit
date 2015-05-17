@@ -132,6 +132,10 @@ namespace SqlServerValidationToolkit.Configurator
             {
                 vm.ExecuteValidation();
             }
+            else if (CtrlKeyPressed(e, Key.D))
+            {
+                vm.ChangeDbConnectionString();
+            }
         }
 
         private static bool CtrlKeyPressed(KeyEventArgs e, Key key)

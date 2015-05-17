@@ -43,7 +43,9 @@
                               InputGestureText="Ctrl+V"/>
                 </MenuItem>
                 <MenuItem Header="_Settings">
-                    <MenuItem Header="Change DB _Connection string" Command="{Binding Path=ChangeDbConnectionStringCommand}" />
+                    <MenuItem Header="Change DB _Connection string" 
+                              Command="{Binding Path=ChangeDbConnectionStringCommand}" 
+                              InputGestureText="Ctrl+D"/>
                 </MenuItem>
 
             </Menu>
