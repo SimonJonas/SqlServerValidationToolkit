@@ -98,7 +98,7 @@ WHERE NOT({3} {4} {5})
             }
             else if (comparisonSymbol == "!=")
             {
-                errorTypeId = GetEarlierThanErrorTypeId();
+                errorTypeId = GetEqualsErrorTypeId();
             }
             else
             {
