@@ -113,19 +113,20 @@ namespace SqlServerValidationToolkit.Configurator
         {
             var vm = this.DataContext as MainWindowViewModel;
 
-            bool ctrlSPressed = CtrlKeyPressed(e, Key.S);
-            bool ctrlRPressed = CtrlKeyPressed(e, Key.R);
-
-            if (ctrlSPressed)
+            if (CtrlKeyPressed(e, Key.S))
             {
                 if (vm.IsSavable)
                 {
                     vm.Save();
                 }
             }
-            if (ctrlRPressed)
+            else if (CtrlKeyPressed(e, Key.R))
             {
                 vm.Init();
+            }
+            else if (CtrlKeyPressed(e, Key.U))
+            {
+                vm.ShowUpdateEntitesView();
             }
         }
 

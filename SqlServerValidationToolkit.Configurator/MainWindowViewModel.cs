@@ -110,7 +110,7 @@ namespace SqlServerValidationToolkit.Configurator
             Init();
         }
 
-        private void ShowUpdateEntitesView()
+        public void ShowUpdateEntitesView()
         {
             var vm = new UpdateEntitiesViewViewModel(this);
             vm.Init();

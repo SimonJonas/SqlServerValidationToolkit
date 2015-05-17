@@ -22,7 +22,7 @@ namespace SqlServerValidationToolkit.Configurator
                 ConnectionStringUpdater.UpdateDbConnectionString(
                     () =>
                     {
-                        MessageBox.Show("The toolkit was succesfully installed, go to ... to import the tables you want to validate");
+                        MessageBox.Show("The toolkit was succesfully installed, go to 'Data'->'Update entities from database' or press Ctrl+U to import the tables you want to validate");
                     },
                     (ex) =>
                     {
