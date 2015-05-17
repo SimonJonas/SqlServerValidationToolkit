@@ -128,6 +128,10 @@ namespace SqlServerValidationToolkit.Configurator
             {
                 vm.ShowUpdateEntitesView();
             }
+            else if (CtrlKeyPressed(e, Key.V))
+            {
+                vm.ExecuteValidation();
+            }
         }
 
         private static bool CtrlKeyPressed(KeyEventArgs e, Key key)

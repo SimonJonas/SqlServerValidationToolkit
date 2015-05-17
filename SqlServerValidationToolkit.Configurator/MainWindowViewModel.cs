@@ -128,7 +128,7 @@ namespace SqlServerValidationToolkit.Configurator
         /// <summary>
         /// Requests the new Log-id and calls the stored procedure
         /// </summary>
-        private void ExecuteValidation()
+        public void ExecuteValidation()
         {
             if (_validator.IsSavable)
             {
