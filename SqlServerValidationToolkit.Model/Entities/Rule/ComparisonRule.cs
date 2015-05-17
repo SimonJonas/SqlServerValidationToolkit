@@ -70,7 +70,18 @@ WHERE NOT({3} {4} {5})
             int errorTypeId;
             string comparisonSymbol = ComparisonSymbol.Trim();
 
-            if (comparisonSymbol == "<" || comparisonSymbol == "<=")
+            if (comparisonSymbol == "<" )
+            {
+                if (Column.Type == "datetime")
+                {
+                    errorTypeId = GetLaterThanOrEqualsErrorTypeId();
+                }
+                else
+                {
+                    errorTypeId = GetGreaterThanOrEqualsErrorTypeId();
+                }
+            }
+            else if (comparisonSymbol == "<=")
             {
                 if (Column.Type == "datetime")
                 {
@@ -81,7 +92,18 @@ WHERE NOT({3} {4} {5})
                     errorTypeId = GetGreaterThanErrorTypeId();
                 }
             }
-            else if (comparisonSymbol == ">" || comparisonSymbol == ">=")
+            else if (comparisonSymbol == ">")
+            {
+                if (Column.Type == "datetime")
+                {
+                    errorTypeId = GetEarlierThanOrEqualsErrorTypeId();
+                }
+                else
+                {
+                    errorTypeId = GetSmallerThanOrEqualsErrorTypeId();
+                }
+            }
+            else if (comparisonSymbol == ">=")
             {
                 if (Column.Type == "datetime")
                 {
@@ -116,18 +138,38 @@ WHERE NOT({3} {4} {5})
         {
             return GetErrorTypeId("greater than");
         }
+        private int GetGreaterThanOrEqualsErrorTypeId()
+        {
+            return GetErrorTypeId("greater than or equals");
+        }
+
         private int GetSmallerThanErrorTypeId()
         {
             return GetErrorTypeId("smaller than");
         }
+        private int GetSmallerThanOrEqualsErrorTypeId()
+        {
+            return GetErrorTypeId("smaller than or equals");
+        }
+
         private int GetLaterThanErrorTypeId()
         {
             return GetErrorTypeId("later than");
         }
+        private int GetLaterThanOrEqualsErrorTypeId()
+        {
+            return GetErrorTypeId("later than or at the same time as");
+        }
+
         private int GetEarlierThanErrorTypeId()
         {
             return GetErrorTypeId("earlier than");
         }
+        private int GetEarlierThanOrEqualsErrorTypeId()
+        {
+            return GetErrorTypeId("earlier than or at the same time as");
+        }
+
         private int GetNotEqualsErrorTypeId()
         {
             return GetErrorTypeId("not equals");
