@@ -15,7 +15,8 @@
         <GroupBox Header="Tables" Grid.Row="0">
             <ListBox ItemsSource="{Binding Path=Tables}" 
                      DisplayMemberPath="Name"
-                     SelectionMode="Extended">
+                     SelectionMode="Extended"
+                     MinHeight="40">
 
                 <ListBox.ItemContainerStyle>
                     <!-- This Style binds a ListBoxItem to a the ViewModelItem. -->
@@ -28,8 +29,8 @@
                 </ListBox.ItemContainerStyle>
             </ListBox>
         </GroupBox>
-        <WrapPanel Grid.Row="1">
-            <Button Command="{Binding Path=UpdateSourcesCommand}">Update/Create sources from the selection</Button>
+        <WrapPanel Grid.Row="1" Margin="5">
+            <Button Command="{Binding Path=UpdateSourcesCommand}">Import selected tables</Button>
         </WrapPanel>
     </Grid>
 </UserControl>

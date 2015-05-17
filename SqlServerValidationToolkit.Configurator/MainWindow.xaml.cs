@@ -71,7 +71,8 @@ namespace SqlServerValidationToolkit.Configurator
             Window w = new Window()
             {
                 Content = v,
-                Owner = this
+                Owner = this,
+                SizeToContent= System.Windows.SizeToContent.WidthAndHeight
             };
             var res = w.ShowDialog();
             if (res.HasValue && res.Value)
