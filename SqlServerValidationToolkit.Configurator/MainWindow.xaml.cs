@@ -63,7 +63,6 @@ namespace SqlServerValidationToolkit.Configurator
 
         private void ShowUpdateEntitesView(UpdateEntitiesViewViewModel vm)
         {
-
             UpdateEntitiesView v = new UpdateEntitiesView()
             {
                 DataContext = vm
@@ -74,6 +73,7 @@ namespace SqlServerValidationToolkit.Configurator
                 Owner = this,
                 SizeToContent= System.Windows.SizeToContent.WidthAndHeight
             };
+            vm.OnSourceUpdated = () => w.Close();
             var res = w.ShowDialog();
             if (res.HasValue && res.Value)
             {

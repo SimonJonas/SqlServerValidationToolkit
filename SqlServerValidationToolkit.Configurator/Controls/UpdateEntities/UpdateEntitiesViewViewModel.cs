@@ -47,6 +47,11 @@ namespace SqlServerValidationToolkit.Configurator.Controls.UpdateEntities
                 UpdateSources();
 
                 _mainWindowViewModel.Init();
+
+                if (OnSourceUpdated!=null)
+                {
+                    OnSourceUpdated();
+                }
             }
             catch (DbEntityValidationException e)
             {
@@ -57,6 +62,8 @@ namespace SqlServerValidationToolkit.Configurator.Controls.UpdateEntities
             }
 
         }
+
+        public Action OnSourceUpdated;
 
         private void UpdateSources()
         {
