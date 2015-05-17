@@ -30,10 +30,23 @@ namespace SqlServerValidationToolkit.UnitTests
 
         public Initializer()
         {
+            string databaseName;
+            using (var ctx = new SqlServerValidationToolkitContext(Settings.Default.ConnectionString))
+            {
+                databaseName = ctx.Database.Connection.Database;
+            }
+
+            string deleteQueryFormat = @"
+USE [master]
+ALTER DATABASE [{0}] SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+DROP DATABASE [{0}] ;";
+            string deleteQuery = string.Format(deleteQueryFormat, databaseName);
+            DatabaseInitializer initializer = new DatabaseInitializer(Settings.Default.ConnectionString);
+            initializer.ExecuteSplitByGo(deleteQuery);
+
             Database.SetInitializer<SqlServerValidationToolkitContext>(null);
             using (var ctx = new SqlServerValidationToolkitContext(Settings.Default.ConnectionString))
             {
-                ctx.Database.Delete();
                 ctx.Database.Create();
             }
 
