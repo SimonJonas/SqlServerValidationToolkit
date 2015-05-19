@@ -94,6 +94,7 @@
                         </WrapPanel>
                         <TextBlock Grid.Row="2" 
                                    Foreground="Red"
+                                   TextWrapping="Wrap"
                                    Visibility="{Binding Path=RuleContainsUnsavedErrorTypes, Converter={StaticResource ResourceKey=BoolToVis}}">
                         The rule contains unsaved errortypes. After saving, the primary key of each errortype is set and can be used in the query
                         </TextBlock>
