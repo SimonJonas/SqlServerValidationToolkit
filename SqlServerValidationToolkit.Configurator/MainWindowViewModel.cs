@@ -122,6 +122,8 @@ namespace SqlServerValidationToolkit.Configurator
         public void Save()
         {
             _sourcesViewViewModel.Save();
+            //refresh after saving to update errortypes of customQuery-validationrules
+            Init();
         }
 
 
