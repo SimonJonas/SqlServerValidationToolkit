@@ -153,6 +153,8 @@ namespace SqlServerValidationToolkit.Configurator.Controls.Sources
                 });
             }
             Sources.CollectionChanged += OnSourceCollectionChanged;
+            Columns.Clear();
+            RaisePropertyChanged(() => this.SelectedColumn);
         }
 
 
