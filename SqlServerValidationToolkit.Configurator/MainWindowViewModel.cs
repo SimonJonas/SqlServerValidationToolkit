@@ -4,6 +4,7 @@ using SqlServerValidationToolkit.Configurator.Controls;
 using SqlServerValidationToolkit.Configurator.Controls.Sources;
 using SqlServerValidationToolkit.Configurator.Controls.UpdateEntities;
 using SqlServerValidationToolkit.Configurator.Controls.WrongValues;
+using SqlServerValidationToolkit.Configurator.Messages;
 using SqlServerValidationToolkit.Configurator.Properties;
 using SqlServerValidationToolkit.Model.Context;
 using SqlServerValidationToolkit.Model.Entities;
@@ -87,7 +88,18 @@ namespace SqlServerValidationToolkit.Configurator
 
         private void Uninstall()
         {
-            _validator.Uninstall();
+            Exception e=null;
+            try
+            {
+                _validator.Uninstall();
+            } catch (Exception ex)
+            {
+                e = ex;
+            }
+            Messenger.Default.Send(new UninstallSuccessfulMessage(e));
+            Settings.Default.DbConnectionString = "";
+            Settings.Default.Save();
+            App.Current.Shutdown();
             
         }
 

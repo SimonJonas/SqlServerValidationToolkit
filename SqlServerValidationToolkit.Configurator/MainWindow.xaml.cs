@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
 using SqlServerValidationToolkit.Configurator.Controls;
 using SqlServerValidationToolkit.Configurator.Controls.UpdateEntities;
+using SqlServerValidationToolkit.Configurator.Messages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,6 +39,19 @@ namespace SqlServerValidationToolkit.Configurator
             Messenger.Default.Register<UpdateEntitiesViewViewModel>(this, ShowUpdateEntitesView);
             Messenger.Default.Register<ValidationFinishedMessage>(this, m => MessageBox.Show("Validation finished"));
             Messenger.Default.Register<SaveChangesBeforeValidationMessage>(this, m => AskUserHowToHandleUnsavedChanges(m));
+            Messenger.Default.Register<UninstallSuccessfulMessage>(this, m => ShowUninstallSuccessful(m.Exception));
+        }
+
+        private void ShowUninstallSuccessful(Exception exception)
+        {
+            if (exception!=null)
+            {
+                MessageBox.Show(string.Format("Uninstallation was not successful, the message was '{0}'. The application will stop. Please remove the database objects manually.",exception.Message));
+            }
+            else
+            {
+                MessageBox.Show(string.Format("Uninstallation was successful. The application will stop. Restart it to install it again."));
+            }
         }
 
 

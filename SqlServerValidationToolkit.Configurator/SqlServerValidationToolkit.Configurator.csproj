@@ -94,6 +94,7 @@
     </Compile>
     <Compile Include="Controls\UpdateEntities\UpdateEntitiesViewViewModel.cs" />
     <Compile Include="Messages\GetDbConnectionStringMessage.cs" />
+    <Compile Include="Messages\UninstallSuccessfulMessage.cs" />
     <Compile Include="SaveChangesBeforeValidationMessage.cs" />
     <Page Include="Controls\Columns\ColumnEditView.xaml">
       <SubType>Designer</SubType>
