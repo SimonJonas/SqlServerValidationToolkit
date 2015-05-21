@@ -54,6 +54,7 @@ namespace SqlServerValidationToolkit.Configurator
 
         public ICommand ChangeDbConnectionStringCommand { get; set; }
 
+        public ICommand UninstallCommand { get; set; }
 
         Validator _validator;
         SourcesViewViewModel _sourcesViewViewModel;
@@ -80,8 +81,14 @@ namespace SqlServerValidationToolkit.Configurator
             IgnoreSelectedWrongValueCommand = new RelayCommand(() => SelectedWrongValue.Ignore = true);
             UnIgnoreSelectedWrongValueCommand = new RelayCommand(() => SelectedWrongValue.Ignore = false);
             UpdateEntitiesCommand = new RelayCommand(() => ShowUpdateEntitesView());
-
+            UninstallCommand = new RelayCommand(()=>Uninstall());
             ChangeDbConnectionStringCommand = new RelayCommand(() => ChangeDbConnectionString());
+        }
+
+        private void Uninstall()
+        {
+            _validator.Uninstall();
+            
         }
 
         public void ChangeDbConnectionString()

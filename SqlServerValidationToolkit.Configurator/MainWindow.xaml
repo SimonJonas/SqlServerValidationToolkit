@@ -46,6 +46,8 @@
                     <MenuItem Header="Change DB _Connection string" 
                               Command="{Binding Path=ChangeDbConnectionStringCommand}" 
                               InputGestureText="Ctrl+D"/>
+                    <MenuItem Header="Uninstall" 
+                              Command="{Binding Path=UninstallCommand}" />
                 </MenuItem>
 
             </Menu>

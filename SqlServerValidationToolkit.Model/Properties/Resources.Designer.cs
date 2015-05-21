@@ -84,5 +84,34 @@ namespace SqlServerValidationToolkit.Model.Properties {
                 return ResourceManager.GetString("ProceduresAndFunctions", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to USE [ValidationToolkit_UnitTest]
+        ///
+        ///SELECT TOP 1000 [MigrationId]
+        ///      ,[ContextKey]
+        ///      ,[Model]
+        ///      ,[ProductVersion]
+        ///  FROM [dbo].[__MigrationHistory]
+        ///  WHERE ContextKey=&apos;SqlServerValidationToolkit.Model.Context.SqlServerValidationToolkitContext&apos;
+        ///
+        ///IF (EXISTS(SELECT * FROM [__MigrationHistory]))
+        ///BEGIN
+        ///	DROP TABLE [dbo].[__MigrationHistory]
+        ///END
+        ///
+        ///DROP TABLE [dbo].[Validation_TempId]
+        ///
+        ///DROP TABLE [dbo].[Validation_WrongValue]
+        ///
+        ///DROP TABLE [dbo].[Validation_Errortype]
+        ///
+        ///DROP TABLE [dbo].[V [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string UninstallToolkit {
+            get {
+                return ResourceManager.GetString("UninstallToolkit", resourceCulture);
+            }
+        }
     }
 }

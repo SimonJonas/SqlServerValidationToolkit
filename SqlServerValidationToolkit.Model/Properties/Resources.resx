@@ -121,4 +121,7 @@
   <data name="ProceduresAndFunctions" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\DatabaseInitialization\ProceduresAndFunctions.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="UninstallToolkit" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\DatabaseInitialization\UninstallToolkit.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
 </root>

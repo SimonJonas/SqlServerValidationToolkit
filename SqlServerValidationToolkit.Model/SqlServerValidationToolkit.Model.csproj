@@ -79,6 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="DatabaseInitialization\ProceduresAndFunctions.sql" />
+    <Content Include="DatabaseInitialization\UninstallToolkit.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

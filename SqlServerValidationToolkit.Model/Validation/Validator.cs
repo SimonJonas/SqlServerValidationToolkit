@@ -1,6 +1,7 @@
 ﻿using SqlServerValidationToolkit.Model.Context;
 using SqlServerValidationToolkit.Model.Entities;
 using SqlServerValidationToolkit.Model.Entities.Rule;
+using SqlServerValidationToolkit.Model.Properties;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -136,6 +137,12 @@ namespace SqlServerValidationToolkit.Model.Validation
         public void Dispose()
         {
             _ctx.Dispose();
+        }
+
+        public void Uninstall()
+        {
+            string c = Resources.UninstallToolkit;
+            _ctx.Database.ExecuteSqlCommand(c);
         }
     }
 }
