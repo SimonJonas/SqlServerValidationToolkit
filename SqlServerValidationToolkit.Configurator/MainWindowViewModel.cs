@@ -8,6 +8,7 @@ using SqlServerValidationToolkit.Configurator.Messages;
 using SqlServerValidationToolkit.Configurator.Properties;
 using SqlServerValidationToolkit.Model.Context;
 using SqlServerValidationToolkit.Model.Entities;
+using SqlServerValidationToolkit.Model.Entities.Rule;
 using SqlServerValidationToolkit.Model.Validation;
 using System;
 using System.Collections.Generic;
@@ -141,8 +142,14 @@ namespace SqlServerValidationToolkit.Configurator
         public void Save()
         {
             _sourcesViewViewModel.Save();
-            //refresh after saving to update errortypes of customQuery-validationrules
-            Init();
+            
+            if (this.SourcesViewViewModel.SelectedColumn!=null && 
+                this.SourcesViewViewModel.SelectedColumn.SelectedValidationRule!=null && 
+                this.SourcesViewViewModel.SelectedColumn.SelectedValidationRule.Rule is CustomQueryRule)
+            {
+                //refresh after saving to update errortypes of customQuery-validationrules
+                Init();
+            }
         }
 
 
