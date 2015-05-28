@@ -3,8 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="DbConnectionString" Type="System.String" Scope="User">
-      <Value Profile="(Default)">data source=localhost;initial catalog=ValidationToolkit_UnitTest
-;integrated security=True;MultipleActiveResultSets=True;</Value>
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>

@@ -25,8 +25,7 @@ namespace SqlServerValidationToolkit.Configurator.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("data source=localhost;initial catalog=ValidationToolkit_UnitTest\r\n;integrated sec" +
-            "urity=True;MultipleActiveResultSets=True;")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string DbConnectionString {
             get {
                 return ((string)(this["DbConnectionString"]));
