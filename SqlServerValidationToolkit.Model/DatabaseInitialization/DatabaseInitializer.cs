@@ -46,6 +46,8 @@ namespace SqlServerValidationToolkit.Model.DatabaseInitialization
                 {
                     new ErrorType("MinMax","Too low"),
                     new ErrorType("MinMax","Too high"),
+                    new ErrorType("MinMax","Too early"),
+                    new ErrorType("MinMax","Too late"),
                     new ErrorType("Common","not entered"),
                     new ErrorType("Comparison","greater than"),
                     new ErrorType("Comparison","smaller than"),
