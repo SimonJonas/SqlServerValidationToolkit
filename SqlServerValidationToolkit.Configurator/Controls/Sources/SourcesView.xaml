@@ -133,7 +133,7 @@
                     </ListBox.ItemContainerStyle>
                 </ListBox>
                 <WrapPanel Grid.Row="1">
-                    <Button Command="{Binding Path=AddMinMaxRuleCommand}" ToolTip="Add MinMax-Rule" IsEnabled="{Binding Path=SelectedColumnIsNumeric}">
+                    <Button Command="{Binding Path=AddMinMaxRuleCommand}" ToolTip="Add MinMax-Rule" IsEnabled="{Binding Path=MinMaxRuleCanBeAdded}">
                         <Image Source="../../Images/16x16/AddMinMaxRule.png" Width="16" Height="16" />
                     </Button>
                     <Button Command="{Binding Path=AddComparisonRuleCommand}" ToolTip="Add Comparison-Rule" IsEnabled="{Binding Path=SelectedColumnIsNumeric}">

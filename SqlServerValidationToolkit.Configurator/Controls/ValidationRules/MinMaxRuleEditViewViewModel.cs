@@ -19,6 +19,22 @@ namespace SqlServerValidationToolkit.Configurator.Controls.ValidationRules
             _rule = r;
         }
 
+        public bool IsNumeric
+        {
+            get
+            {
+                return _rule.Column.IsNumeric;
+            }
+        }
+        public bool IsDateTime
+        {
+            get
+            {
+                //TODO: Fix
+                return !_rule.Column.IsNumeric;
+            }
+        }
+
         public long? Minimum
         {
             get
@@ -44,6 +60,38 @@ namespace SqlServerValidationToolkit.Configurator.Controls.ValidationRules
             set
             {
                 _rule.Maximum = value;
+                RaisePropertyChanged(() => Minimum);
+                RaisePropertyChanged(() => Maximum);
+                RaisePropertyChanged(() => Header);
+                RecompileQuery();
+            }
+        }
+
+        public DateTime? MinimumDateTime
+        {
+            get
+            {
+                return _rule.MinimumDateTime;
+            }
+            set
+            {
+                _rule.MinimumDateTime = value;
+                RaisePropertyChanged(() => Minimum);
+                RaisePropertyChanged(() => Maximum);
+                RaisePropertyChanged(() => Header);
+                RecompileQuery();
+            }
+        }
+
+        public DateTime? MaximumDateTime
+        {
+            get
+            {
+                return _rule.MaximumDateTime;
+            }
+            set
+            {
+                _rule.MaximumDateTime = value;
                 RaisePropertyChanged(() => Minimum);
                 RaisePropertyChanged(() => Maximum);
                 RaisePropertyChanged(() => Header);

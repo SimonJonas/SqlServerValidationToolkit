@@ -31,5 +31,37 @@ namespace SqlServerValidationToolkit.Model.Entities
         [ForeignKey("Source_fk")]
         public virtual Source Source { get; set; }
         public virtual ICollection<ValidationRule> ValidationRules { get; set; }
+
+        [NotMapped]
+        public bool IsNumeric
+        {
+            get
+            {
+                //"string",
+                //"int",
+                //"numeric",
+                //"int_from_string",
+                //"numeric_from_string",
+                //"datetime"
+                string[] numericTypes = new string[]{
+                    "int",
+                    "numeric",
+                    "int_from_string",
+                    "numeric_from_string",
+                };
+                return (numericTypes.Contains(Type));
+
+
+            }
+        }
+
+        [NotMapped]
+        public bool IsDateTime
+        {
+            get
+            {
+                return this.Type == "datetime";
+            }
+        }
     }
 }

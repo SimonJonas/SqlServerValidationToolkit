@@ -3,12 +3,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mvvmLight="clr-namespace:GalaSoft.MvvmLight;assembly=GalaSoft.MvvmLight"
              mc:Ignorable="d" 
              xmlns:vr="clr-namespace:SqlServerValidationToolkit.Configurator.Controls.ValidationRules"
+             xmlns:wpfTool="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
              d:DataContext="{d:DesignInstance Type=vr:MinMaxRuleEditViewViewModel, IsDesignTimeCreatable=True}"
              d:DesignHeight="300" d:DesignWidth="300">
 
     <GroupBox Header="Min-Max">
+        <GroupBox.Resources>
+            <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+        </GroupBox.Resources>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Style="{StaticResource ResourceKey=DetailLabelColumn}" />
@@ -32,7 +37,16 @@
                 </Label.ToolTip>
                 Minimum
             </Label>
-            <TextBox x:Name="txtMin" Grid.Row="0" Grid.Column="1" Text="{Binding Path=Minimum, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+
+            <StackPanel Grid.Row="0" Grid.Column="1" >
+                <TextBox x:Name="txtMin" 
+                         Text="{Binding Path=Minimum, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, TargetNullValue=''}" 
+                         Visibility="{Binding IsNumeric, Converter={StaticResource ResourceKey=BoolToVis}}"/>
+                <wpfTool:DateTimePicker Value="{Binding MinimumDateTime}"
+                            Visibility="{Binding IsDateTime, Converter={StaticResource ResourceKey=BoolToVis}}" />
+                
+
+            </StackPanel>
             <Label Grid.Row="1">
                 <Label.ToolTip>
                     <Grid>
@@ -46,7 +60,13 @@
                 </Label.ToolTip>
                 Maximum
             </Label>
-            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=Maximum,UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+            <StackPanel  Grid.Row="1" Grid.Column="1">
+
+                <TextBox Visibility="{Binding IsNumeric, Converter={StaticResource ResourceKey=BoolToVis}}" 
+                         Text="{Binding Path=Maximum,UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, TargetNullValue=''}" />
+                <wpfTool:DateTimePicker Value="{Binding MaximumDateTime}" 
+                            Visibility="{Binding IsDateTime, Converter={StaticResource ResourceKey=BoolToVis}}"/>
+            </StackPanel>
         </Grid>
     </GroupBox>
 </UserControl>

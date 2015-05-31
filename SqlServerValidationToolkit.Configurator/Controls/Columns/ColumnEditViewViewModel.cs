@@ -148,21 +148,17 @@ namespace SqlServerValidationToolkit.Configurator.Controls.Columns
             {
                 if (Column == null)
                     return false;
-                //"string",
-                //"int",
-                //"numeric",
-                //"int_from_string",
-                //"numeric_from_string",
-                //"datetime"
-                string[] numericTypes = new string[]{
-                    "int",
-                    "numeric",
-                    "int_from_string",
-                    "numeric_from_string",
-                };
-                return (numericTypes.Contains(Column.Type));
-
-
+                return Column.IsNumeric;
+            }
+        }
+        public bool IsDateTime
+        {
+            get
+            {
+                if (Column == null)
+                    return false;
+                //TODO: Fix
+                return !Column.IsNumeric;
             }
         }
 

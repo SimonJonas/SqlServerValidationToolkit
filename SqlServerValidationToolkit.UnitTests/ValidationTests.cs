@@ -329,6 +329,27 @@ namespace SqlServerValidationToolkit.UnitTests
         }
 
         [TestMethod]
+        public void SetOnlyMaxInMinMaxRule()
+        {
+
+            using (var ctx = new SqlServerValidationToolkitContext(Settings.Default.ConnectionString))
+            {
+                int wrongValuesCountBefore = ctx.WrongValues.Count();
+
+                //set the minimal length to null, the -10 value should not be in the wrong-value set
+                var rule = ctx.ValidationRules.OfType<MinMaxRule>().Single(r=>r.Column.Name=="Length");
+                rule.Minimum = null;
+                rule.CompiledQuery = rule.Query;
+                ctx.SaveChanges();
+                ctx.Validate();
+
+                int wrongValuesCountAfter = ctx.WrongValues.Count();
+
+                Assert.IsTrue(wrongValuesCountBefore > wrongValuesCountAfter);
+            }
+        }
+
+        [TestMethod]
         public void CheckCustomQuery()
         {
             var ctx = new SqlServerValidationToolkitContext(Settings.Default.ConnectionString);

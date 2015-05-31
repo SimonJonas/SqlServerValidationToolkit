@@ -273,6 +273,7 @@ namespace SqlServerValidationToolkit.Configurator.Controls.Sources
                 RaisePropertyChanged(() => SelectedColumn);
                 RaisePropertyChanged(() => SelectedColumnIsNumeric);
                 RaisePropertyChanged(() => SelectedColumnIsNotNumeric);
+                RaisePropertyChanged(() => MinMaxRuleCanBeAdded);
                 RaisePropertyChanged(() => ColumnIsSelected);
                 Messenger.Default.Send(new EntitySelectedMessage(value));
             }
@@ -300,6 +301,20 @@ namespace SqlServerValidationToolkit.Configurator.Controls.Sources
             Columns.Add(vm);
             selectedSource.Columns.Add(column);
             SelectedColumn = vm;
+        }
+
+        public bool MinMaxRuleCanBeAdded
+        {
+            get
+            {
+                return SelectedColumn != null
+                    &&
+                    (
+                        SelectedColumn.IsNumeric
+                        ||
+                        SelectedColumn.Column.IsDateTime
+                    );
+            }
         }
 
         public bool SelectedColumnIsNumeric
