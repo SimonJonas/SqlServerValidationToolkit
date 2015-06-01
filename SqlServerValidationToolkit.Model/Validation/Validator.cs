@@ -22,7 +22,7 @@ namespace SqlServerValidationToolkit.Model.Validation
         public Validator(string connectionString)
         {
             _connectionString = connectionString;
-            _ctx = new SqlServerValidationToolkitContext(connectionString);
+            _ctx = SqlServerValidationToolkitContext.Create((connectionString));
             LoadSources();
         }
 
@@ -121,7 +121,7 @@ namespace SqlServerValidationToolkit.Model.Validation
         public void Refresh()
         {
             _ctx.Dispose();
-            _ctx = new SqlServerValidationToolkitContext(_connectionString);
+            _ctx = SqlServerValidationToolkitContext.Create((_connectionString));
             _ctx.WrongValues.ToList();
             _ctx.Errortypes.ToList();
             LoadSources();

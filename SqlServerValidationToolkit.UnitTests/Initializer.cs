@@ -10,6 +10,7 @@ using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Data.Entity.Validation;
 using System.Linq;
+using System.Security;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -41,7 +42,14 @@ USE [master]
 ALTER DATABASE [{0}] SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
 DROP DATABASE [{0}] ;";
             string deleteQuery = string.Format(deleteQueryFormat, databaseName);
-            DatabaseInitializer initializer = new DatabaseInitializer(Settings.Default.ConnectionString);
+            string encryptedConnectionString;
+
+            using (var secureConnectionString = Settings.Default.ConnectionString.ToSecureString())
+            {
+                encryptedConnectionString = secureConnectionString.EncryptString();
+            }
+
+            DatabaseInitializer initializer = new DatabaseInitializer(encryptedConnectionString);
             initializer.ExecuteSplitByGo(deleteQuery);
 
             Database.SetInitializer<SqlServerValidationToolkitContext>(null);
@@ -52,13 +60,13 @@ DROP DATABASE [{0}] ;";
 
             ValidationRuleFactory = new ValidationRuleFactory();
 
-            DatabaseInitializer databaseInitializer = new DatabaseInitializer(Settings.Default.ConnectionString);
-            databaseInitializer.InstallValidationToolkit();
+
+            initializer.InstallValidationToolkit();
 
             
             Database.SetInitializer<TestDatabaseContext>(null);
-            
-            databaseInitializer.ExecuteSplitByGo(Resources.CREATE_and_fill_Validation_Test_Database);
+
+            initializer.ExecuteSplitByGo(Resources.CREATE_and_fill_Validation_Test_Database);
         }
 
         private ValidationRuleFactory ValidationRuleFactory { get; set; }

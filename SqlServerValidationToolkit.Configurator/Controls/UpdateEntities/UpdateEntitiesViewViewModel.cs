@@ -67,7 +67,7 @@ namespace SqlServerValidationToolkit.Configurator.Controls.UpdateEntities
 
         private void UpdateSources()
         {
-            using (var ctx = new SqlServerValidationToolkitContext(Settings.Default.DbConnectionString))
+            using (var ctx = SqlServerValidationToolkitContext.Create(Settings.Default.DbConnectionString))
             {
                 using (var scope = new TransactionScope(TransactionScopeOption.Required))
                 {
@@ -205,8 +205,7 @@ AND table_name = '{0}'";
 
         public void Init()
         {
-
-            using (var ctx = new SqlServerValidationToolkitContext(Settings.Default.DbConnectionString))
+            using (var ctx = SqlServerValidationToolkitContext.Create(Settings.Default.DbConnectionString))
             {
                 var adapter = (IObjectContextAdapter)ctx;
                 var connection = ((EntityConnection)adapter.ObjectContext.Connection).StoreConnection;

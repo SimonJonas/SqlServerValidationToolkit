@@ -39,6 +39,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Context\SecureIt.cs" />
     <Compile Include="Context\SqlServerValidationToolkitContext.cs" />
     <Compile Include="DatabaseInitialization\DatabaseInitializer.cs" />
     <Compile Include="Entities\Column.cs" />

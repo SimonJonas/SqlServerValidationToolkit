@@ -24,9 +24,15 @@ namespace SqlServerValidationToolkit.Configurator
         /// </summary>
         public static void UpdateDbConnectionString(Action succeededHandler, Action<Exception> failedHandler)
         {
+            string connectionString;
+            using (var secureConnectionString = Settings.Default.DbConnectionString.DecryptString())
+            {
+                connectionString = secureConnectionString.ToInsecureString();
+            }
+
             var m = new GetDbConnectionStringMessage()
             {
-                ConnectionString = Settings.Default.DbConnectionString
+                ConnectionString = connectionString
             };
             UpdateDbConnectionString(m);
             if (m.ConnectionString == string.Empty)
@@ -38,15 +44,20 @@ namespace SqlServerValidationToolkit.Configurator
 
             try
             {
+
+                using (var secureConnectionString = m.ConnectionString.ToSecureString())
+                {
+                    Settings.Default.DbConnectionString = secureConnectionString.EncryptString();
+                }
+
                 //Check if new db-objects must be installed/updated
-                if (!IsValidationToolKitInstalled(m.ConnectionString))
+                if (!IsValidationToolKitInstalled(Settings.Default.DbConnectionString))
                 {
                     MessageBox.Show("The validation toolkit is not installed, the procedures, views and tables will be installed (they all start with [Validation...]", "Validation toolkit", MessageBoxButton.OK);
-                    DatabaseInitializer initializer = new DatabaseInitializer(m.ConnectionString);
+                    DatabaseInitializer initializer = new DatabaseInitializer(Settings.Default.DbConnectionString);
                     initializer.InstallValidationToolkit();
                 }
 
-                Settings.Default.DbConnectionString = m.ConnectionString;
                 Settings.Default.Save();
                 succeededHandler();
             }
@@ -63,7 +74,7 @@ namespace SqlServerValidationToolkit.Configurator
 
         private static bool IsValidationToolKitInstalled(string connectionString)
         {
-            using (var ctx = new SqlServerValidationToolkitContext(connectionString))
+            using (var ctx = SqlServerValidationToolkitContext.Create(connectionString))
             {
                 var adapter = (IObjectContextAdapter)ctx;
                 var connection = ((EntityConnection)adapter.ObjectContext.Connection).StoreConnection;

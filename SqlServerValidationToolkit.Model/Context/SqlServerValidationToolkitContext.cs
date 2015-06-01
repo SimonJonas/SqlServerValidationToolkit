@@ -31,6 +31,19 @@ namespace SqlServerValidationToolkit.Model.Context
 
         }
 
+        /// <summary>
+        /// Creates a context with the unencrypted connection string
+        /// </summary>
+        public static SqlServerValidationToolkitContext Create(string encryptedConnectionString)
+        {
+            using (var secureConnectionString = encryptedConnectionString.DecryptString())
+            {
+                string unencryptedConnectionString = secureConnectionString.ToInsecureString();
+                return new SqlServerValidationToolkitContext(unencryptedConnectionString);
+            }
+            
+        }
+
         public DbSet<Source> Sources { get; set; }
         public DbSet<ErrorType> Errortypes { get; set; }
         public DbSet<WrongValue> WrongValues { get; set; }

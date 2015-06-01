@@ -356,7 +356,7 @@ namespace SqlServerValidationToolkit.Configurator
         {
             get
             {
-                using (var ctx = new SqlServerValidationToolkitContext(Settings.Default.DbConnectionString))
+                using (var ctx = SqlServerValidationToolkitContext.Create((Settings.Default.DbConnectionString)))
                 {
                     return ctx.Database.Connection.Database;
                 }
@@ -366,7 +366,7 @@ namespace SqlServerValidationToolkit.Configurator
         {
             get
             {
-                using (var ctx = new SqlServerValidationToolkitContext(Settings.Default.DbConnectionString))
+                using (var ctx = SqlServerValidationToolkitContext.Create((Settings.Default.DbConnectionString)))
                 {
                     return ctx.Database.Connection.DataSource;
                 }

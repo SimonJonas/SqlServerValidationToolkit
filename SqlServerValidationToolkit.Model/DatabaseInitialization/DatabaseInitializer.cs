@@ -40,7 +40,7 @@ namespace SqlServerValidationToolkit.Model.DatabaseInitialization
         /// </summary>
         public void InstallValidationToolkit()
         {
-            using (var ctx = new SqlServerValidationToolkitContext(_connectionString))
+            using (var ctx = SqlServerValidationToolkitContext.Create((_connectionString)))
             {
                 ctx.Errortypes.AddRange(new List<ErrorType>()
                 {
@@ -89,16 +89,21 @@ namespace SqlServerValidationToolkit.Model.DatabaseInitialization
 
         private void Execute(string cmd)
         {
-            using (SqlConnection connection = new SqlConnection(_connectionString))
+            using (var secureString = _connectionString.DecryptString())
             {
-                connection.Open();
-                // Create the Command and Parameter objects.
-                SqlCommand command = new SqlCommand(cmd, connection);
+                string decrypted = secureString.ToInsecureString();
+                using (SqlConnection connection = new SqlConnection(decrypted))
+                {
+                    connection.Open();
+                    // Create the Command and Parameter objects.
+                    SqlCommand command = new SqlCommand(cmd, connection);
 
-                command.ExecuteNonQuery();
+                    command.ExecuteNonQuery();
 
-                connection.Close();
+                    connection.Close();
+                }
             }
+            
         }
 
     }
