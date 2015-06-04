@@ -119,7 +119,7 @@ temp.ValidationRule_fk
 , [ErrorType_fk]
 , ' + CONVERT(varchar(30),@Log_id) + '
 , 0 AS lCorrected, 0 as lIgnore
-FROM [Validation_TempId] AS temp JOIN ['+s.Name+'] ON (temp.[Id]=['+s.Name+'].['+s.Id_Name+'])' + 
+FROM [Validation_TempId] AS temp JOIN '+s.NameForSqlQuery+' ON (temp.[Id]='+s.NameForSqlQuery+'.['+s.Id_Name+'])' + 
 ' WHERE NOT EXISTS(
 	SELECT * FROM [Validation_WrongValue] AS wrong
 	WHERE wrong.[ValidationRule_fk]=temp.[ValidationRule_fk] AND wrong.[ErrorType_fk]=temp.[ErrorType_fk] AND wrong.[Id]='+s.Id_Name+' AND wrong.[Is_Corrected]=0 
