@@ -92,10 +92,13 @@ DROP DATABASE [{0}] ;";
             ValidationRuleFactory.LoadErrorTypes(ctx);
             var source = new Source()
             {
+                DatabaseName = ctx.Database.Connection.Database,
                 Name = "Babies",
+                Schema = "dbo",
                 IdColumnName = "BabyID",
                 Description = ""
             };
+            source.UpdateNameForSqlQuery();
             AddLenghtColumn(source);
             AddWeightColumn(source);
             AddEmailColumn(source);

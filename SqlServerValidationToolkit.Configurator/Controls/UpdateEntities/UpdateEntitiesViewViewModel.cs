@@ -98,9 +98,9 @@ namespace SqlServerValidationToolkit.Configurator.Controls.UpdateEntities
                 string pkColumnName = table.PrimaryKeyColumnName; 
                 existingSource = new Source()
                 {
-                    Name = table.Name,
                     IdColumnName = pkColumnName
                 };
+                existingSource.SetName(ctx.Database.Connection.Database, table.Schema, table.Name);
                 ctx.Sources.Add(existingSource);
 
             }
@@ -236,7 +236,8 @@ AND table_name = '{0}'";
         private static TableViewModel GetTable(DbConnection connection, DataRow row)
         {
             string name = row[2].ToString();
-            var t = new TableViewModel(name);
+            string schema = row[1].ToString();
+            var t = new TableViewModel(schema, name);
             t.PrimaryKeyColumnName = GetPrimaryKeyColumnName(connection, name);
 
             if (t.PrimaryKeyColumnName==null)
