@@ -269,7 +269,10 @@ namespace SqlServerValidationToolkit.Configurator.Controls.Sources
                     _selectedColumn.PropertyChanged -= _selectedColumn_PropertyChanged;
                 }
                 _selectedColumn = value;
-                _selectedColumn.PropertyChanged +=_selectedColumn_PropertyChanged;
+                if (_selectedColumn != null)
+                {
+                    _selectedColumn.PropertyChanged += _selectedColumn_PropertyChanged;
+                }
                 RaisePropertyChanged(() => SelectedColumn);
                 RaisePropertyChanged(() => SelectedColumnIsNumeric);
                 RaisePropertyChanged(() => SelectedColumnIsNotNumeric);
