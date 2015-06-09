@@ -19,6 +19,11 @@ namespace SqlServerValidationToolkit.Model.Entities
         [Key]
         public int Source_id { get; set; }
 
+
+        public int Database_fk { get; set; }
+        [ForeignKey("Database_fk")]
+        public virtual Database Database { get; set; }
+
         private string _databaseName;
         public string DatabaseName {
             get

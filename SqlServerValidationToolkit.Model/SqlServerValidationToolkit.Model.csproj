@@ -51,6 +51,7 @@
     <Compile Include="Context\SqlServerValidationToolkitContext.cs" />
     <Compile Include="DatabaseInitialization\DatabaseInitializer.cs" />
     <Compile Include="Entities\Column.cs" />
+    <Compile Include="Entities\Database.cs" />
     <Compile Include="Entities\ErrorType.cs" />
     <Compile Include="Entities\Log.cs" />
     <Compile Include="Entities\NullValueTreatment.cs" />

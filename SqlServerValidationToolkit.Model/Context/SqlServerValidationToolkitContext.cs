@@ -44,6 +44,7 @@ namespace SqlServerValidationToolkit.Model.Context
             
         }
 
+        public DbSet<SqlServerValidationToolkit.Model.Entities.Database> Databases { get; set; }
         public DbSet<Source> Sources { get; set; }
         public DbSet<ErrorType> Errortypes { get; set; }
         public DbSet<WrongValue> WrongValues { get; set; }

@@ -52,7 +52,7 @@ DROP DATABASE [{0}] ;";
             DatabaseInitializer initializer = new DatabaseInitializer(encryptedConnectionString);
             initializer.ExecuteSplitByGo(deleteQuery);
 
-            Database.SetInitializer<SqlServerValidationToolkitContext>(null);
+            System.Data.Entity.Database.SetInitializer<SqlServerValidationToolkitContext>(null);
             using (var ctx = new SqlServerValidationToolkitContext(Settings.Default.ConnectionString))
             {
                 ctx.Database.Create();
@@ -63,8 +63,7 @@ DROP DATABASE [{0}] ;";
 
             initializer.InstallValidationToolkit();
 
-            
-            Database.SetInitializer<TestDatabaseContext>(null);
+            System.Data.Entity.Database.SetInitializer<TestDatabaseContext>(null);
 
             initializer.ExecuteSplitByGo(Resources.CREATE_and_fill_Validation_Test_Database);
         }
@@ -89,6 +88,13 @@ DROP DATABASE [{0}] ;";
 
         public void AddValidation(SqlServerValidationToolkitContext ctx)
         {
+            SqlServerValidationToolkit.Model.Entities.Database database = new Model.Entities.Database()
+            {
+                Name = ctx.Database.Connection.Database,
+                
+            };
+            ctx.Databases.Add(database);
+
             ValidationRuleFactory.LoadErrorTypes(ctx);
             var source = new Source()
             {
@@ -96,7 +102,8 @@ DROP DATABASE [{0}] ;";
                 Name = "Babies",
                 Schema = "dbo",
                 IdColumnName = "BabyID",
-                Description = ""
+                Description = "",
+                Database = database
             };
             source.UpdateNameForSqlQuery();
             AddLenghtColumn(source);
