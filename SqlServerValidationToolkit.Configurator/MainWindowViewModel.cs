@@ -25,6 +25,12 @@ namespace SqlServerValidationToolkit.Configurator
     class MainWindowViewModel : INotifyPropertyChanged
     {
 
+        public ICommand InstallOnDatabaseCommand
+        {
+            get;
+            set;
+        }
+
         public ICommand SaveCommand
         {
             get;
@@ -85,6 +91,16 @@ namespace SqlServerValidationToolkit.Configurator
             UpdateEntitiesCommand = new RelayCommand(() => ShowUpdateEntitesView());
             UninstallCommand = new RelayCommand(()=>Uninstall());
             ChangeDbConnectionStringCommand = new RelayCommand(() => ChangeDbConnectionString());
+            InstallOnDatabaseCommand = new RelayCommand(() => { InstallOnDatabase(); });
+        }
+
+        private void InstallOnDatabase()
+        {
+            //1. let user select a new connection string
+            //2. ask user to uninstall old database
+            //3. store it encrypted in the database-entry
+            //4. reload sources
+
         }
 
         private void Uninstall()
