@@ -40,7 +40,7 @@ namespace SqlServerValidationToolkit.Model.DatabaseInitialization
         /// </summary>
         public void InstallValidationToolkit()
         {
-            using (var ctx = SqlServerValidationToolkitContext.Create((_connectionString)))
+            using (var ctx = SqlServerValidationToolkitContext.Create())
             {
                 ctx.Errortypes.AddRange(new List<ErrorType>()
                 {

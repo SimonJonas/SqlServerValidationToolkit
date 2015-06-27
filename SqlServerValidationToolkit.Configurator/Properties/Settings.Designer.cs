@@ -22,17 +22,5 @@ namespace SqlServerValidationToolkit.Configurator.Properties {
                 return defaultInstance;
             }
         }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string DbConnectionString {
-            get {
-                return ((string)(this["DbConnectionString"]));
-            }
-            set {
-                this["DbConnectionString"] = value;
-            }
-        }
     }
 }

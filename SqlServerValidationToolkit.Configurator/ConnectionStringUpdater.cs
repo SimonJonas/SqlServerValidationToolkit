@@ -3,6 +3,7 @@ using SqlServerValidationToolkit.Configurator.Messages;
 using SqlServerValidationToolkit.Configurator.Properties;
 using SqlServerValidationToolkit.Model.Context;
 using SqlServerValidationToolkit.Model.DatabaseInitialization;
+using SqlServerValidationToolkit.Model.Entities;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Core.EntityClient;
@@ -24,10 +25,15 @@ namespace SqlServerValidationToolkit.Configurator
         /// </summary>
         public static void UpdateDbConnectionString(Action succeededHandler, Action<Exception> failedHandler)
         {
-            string connectionString;
-            using (var secureConnectionString = Settings.Default.DbConnectionString.DecryptString())
+            Database existingDb = GetExistingDatabase();
+            string connectionString = string.Empty;
+
+            if (existingDb!=null)
             {
-                connectionString = secureConnectionString.ToInsecureString();
+                using (var secureConnectionString = existingDb.EncryptedConnectionString.DecryptString())
+                {
+                    connectionString = secureConnectionString.ToInsecureString();
+                }
             }
 
             var m = new GetDbConnectionStringMessage()
@@ -44,21 +50,21 @@ namespace SqlServerValidationToolkit.Configurator
 
             try
             {
-
+                var database = new Database()
+                {
+                    Name = "db"
+                };
                 using (var secureConnectionString = m.ConnectionString.ToSecureString())
                 {
-                    Settings.Default.DbConnectionString = secureConnectionString.EncryptString();
+                    database.EncryptedConnectionString = secureConnectionString.EncryptString();
                 }
 
-                //Check if new db-objects must be installed/updated
-                if (!IsValidationToolKitInstalled(Settings.Default.DbConnectionString))
+                using (var ctx = new SqlServerValidationToolkitContext())
                 {
-                    MessageBox.Show("The validation toolkit is not installed, the procedures, views and tables will be installed (they all start with [Validation...]", "Validation toolkit", MessageBoxButton.OK);
-                    DatabaseInitializer initializer = new DatabaseInitializer(Settings.Default.DbConnectionString);
-                    initializer.InstallValidationToolkit();
+                    ctx.Databases.Add(database);
+                    ctx.SaveChanges();
                 }
 
-                Settings.Default.Save();
                 succeededHandler();
             }
             catch (Exception e)
@@ -72,9 +78,22 @@ namespace SqlServerValidationToolkit.Configurator
 
         }
 
+        public static Database GetExistingDatabase()
+        {
+            Database existingDb = null;
+            using (var ctx = new SqlServerValidationToolkitContext())
+            {
+                if (ctx.Databases.Any())
+                {
+                    existingDb = ctx.Databases.Single();
+                }
+            }
+            return existingDb;
+        }
+
         private static bool IsValidationToolKitInstalled(string connectionString)
         {
-            using (var ctx = SqlServerValidationToolkitContext.Create(connectionString))
+            using (var ctx = SqlServerValidationToolkitContext.Create())
             {
                 var adapter = (IObjectContextAdapter)ctx;
                 var connection = ((EntityConnection)adapter.ObjectContext.Connection).StoreConnection;

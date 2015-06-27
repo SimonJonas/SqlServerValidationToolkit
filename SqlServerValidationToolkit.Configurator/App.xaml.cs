@@ -1,4 +1,6 @@
 ﻿using SqlServerValidationToolkit.Configurator.Properties;
+using SqlServerValidationToolkit.Model.Context;
+using SqlServerValidationToolkit.Model.Entities;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -16,20 +18,26 @@ namespace SqlServerValidationToolkit.Configurator
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-            if (Settings.Default.DbConnectionString == string.Empty)
+            using (var ctx = new SqlServerValidationToolkitContext())
             {
-                MessageBox.Show("Welcome to the Validation Toolkit. At first, please enter the connection to the database in the next screen to which you want to install the validation toolkit.", "Welcome", MessageBoxButton.OK);
-                ConnectionStringUpdater.UpdateDbConnectionString(
+                if (!ctx.Databases.Any())
+                {
+                    MessageBox.Show("Welcome to the Validation Toolkit. Please select the database to validate", "Welcome", MessageBoxButton.OK);
+                    
+                    ConnectionStringUpdater.UpdateDbConnectionString(
                     () =>
                     {
-                        MessageBox.Show("The toolkit was succesfully installed, press Ctrl+U to import the tables from the database that you want to validate. Then create some rules and press Ctrl+V to execute the validation. Under 'Wrong values' the validation results are listed.");
+                        
+                        //MessageBox.Show("The toolkit was succesfully installed, press Ctrl+U to import the tables from the database that you want to validate. Then create some rules and press Ctrl+V to execute the validation. Under 'Wrong values' the validation results are listed.");
                     },
                     (ex) =>
                     {
-                        MessageBox.Show(string.Format("An error occurred during the installation of the validation toolkit: '{0}'" + Environment.NewLine + "The application will shut down. Please start it again and select another database.", ex.Message), "Validation toolkit", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(string.Format("An error occurred: '{0}'" + Environment.NewLine + "The application will shut down. Please start it again and select another database.", ex.Message), "Validation toolkit", MessageBoxButton.OK, MessageBoxImage.Error);
                         App.Current.Shutdown();
                     }
                     );
+                    
+                }
             }
 
             base.OnStartup(e);

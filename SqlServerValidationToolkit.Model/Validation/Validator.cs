@@ -19,11 +19,26 @@ namespace SqlServerValidationToolkit.Model.Validation
         SqlServerValidationToolkitContext _ctx;
         string _connectionString;
 
-        public Validator(string connectionString)
+        public Validator()
         {
-            _connectionString = connectionString;
-            _ctx = SqlServerValidationToolkitContext.Create((connectionString));
+            string decryptedConnectionString = GetDecryptedConnectionString();
+            _connectionString = decryptedConnectionString;
+            _ctx = SqlServerValidationToolkitContext.Create(_connectionString);
             LoadSources();
+        }
+
+        public static string GetDecryptedConnectionString()
+        {
+            string decryptedConnectionString;
+            using (var ctx = SqlServerValidationToolkitContext.Create())
+            {
+                var database = ctx.Databases.Single();
+                using (var decryptedSecureString = database.EncryptedConnectionString.DecryptString())
+                {
+                    decryptedConnectionString = decryptedSecureString.ToInsecureString();
+                }
+            }
+            return decryptedConnectionString;
         }
 
         /// <summary>
@@ -121,7 +136,7 @@ namespace SqlServerValidationToolkit.Model.Validation
         public void Refresh()
         {
             _ctx.Dispose();
-            _ctx = SqlServerValidationToolkitContext.Create((_connectionString));
+            _ctx = SqlServerValidationToolkitContext.Create();
             _ctx.WrongValues.ToList();
             _ctx.Errortypes.ToList();
             LoadSources();

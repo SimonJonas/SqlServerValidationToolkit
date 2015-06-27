@@ -114,7 +114,6 @@ namespace SqlServerValidationToolkit.Configurator
                 e = ex;
             }
             Messenger.Default.Send(new UninstallSuccessfulMessage(e));
-            Settings.Default.DbConnectionString = "";
             Settings.Default.Save();
             App.Current.Shutdown();
             
@@ -141,7 +140,7 @@ namespace SqlServerValidationToolkit.Configurator
                 _validator.Dispose();
             }
 
-            _validator = new Validator(Settings.Default.DbConnectionString);
+            _validator = new Validator();
             _sourcesViewViewModel.Validator = _validator;
             Init();
         }
@@ -278,15 +277,15 @@ namespace SqlServerValidationToolkit.Configurator
         {
             if (_validator == null)
             {
-                var conStr = Settings.Default.DbConnectionString;
+                var existingDb = ConnectionStringUpdater.GetExistingDatabase();
 
-                if (conStr == string.Empty)
+                if (existingDb == null)
                 {
                     ChangeDbConnectionString();
                 }
                 else
                 {
-                    _validator = new Validator(conStr);
+                    _validator = new Validator();
                     _sourcesViewViewModel.Validator = _validator;
                 }
 
@@ -372,7 +371,7 @@ namespace SqlServerValidationToolkit.Configurator
         {
             get
             {
-                using (var ctx = SqlServerValidationToolkitContext.Create((Settings.Default.DbConnectionString)))
+                using (var ctx = SqlServerValidationToolkitContext.Create())
                 {
                     return ctx.Database.Connection.Database;
                 }
@@ -382,7 +381,7 @@ namespace SqlServerValidationToolkit.Configurator
         {
             get
             {
-                using (var ctx = SqlServerValidationToolkitContext.Create((Settings.Default.DbConnectionString)))
+                using (var ctx = SqlServerValidationToolkitContext.Create())
                 {
                     return ctx.Database.Connection.DataSource;
                 }

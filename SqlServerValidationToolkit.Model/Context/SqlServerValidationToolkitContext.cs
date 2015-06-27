@@ -4,7 +4,9 @@ using SqlServerValidationToolkit.Model.Entities.Temp;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Common;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Infrastructure.Annotations;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
@@ -15,15 +17,15 @@ namespace SqlServerValidationToolkit.Model.Context
 {
     public class SqlServerValidationToolkitContext : DbContext
     {
-        //public SqlServerValidationToolkitContext()
-        //    : base("SqlServerValidationToolkitContext")
-        //{
-        //}
         public SqlServerValidationToolkitContext()
             : base()
         {
 
         }
+
+        public SqlServerValidationToolkitContext(DbConnection existingConnection, bool contextOwnsConnection)
+            : base(existingConnection, contextOwnsConnection)
+        { }
 
         public SqlServerValidationToolkitContext(string connectionString)
             : base(connectionString)
@@ -31,17 +33,18 @@ namespace SqlServerValidationToolkit.Model.Context
 
         }
 
-        /// <summary>
-        /// Creates a context with the unencrypted connection string
-        /// </summary>
-        public static SqlServerValidationToolkitContext Create(string encryptedConnectionString)
+        public static SqlServerValidationToolkitContext Create()
         {
-            using (var secureConnectionString = encryptedConnectionString.DecryptString())
-            {
-                string unencryptedConnectionString = secureConnectionString.ToInsecureString();
-                return new SqlServerValidationToolkitContext(unencryptedConnectionString);
-            }
-            
+            string sqlServerCompactConnectionString = "Data Source=SqlServerValidationToolkit.Model.Context.SqlServerValidationToolkitContext.sdf";
+            return new SqlServerValidationToolkitContext(sqlServerCompactConnectionString);
+
+        }
+        public static SqlServerValidationToolkitContext Create(string connectionString)
+        {
+
+            SqlConnectionFactory f = new SqlConnectionFactory();
+            var connection = f.CreateConnection(connectionString);
+            return new SqlServerValidationToolkitContext(connection, true);
         }
 
         public DbSet<SqlServerValidationToolkit.Model.Entities.Database> Databases { get; set; }
@@ -84,10 +87,5 @@ namespace SqlServerValidationToolkit.Model.Context
         {
             this.Database.ExecuteSqlCommand("EXECUTE [dbo].[Validation_USP_ExecuteValidation]");
         }
-
-        //public void SaveChanges()
-        //{
-        //    this.SaveChanges();
-        //}
     }
 }
