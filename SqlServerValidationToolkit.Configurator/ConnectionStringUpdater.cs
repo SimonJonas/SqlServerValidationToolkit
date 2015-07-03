@@ -59,7 +59,7 @@ namespace SqlServerValidationToolkit.Configurator
                     database.EncryptedConnectionString = secureConnectionString.EncryptString();
                 }
 
-                using (var ctx = new SqlServerValidationToolkitContext())
+                using (var ctx = SqlServerValidationToolkitContext.Create())
                 {
                     ctx.Databases.Add(database);
                     ctx.SaveChanges();
@@ -81,7 +81,7 @@ namespace SqlServerValidationToolkit.Configurator
         public static Database GetExistingDatabase()
         {
             Database existingDb = null;
-            using (var ctx = new SqlServerValidationToolkitContext())
+            using (var ctx = SqlServerValidationToolkitContext.Create())
             {
                 if (ctx.Databases.Any())
                 {

@@ -38,7 +38,7 @@ namespace SqlServerValidationToolkit.Configurator.Controls.ValidationRules
 
         private void ShowQuery(ValidationRuleEditViewViewModel vm)
         {
-            using (var ctx = new SqlServerValidationToolkitContext())
+            using (var ctx = SqlServerValidationToolkitContext.Create())
             {
                 string query = vm.Rule.Query;
                 MessageBox.Show(query);
