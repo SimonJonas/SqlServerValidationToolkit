@@ -1,4 +1,5 @@
-﻿using SqlServerValidationToolkit.Model.Entities;
+﻿using SqlServerValidationToolkit.Model.DatabaseInitialization;
+using SqlServerValidationToolkit.Model.Entities;
 using SqlServerValidationToolkit.Model.Entities.Rule;
 using SqlServerValidationToolkit.Model.Entities.Temp;
 using System;
@@ -9,6 +10,7 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Infrastructure.Annotations;
 using System.Data.Entity.ModelConfiguration.Conventions;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,8 +37,19 @@ namespace SqlServerValidationToolkit.Model.Context
 
         public static SqlServerValidationToolkitContext Create()
         {
-            string sqlServerCompactConnectionString = "Data Source=SqlServerValidationToolkit.Model.Context.SqlServerValidationToolkitContext.sdf";
-            return new SqlServerValidationToolkitContext(sqlServerCompactConnectionString);
+            string databaseFileName = "SqlServerValidationToolkit.Model.Context.SqlServerValidationToolkitContext.sdf";
+            string sqlServerCompactConnectionString = string.Format("Data Source={0}",databaseFileName);
+
+            var ctx = new SqlServerValidationToolkitContext(sqlServerCompactConnectionString);
+
+            if (!File.Exists(databaseFileName))
+            {
+                ctx.Database.CreateIfNotExists();
+                DatabaseInitializer.AddErrorTypes(ctx);
+            }
+
+
+            return ctx;
 
         }
         public static SqlServerValidationToolkitContext Create(string connectionString)

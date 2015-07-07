@@ -277,11 +277,6 @@ namespace SqlServerValidationToolkit.Configurator
         {
             if (_validator == null)
             {
-                using (var ctx = SqlServerValidationToolkitContext.Create())
-                {
-                    ctx.Database.CreateIfNotExists();
-                }
-
                 var existingDb = ConnectionStringUpdater.GetExistingDatabase();
 
                 if (existingDb == null)

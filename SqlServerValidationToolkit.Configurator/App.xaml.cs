@@ -1,5 +1,6 @@
 ﻿using SqlServerValidationToolkit.Configurator.Properties;
 using SqlServerValidationToolkit.Model.Context;
+using SqlServerValidationToolkit.Model.DatabaseInitialization;
 using SqlServerValidationToolkit.Model.Entities;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace SqlServerValidationToolkit.Configurator
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-            using (var ctx = new SqlServerValidationToolkitContext())
+            using (var ctx = SqlServerValidationToolkitContext.Create())
             {
                 if (!ctx.Databases.Any())
                 {
@@ -27,7 +28,6 @@ namespace SqlServerValidationToolkit.Configurator
                     ConnectionStringUpdater.UpdateDbConnectionString(
                     () =>
                     {
-                        
                         //MessageBox.Show("The toolkit was succesfully installed, press Ctrl+U to import the tables from the database that you want to validate. Then create some rules and press Ctrl+V to execute the validation. Under 'Wrong values' the validation results are listed.");
                     },
                     (ex) =>

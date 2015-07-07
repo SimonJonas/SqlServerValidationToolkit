@@ -42,7 +42,15 @@ namespace SqlServerValidationToolkit.Model.DatabaseInitialization
         {
             using (var ctx = SqlServerValidationToolkitContext.Create())
             {
-                ctx.Errortypes.AddRange(new List<ErrorType>()
+                AddErrorTypes(ctx);
+            }
+            string createToolkit =  Resources.ProceduresAndFunctions;
+            ExecuteSplitByGo(createToolkit);
+        }
+
+        public static void AddErrorTypes(SqlServerValidationToolkitContext ctx)
+        {
+            ctx.Errortypes.AddRange(new List<ErrorType>()
                 {
                     new ErrorType("MinMax","Too low"),
                     new ErrorType("MinMax","Too high"),
@@ -62,10 +70,7 @@ namespace SqlServerValidationToolkit.Model.DatabaseInitialization
                     new ErrorType("Comparison","at the same time as"),
                     new ErrorType("Like","not like"),
                 });
-                ctx.SaveChanges();
-            }
-            string createToolkit =  Resources.ProceduresAndFunctions;
-            ExecuteSplitByGo(createToolkit);
+            ctx.SaveChanges();
         }
 
 
