@@ -26,7 +26,9 @@
                     </Grid>
                 </Label.ToolTip> Like-Expression
             </Label>
-            <TextBox x:Name="txtLikeExpression" Grid.Column="1" Text="{Binding Path=LikeExpression, UpdateSourceTrigger=PropertyChanged}" />
+            <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                <TextBox x:Name="txtLikeExpression" Text="{Binding Path=LikeExpression, UpdateSourceTrigger=PropertyChanged}" />
+            </ScrollViewer>
         </Grid>
     </GroupBox>
 </UserControl>

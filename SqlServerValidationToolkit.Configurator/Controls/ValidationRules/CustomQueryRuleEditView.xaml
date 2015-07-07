@@ -35,7 +35,9 @@
                     </Label.ToolTip>
                     Query
                 </Label>
-                <TextBox x:Name="txtQuery" Grid.Column="1" AcceptsReturn="True" Text="{Binding Path=CustomQuery, UpdateSourceTrigger=PropertyChanged}" />
+                <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                    <TextBox x:Name="txtQuery" AcceptsReturn="True" Text="{Binding Path=CustomQuery, UpdateSourceTrigger=PropertyChanged}" />
+                </ScrollViewer>
             </Grid>
         </GroupBox>
     </Grid>
