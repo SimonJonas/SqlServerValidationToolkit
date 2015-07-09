@@ -16,14 +16,14 @@ namespace SqlServerValidationToolkit.Model.Validation
     /// </summary>
     public class Validator : IDisposable
     {
-        SqlServerValidationToolkitContext _ctx;
-        string _connectionString;
+        SqlServerValidationToolkitContext _ctxLocalDb;
+        string _connectionStringSqlServer;
 
         public Validator()
         {
             string decryptedConnectionString = GetDecryptedConnectionString();
-            _connectionString = decryptedConnectionString;
-            _ctx = SqlServerValidationToolkitContext.Create(_connectionString);
+            _connectionStringSqlServer = decryptedConnectionString;
+            _ctxLocalDb = SqlServerValidationToolkitContext.Create();
             LoadSources();
         }
 
@@ -49,7 +49,7 @@ namespace SqlServerValidationToolkit.Model.Validation
         /// <returns>wrong Entries</returns>
         public IEnumerable<WrongValue> GetWrongEntries(Column column, ErrorType errorType)
         {
-            return _ctx.WrongValues.Where(wrongValue =>
+            return _ctxLocalDb.WrongValues.Where(wrongValue =>
                 wrongValue.Validation_ValidationRule.Column == column
                 &&
                 wrongValue.Errortype == errorType);
@@ -57,36 +57,36 @@ namespace SqlServerValidationToolkit.Model.Validation
 
         public void LoadSources()
         {
-            _ctx.Sources.ToList();
+            _ctxLocalDb.Sources.ToList();
         }
 
         public ObservableCollection<Source> Sources
         {
             get
             {
-                return _ctx.Sources.Local;
+                return _ctxLocalDb.Sources.Local;
             }
         }
 
         public void Add(Source newSource)
         {
-            _ctx.Sources.Add(newSource);
+            _ctxLocalDb.Sources.Add(newSource);
         }
 
         public void Remove(Source source)
         {
             if (source.Source_id != 0)
             {
-                _ctx.Sources.Remove(source);
+                _ctxLocalDb.Sources.Remove(source);
             }
         }
 
         public void Save(IEnumerable<Source> sources)
         {
-            _ctx.SaveChanges();
+            _ctxLocalDb.SaveChanges();
             foreach (var s in this.Sources)
             {
-                _ctx.Entry(s).Reload();
+                _ctxLocalDb.Entry(s).Reload();
             }
         }
 
@@ -95,20 +95,23 @@ namespace SqlServerValidationToolkit.Model.Validation
         {
             if (column.Column_id != 0)
             {
-                _ctx.Columns.Remove(column);
+                _ctxLocalDb.Columns.Remove(column);
             }
         }
 
         public void ExecuteValidation()
         {
-            _ctx.Validate();
+            using (var ctxSqlServer = SqlServerValidationToolkitContext.Create(_connectionStringSqlServer))
+            {
+                ctxSqlServer.Validate();
+            }
         }
 
         public IEnumerable<ErrorType> ErrorTypes
         {
             get
             {
-                return _ctx.Errortypes.ToList();
+                return _ctxLocalDb.Errortypes.ToList();
             }
         }
 
@@ -116,7 +119,7 @@ namespace SqlServerValidationToolkit.Model.Validation
         {
             get
             {
-                return _ctx.WrongValues.OrderBy(wv => wv.Id).ThenBy(wv => wv.Validation_ValidationRule.Column.Source.Name).ThenBy(wv => wv.Validation_ValidationRule.Column.Name).ToList();
+                return _ctxLocalDb.WrongValues.OrderBy(wv => wv.Id).ThenBy(wv => wv.Validation_ValidationRule.Column.Source.Name).ThenBy(wv => wv.Validation_ValidationRule.Column.Name).ToList();
             }
         }
 
@@ -124,40 +127,43 @@ namespace SqlServerValidationToolkit.Model.Validation
         {
             get
             {
-                return _ctx.ChangeTracker.HasChanges();
+                return _ctxLocalDb.ChangeTracker.HasChanges();
             }
         }
 
         public void Remove(ValidationRule vr)
         {
-            _ctx.ValidationRules.Remove(vr);
+            _ctxLocalDb.ValidationRules.Remove(vr);
         }
 
         public void Refresh()
         {
-            _ctx.Dispose();
-            _ctx = SqlServerValidationToolkitContext.Create();
-            _ctx.WrongValues.ToList();
-            _ctx.Errortypes.ToList();
+            _ctxLocalDb.Dispose();
+            _ctxLocalDb = SqlServerValidationToolkitContext.Create();
+            _ctxLocalDb.WrongValues.ToList();
+            _ctxLocalDb.Errortypes.ToList();
             LoadSources();
         }
 
         public void AssignErrorTypes(ValidationRule vr)
         {
             ErrorTypeAssigner a = new ErrorTypeAssigner();
-            a.LoadErrorTypes(_ctx);
+            a.LoadErrorTypes(_ctxLocalDb);
             a.AddErrorTypes(vr);
         }
 
         public void Dispose()
         {
-            _ctx.Dispose();
+            _ctxLocalDb.Dispose();
         }
 
         public void Uninstall()
         {
             string c = Resources.UninstallToolkit;
-            _ctx.Database.ExecuteSqlCommand(c);
+            using (var ctxSqlServer = SqlServerValidationToolkitContext.Create(_connectionStringSqlServer))
+            {
+                ctxSqlServer.Database.ExecuteSqlCommand(c);
+            }
         }
     }
 }
