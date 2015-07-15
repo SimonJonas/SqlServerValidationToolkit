@@ -132,6 +132,7 @@ namespace SqlServerValidationToolkit.Configurator
             dcd.DataSources.Add(dataSource);
             dcd.SelectedDataSource = dataSource;
             dcd.SelectedDataProvider = dataProvider;
+            
 
             if (m.ConnectionString != string.Empty)
             {
@@ -140,7 +141,8 @@ namespace SqlServerValidationToolkit.Configurator
 
             if (DataConnectionDialog.Show(dcd) == System.Windows.Forms.DialogResult.OK)
             {
-                m.ConnectionString = dcd.ConnectionString;
+                //allow multiple active result sets (one to get the wrong value-ids, the other to get the value
+                m.ConnectionString = dcd.ConnectionString+";MultipleActiveResultSets=True;";
             }
         }
     }

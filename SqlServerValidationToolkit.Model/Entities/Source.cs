@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SqlServerValidationToolkit.Model.Context;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -81,5 +82,16 @@ namespace SqlServerValidationToolkit.Model.Entities
         public string Description { get; set; }
 
         public virtual ICollection<Column> Columns { get; set; }
+
+        /// <summary>
+        /// Validates all columns
+        /// </summary>
+        public void Validate(SqlServerValidationToolkitContext ctx)
+        {
+            foreach(var column in this.Columns)
+            {
+                column.Validate(ctx);
+            }
+        }
     }
 }
