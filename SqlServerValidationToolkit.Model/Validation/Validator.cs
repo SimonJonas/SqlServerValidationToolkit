@@ -171,5 +171,26 @@ namespace SqlServerValidationToolkit.Model.Validation
                 ctxSqlServer.Database.ExecuteSqlCommand(c);
             }
         }
+
+        public string Database
+        {
+            get
+            {
+                using (var ctx = SqlServerValidationToolkitContext.Create(_connectionStringSqlServer))
+                {
+                    return ctx.Database.Connection.Database;
+                }
+            }
+        }
+        public string DatabaseServer
+        {
+            get
+            {
+                using (var ctx = SqlServerValidationToolkitContext.Create(_connectionStringSqlServer))
+                {
+                    return ctx.Database.Connection.DataSource;
+                }
+            }
+        }
     }
 }

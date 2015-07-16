@@ -140,8 +140,7 @@ namespace SqlServerValidationToolkit.Configurator
                 _validator.Dispose();
             }
 
-            _validator = new Validator();
-            _sourcesViewViewModel.Validator = _validator;
+            ResetValidator();
             Init();
         }
 
@@ -285,8 +284,7 @@ namespace SqlServerValidationToolkit.Configurator
                 }
                 else
                 {
-                    _validator = new Validator();
-                    _sourcesViewViewModel.Validator = _validator;
+                    ResetValidator();
                 }
 
             }
@@ -299,6 +297,14 @@ namespace SqlServerValidationToolkit.Configurator
             ResetWrongValues();
 
             _sourcesViewViewModel.Init();
+        }
+
+        private void ResetValidator()
+        {
+            _validator = new Validator();
+            OnPropertyChanged("Database");
+            OnPropertyChanged("DatabaseServer");
+            _sourcesViewViewModel.Validator = _validator;
         }
 
 
@@ -371,16 +377,19 @@ namespace SqlServerValidationToolkit.Configurator
         {
             get
             {
-                using (var ctx = SqlServerValidationToolkitContext.Create())
-                {
-                    return ctx.Database.Connection.Database;
-                }
+                if (_validator == null)
+                    return string.Empty;
+                return _validator.Database;
             }
         }
         public string DatabaseServer
         {
             get
             {
+                if (_validator == null)
+                    return string.Empty;
+                return _validator.DatabaseServer;
+
                 using (var ctx = SqlServerValidationToolkitContext.Create())
                 {
                     return ctx.Database.Connection.DataSource;
