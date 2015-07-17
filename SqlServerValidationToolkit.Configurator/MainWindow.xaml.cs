@@ -33,6 +33,17 @@ namespace SqlServerValidationToolkit.Configurator
             Loaded += (object sender, RoutedEventArgs e) =>
             {
                 viewModel.Init();
+                if (!viewModel.SourcesViewViewModel.Sources.Any())
+                {
+                    //use a task to let the GUI build up while the message box is shown
+                    Task t = new Task(() =>
+                    {
+                       
+                        MessageBox.Show("Press Ctrl+U to import the tables that you want to validate. You can also create sources manually");
+                    });
+                    t.Start();
+                }
+
             };
 
             Messenger.Default.Register<ValidationErrorMessage>(this, ShowValidationError);
