@@ -43,15 +43,18 @@
                               InputGestureText="Ctrl+E"/>
                 </MenuItem>
                 <MenuItem Header="_Settings">
+                    <!--TODO: Make visible when toolkit can be installed on the db-->
                     <MenuItem Header="Install validation toolkit on a database"
+                              Visibility="Collapsed"
                               Command="{Binding Path=InstallOnDatabaseCommand}">
                         
                     </MenuItem>
                     <MenuItem Header="Change DB _Connection string" 
                               Command="{Binding Path=ChangeDbConnectionStringCommand}" 
                               InputGestureText="Ctrl+D"/>
+                    <!--TODO: Make visible when toolkit is installed on the db-->
                     <MenuItem Header="Uninstall" 
-                              Command="{Binding Path=UninstallCommand}" />
+                              Command="{Binding Path=UninstallCommand}" Visibility="Collapsed" />
                 </MenuItem>
 
             </Menu>
