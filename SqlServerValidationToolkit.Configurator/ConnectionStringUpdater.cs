@@ -50,19 +50,19 @@ namespace SqlServerValidationToolkit.Configurator
 
             try
             {
-                var database = new Database()
-                {
-                    Name = "db"
-                };
+                string encryptedConnectionString;
                 using (var secureConnectionString = m.ConnectionString.ToSecureString())
                 {
-                    database.EncryptedConnectionString = secureConnectionString.EncryptString();
+                    encryptedConnectionString = secureConnectionString.EncryptString();
                 }
 
-                using (var ctx = SqlServerValidationToolkitContext.Create())
+                if (existingDb!=null)
                 {
-                    ctx.Databases.Add(database);
-                    ctx.SaveChanges();
+                    UpdateExistingDb(existingDb, encryptedConnectionString);
+                } else
+                {
+                    AddNewDb(encryptedConnectionString);
+
                 }
 
                 succeededHandler();
@@ -76,6 +76,30 @@ namespace SqlServerValidationToolkit.Configurator
             }
 
 
+        }
+
+        private static void AddNewDb(string encryptedConnectionString)
+        {
+            var database = new Database()
+            {
+                Name = "db",
+                EncryptedConnectionString = encryptedConnectionString
+            };
+            using (var ctx = SqlServerValidationToolkitContext.Create())
+            {
+                ctx.Databases.Add(database);
+                ctx.SaveChanges();
+            }
+        }
+
+        private static void UpdateExistingDb(Database existingDb, string encryptedConnectionString)
+        {
+            using (var ctx = SqlServerValidationToolkitContext.Create())
+            {
+                ctx.Entry(existingDb);
+                existingDb.EncryptedConnectionString = encryptedConnectionString;
+                ctx.SaveChanges();
+            }
         }
 
         public static Database GetExistingDatabase()
