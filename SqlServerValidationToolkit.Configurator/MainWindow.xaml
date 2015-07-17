@@ -37,10 +37,10 @@
                           Command="{Binding Path=UpdateEntitiesCommand}"
                           InputGestureText="Ctrl+U"/>
                 </MenuItem>
-                <MenuItem Header="_Stored Procedures">
-                    <MenuItem Header="Execute _Validation" 
+                <MenuItem Header="_Validation">
+                    <MenuItem Header="_Execute validation" 
                               Command="{Binding Path=ExecuteValidationCommand}"
-                              InputGestureText="Ctrl+V"/>
+                              InputGestureText="Ctrl+E"/>
                 </MenuItem>
                 <MenuItem Header="_Settings">
                     <MenuItem Header="Install validation toolkit on a database"
