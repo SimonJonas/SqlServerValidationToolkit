@@ -96,8 +96,9 @@ namespace SqlServerValidationToolkit.Configurator
         {
             using (var ctx = SqlServerValidationToolkitContext.Create())
             {
-                ctx.Entry(existingDb);
-                existingDb.EncryptedConnectionString = encryptedConnectionString;
+                var attachedDb = ctx.Databases.Attach(existingDb);
+                attachedDb.EncryptedConnectionString = encryptedConnectionString;
+
                 ctx.SaveChanges();
             }
         }

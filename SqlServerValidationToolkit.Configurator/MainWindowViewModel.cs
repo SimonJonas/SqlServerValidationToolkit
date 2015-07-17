@@ -124,9 +124,8 @@ namespace SqlServerValidationToolkit.Configurator
             ConnectionStringUpdater.UpdateDbConnectionString(
                 () =>
                 {
-                    //don't show confirmation
-                    OnPropertyChanged("Database");
-                    OnPropertyChanged("DatabaseServer");
+                    //with the new connection string, a new validator-instance is needed
+                    ResetValidator();
                 },
                 (ex) =>
                 {
