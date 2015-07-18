@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SqlServerValidationToolkit.Model.Context;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -109,6 +110,65 @@ namespace SqlServerValidationToolkit.Model.Entities.Rule
         public virtual IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             return new List<ValidationResult>();
+        }
+
+        /// <summary>
+        /// Fills the wrongValues-table with all wrong values from the rule
+        /// </summary>
+        public void Validate(SqlServerValidationToolkitContext ctx)
+        {
+            var connection = ctx.Database.Connection;
+            connection.Open();
+            string q = CompiledQuery;
+            var c = connection.CreateCommand();
+            c.CommandText = q;
+            try
+            {
+                var reader = c.ExecuteReader();
+
+
+                while (reader.Read())
+                {
+                    //the query returns the id of the invalid value and the errortype-id
+                    int invalidValueId = reader.GetInt32(0);
+
+                    int errorTypeId = reader.GetInt32(1);
+
+                    WrongValue wrongValue = new WrongValue()
+                    {
+                        ErrorType_fk = errorTypeId,
+                        Id = invalidValueId,
+                        Value = GetValue(invalidValueId, ctx)
+                    };
+                    Validation_WrongValue.Add(wrongValue);
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(string.Format("Exception occurred while executing '{0}': {1}", q, e.GetBaseException().Message));
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
+
+        /// <summary>
+        /// Returns the value of the column for the id
+        /// </summary>
+        private string GetValue(int invalidValueId, SqlServerValidationToolkitContext ctx)
+        {
+            string selectValueSqlFormat = "SELECT [{0}] FROM [{1}] WHERE [{2}]={3}";
+            string selectValueSql = string.Format(selectValueSqlFormat,
+                Column.Name,
+                Column.Source.Name,
+                Column.Source.IdColumnName,
+                invalidValueId);
+            var c = ctx.Database.Connection.CreateCommand();
+            c.CommandText = selectValueSql;
+            var result = c.ExecuteScalar();
+            return result.ToString();
         }
     }
 }
