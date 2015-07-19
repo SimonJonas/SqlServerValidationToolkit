@@ -3,6 +3,7 @@ using SqlServerValidationToolkit.Model.Context;
 using SqlServerValidationToolkit.UnitTests.Properties;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,7 +27,8 @@ namespace SqlServerValidationToolkit.UnitTests
         {
             Initializer initializer = new Initializer();
 
-            using (var ctx = new SqlServerValidationToolkitContext(Settings.Default.ConnectionString))
+            File.Delete("SqlServerValidationToolkit.Model.Context.SqlServerValidationToolkitContext.sdf");
+            using (var ctx = SqlServerValidationToolkitContext.Create())
             {
                 initializer.AddValidation(ctx);
 
