@@ -8,6 +8,7 @@ using SqlServerValidationToolkit.UnitTests.TestDatabase;
 using SqlServerValidationToolkit.UnitTests.TestDatabase.Entities;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -27,8 +28,14 @@ namespace SqlServerValidationToolkit.UnitTests
             Initializer initializer = new Initializer();
 
 
-            using (var ctx = new SqlServerValidationToolkitContext(Settings.Default.ConnectionString))
+            string databaseFileName = "SqlServerValidationToolkit.Model.Context.SqlServerValidationToolkitContext.sdf";
+            File.Delete(databaseFileName);
+
+            using (var ctx = SqlServerValidationToolkitContext.Create())
             {
+
+                //DatabaseInitializer.AddErrorTypes(ctx);
+
                 initializer.AddValidation(ctx);
 
                 ctx.Database.Initialize(false);
@@ -36,14 +43,19 @@ namespace SqlServerValidationToolkit.UnitTests
                 //var ctxBabies = new TestDatabaseContext(Settings.Default.ConnectionString);
                 //ctxBabies.Database.Initialize(false);
 
-                ctx.Validate();
+                ctx.Database.Connection.Close();
+
+
+
+
+                ctx.Validate(SqlServerValidationToolkitContext.Create(Settings.Default.ConnectionString));
             }
         }
 
         [TestMethod]
         public void CorrectMultipleValues()
         {
-            var ctx = new SqlServerValidationToolkitContext(Settings.Default.ConnectionString);
+            var ctx = SqlServerValidationToolkitContext.Create();
 
             Assert.IsTrue(WrongLengthEntriesExisting(ctx));
 
@@ -75,7 +87,7 @@ namespace SqlServerValidationToolkit.UnitTests
         public void IgnoreWrongValue()
         {
 
-            var ctx = new SqlServerValidationToolkitContext(Settings.Default.ConnectionString);
+            var ctx = SqlServerValidationToolkitContext.Create();
 
             var wrongV = (from wV in ctx.WrongValues
                           where wV.Validation_ValidationRule.Column.Name == "Weight"
@@ -107,7 +119,7 @@ namespace SqlServerValidationToolkit.UnitTests
         /// <returns>Baby-Id</returns>
         private static long ApplyCorrection(Expression<Func<WrongValue, bool>> pred, Action<TestDatabaseContext, Baby> correction)
         {
-            var ctx = new SqlServerValidationToolkitContext(Settings.Default.ConnectionString);
+            var ctx = SqlServerValidationToolkitContext.Create();
 
             foreach (var wv in ctx.WrongValues)
             {
@@ -159,7 +171,7 @@ namespace SqlServerValidationToolkit.UnitTests
         }
         private static void AssertWrongValueExists(long babyId, string columnName)
         {
-            var ctx = new SqlServerValidationToolkitContext(Settings.Default.ConnectionString);
+            var ctx = SqlServerValidationToolkitContext.Create();
             Assert.IsTrue(
                 ctx.WrongValues.Any(wrongValue =>
                     wrongValue.Validation_ValidationRule.Column.Name == columnName &&
@@ -168,7 +180,7 @@ namespace SqlServerValidationToolkit.UnitTests
 
         private static void AssertWrongValueIsCorrected(long babyId, string columnName)
         {
-            var ctx = new SqlServerValidationToolkitContext(Settings.Default.ConnectionString);
+            var ctx = SqlServerValidationToolkitContext.Create();
             Assert.IsFalse(
                 ctx.WrongValues.Any(wrongValue =>
                     wrongValue.Validation_ValidationRule.Column.Name == columnName &&
@@ -178,7 +190,7 @@ namespace SqlServerValidationToolkit.UnitTests
         [TestMethod]
         public void CheckLikeExpression()
         {
-            var ctx = new SqlServerValidationToolkitContext(Settings.Default.ConnectionString);
+            var ctx = SqlServerValidationToolkitContext.Create();
 
             Assert.IsTrue(WrongEmailEntriesExisting(ctx));
         }
@@ -205,7 +217,7 @@ namespace SqlServerValidationToolkit.UnitTests
                     wrongValue.Validation_ValidationRule.Column.Name == "Email",
                 (ctxB, baby) =>
                 {
-                    using (var ctx = new SqlServerValidationToolkitContext(Settings.Default.ConnectionString))
+                    using (var ctx = SqlServerValidationToolkitContext.Create())
                     {
                         var emailRule = ctx.ValidationRules.OfType<LikeRule>().Single(vr => vr.Column.Name == "Email");
                         emailRule.LikeExpression = baby.Email;
@@ -220,7 +232,7 @@ namespace SqlServerValidationToolkit.UnitTests
         [TestMethod]
         public void CheckCompareColumn()
         {
-            var ctx = new SqlServerValidationToolkitContext(Settings.Default.ConnectionString);
+            var ctx = SqlServerValidationToolkitContext.Create();
 
             Assert.IsTrue(WrongHospitalEntryEntriesExisting(ctx));
         }
@@ -262,7 +274,7 @@ namespace SqlServerValidationToolkit.UnitTests
         public void CorrectEntry_SetItToNull_NullIsNotAllowed_Compare()
         {
             string columnName = "Hospital_entry";
-            using (var ctx = new SqlServerValidationToolkitContext(Settings.Default.ConnectionString))
+            using (var ctx = SqlServerValidationToolkitContext.Create())
             {
                 var column = ctx.Columns.Single(c => c.Name == columnName);
                 var vr = column.ValidationRules.Single();
@@ -278,7 +290,7 @@ namespace SqlServerValidationToolkit.UnitTests
                 var baby = ctx.Babies.First(b => b.Hospital_entry == null);
                 babyId = baby.BabyID;
             }
-            using (var ctx = new SqlServerValidationToolkitContext(Settings.Default.ConnectionString))
+            using (var ctx = SqlServerValidationToolkitContext.Create())
             {
                 bool babyEntryExisted = WrongBabyEntryExists(columnName, babyId, ctx);
                 ctx.Validate();
@@ -300,7 +312,7 @@ namespace SqlServerValidationToolkit.UnitTests
         public void CorrectEntry_SetItToNull_NullIsNotAllowed_Like()
         {
             string columnName = "Email";
-            using (var ctx = new SqlServerValidationToolkitContext(Settings.Default.ConnectionString))
+            using (var ctx = SqlServerValidationToolkitContext.Create())
             {
                 var column = ctx.Columns.Single(c => c.Name == columnName);
                 var vr = column.ValidationRules.Single();
@@ -318,7 +330,7 @@ namespace SqlServerValidationToolkit.UnitTests
                 ctx.SaveChanges();
                 babyId = baby.BabyID;
             }
-            using (var ctx = new SqlServerValidationToolkitContext(Settings.Default.ConnectionString))
+            using (var ctx = SqlServerValidationToolkitContext.Create())
             {
                 bool babyEntryExisted = WrongBabyEntryExists(columnName, babyId, ctx);
                 ctx.Validate();
@@ -332,7 +344,7 @@ namespace SqlServerValidationToolkit.UnitTests
         public void SetOnlyMaxInMinMaxRule()
         {
 
-            using (var ctx = new SqlServerValidationToolkitContext(Settings.Default.ConnectionString))
+            using (var ctx = SqlServerValidationToolkitContext.Create())
             {
                 int wrongValuesCountBefore = ctx.WrongValues.Count();
 
@@ -352,7 +364,7 @@ namespace SqlServerValidationToolkit.UnitTests
         [TestMethod]
         public void CheckCustomQuery()
         {
-            var ctx = new SqlServerValidationToolkitContext(Settings.Default.ConnectionString);
+            var ctx = SqlServerValidationToolkitContext.Create();
 
             Assert.IsTrue(WrongBirthDateEntriesExisting(ctx));
         }

@@ -32,15 +32,18 @@ namespace SqlServerValidationToolkit.UnitTests
         public Initializer()
         {
             string databaseName;
-            using (var ctx = new SqlServerValidationToolkitContext(Settings.Default.ConnectionString))
+            using (var ctx = SqlServerValidationToolkitContext.Create(Settings.Default.ConnectionString))
             {
                 databaseName = ctx.Database.Connection.Database;
             }
 
             string deleteQueryFormat = @"
-USE [master]
-ALTER DATABASE [{0}] SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
-DROP DATABASE [{0}] ;";
+            USE [master]
+            
+            
+                ALTER DATABASE [{0}] SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+                DROP DATABASE [{0}] ;";
+
             string deleteQuery = string.Format(deleteQueryFormat, databaseName);
             string encryptedConnectionString;
 
@@ -53,7 +56,7 @@ DROP DATABASE [{0}] ;";
             initializer.ExecuteSplitByGo(deleteQuery);
 
             System.Data.Entity.Database.SetInitializer<SqlServerValidationToolkitContext>(null);
-            using (var ctx = new SqlServerValidationToolkitContext(Settings.Default.ConnectionString))
+            using (var ctx = SqlServerValidationToolkitContext.Create(Settings.Default.ConnectionString))
             {
                 ctx.Database.Create();
             }
@@ -61,7 +64,7 @@ DROP DATABASE [{0}] ;";
             ValidationRuleFactory = new ValidationRuleFactory();
 
 
-            initializer.InstallValidationToolkit();
+            //initializer.InstallValidationToolkit();
 
             System.Data.Entity.Database.SetInitializer<TestDatabaseContext>(null);
 
@@ -70,21 +73,6 @@ DROP DATABASE [{0}] ;";
 
         private ValidationRuleFactory ValidationRuleFactory { get; set; }
 
-        //public static void InitializeDatabase()
-        //{
-        //    DatabaseInitializer initializer = new DatabaseInitializer(Settings.Default.ConnectionString);
-
-        //    //initializer.ExecuteSplitByGo(Resources.DropAll);
-
-        //    initializer.InstallValidationToolkit();
-
-        //    //initializer.ExecuteSplitByGo(Resources.CREATE_and_fill_Validation_Test_Database);
-        //}
-
-        //public static void AddValidation(SqlServerValidationToolkitContext ctx)
-        //{
-        //    _initializer.AddValidationInt(ctx);
-        //}
 
         public void AddValidation(SqlServerValidationToolkitContext ctx)
         {
@@ -96,6 +84,7 @@ DROP DATABASE [{0}] ;";
             ctx.Databases.Add(database);
 
             ValidationRuleFactory.LoadErrorTypes(ctx);
+
             var source = new Source()
             {
                 DatabaseName = ctx.Database.Connection.Database,

@@ -96,9 +96,26 @@ namespace SqlServerValidationToolkit.Model.Context
             
         }
 
+        public void Validate(SqlServerValidationToolkitContext ctxSqlServer)
+        {
+
+            foreach (var source in Sources)
+            {
+                source.Validate(ctxSqlServer);
+            }
+            SaveChanges();
+        }
+
         public void Validate()
         {
-            this.Database.ExecuteSqlCommand("EXECUTE [dbo].[Validation_USP_ExecuteValidation]");
+            //this.Database.ExecuteSqlCommand("EXECUTE [dbo].[Validation_USP_ExecuteValidation]");
+
+            foreach (var source in Sources)
+            {
+                source.Validate(this);
+            }
+            SaveChanges();
+
         }
     }
 }
