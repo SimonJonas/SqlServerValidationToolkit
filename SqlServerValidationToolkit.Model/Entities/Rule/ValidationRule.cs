@@ -118,7 +118,11 @@ namespace SqlServerValidationToolkit.Model.Entities.Rule
         public void Validate(SqlServerValidationToolkitContext ctx)
         {
             var connection = ctx.Database.Connection;
-            connection.Open();
+
+            if (connection.State==System.Data.ConnectionState.Closed)
+            {
+                connection.Open();
+            }
             string q = CompiledQuery;
             var c = connection.CreateCommand();
             c.CommandText = q;
