@@ -16,7 +16,7 @@ namespace SqlServerValidationToolkit.UnitTests
         [TestMethod]
         public void TestCustomConnectionString()
         {
-            using (SqlServerValidationToolkitContext entities = new SqlServerValidationToolkitContext("data source=localhost;initial catalog=ValidationToolkit_UnitTest;integrated security=True"))
+            using (SqlServerValidationToolkitContext entities = SqlServerValidationToolkitContext.Create("data source=localhost;initial catalog=ValidationToolkit_UnitTest;integrated security=True"))
             {
                 entities.Columns.ToList().ForEach(c => Console.WriteLine(c.Column_id));
             }

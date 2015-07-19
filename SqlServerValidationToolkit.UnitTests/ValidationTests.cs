@@ -59,7 +59,7 @@ namespace SqlServerValidationToolkit.UnitTests
 
             Assert.IsTrue(WrongLengthEntriesExisting(ctx));
 
-            var ctxBabies = new TestDatabaseContext(Settings.Default.ConnectionString);
+            var ctxBabies = TestDatabaseContext.Create(Settings.Default.ConnectionString);
 
             CorrectLength(ctxBabies);
             ctx.Validate();
@@ -129,12 +129,13 @@ namespace SqlServerValidationToolkit.UnitTests
             var firstWrongWeightBabyId = ctx.WrongValues.Where(pred).Select(wrongValue => wrongValue.Id).First();
 
 
-            var ctxBabies = new TestDatabaseContext(Settings.Default.ConnectionString);
+            var ctxBabies = TestDatabaseContext.Create(Settings.Default.ConnectionString);
             var babyWithWrongWeight = ctxBabies.Babies.Find(firstWrongWeightBabyId);
 
             correction(ctxBabies, babyWithWrongWeight);
 
-            ctx.Validate();
+            ctx.Validate(SqlServerValidationToolkitContext.Create(Settings.Default.ConnectionString));
+            ctx.SaveChanges();
             return firstWrongWeightBabyId;
         }
 
@@ -285,7 +286,7 @@ namespace SqlServerValidationToolkit.UnitTests
 
             }
             int babyId;
-            using (var ctx = new TestDatabaseContext(Settings.Default.ConnectionString))
+            using (var ctx = TestDatabaseContext.Create(Settings.Default.ConnectionString))
             {
                 var baby = ctx.Babies.First(b => b.Hospital_entry == null);
                 babyId = baby.BabyID;
@@ -323,7 +324,7 @@ namespace SqlServerValidationToolkit.UnitTests
 
             }
             int babyId;
-            using (var ctx = new TestDatabaseContext(Settings.Default.ConnectionString))
+            using (var ctx = TestDatabaseContext.Create(Settings.Default.ConnectionString))
             {
                 var baby = ctx.Babies.First(b => b.Email != null);
                 baby.Email = null;
