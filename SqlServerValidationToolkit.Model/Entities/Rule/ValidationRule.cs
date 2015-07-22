@@ -175,7 +175,10 @@ namespace SqlServerValidationToolkit.Model.Entities.Rule
 
         private void SetAllWrongValuesToCorrected(System.Data.Common.DbConnection connection)
         {
-            throw new NotImplementedException();
+            foreach (var wrongValue in Validation_WrongValue)
+            {
+                wrongValue.Is_Corrected = true;
+            }
         }
 
 
