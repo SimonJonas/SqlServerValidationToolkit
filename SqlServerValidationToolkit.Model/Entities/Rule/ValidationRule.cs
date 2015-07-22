@@ -123,33 +123,24 @@ namespace SqlServerValidationToolkit.Model.Entities.Rule
             {
                 connection.Open();
             }
-            string q = CompiledQuery;
-            var c = connection.CreateCommand();
-            c.CommandText = q;
+
+            
+
             try
             {
-                var reader = c.ExecuteReader();
-
-
-                while (reader.Read())
+                if (!IsActive)
                 {
-                    //the query returns the id of the invalid value and the errortype-id
-                    int invalidValueId = reader.GetInt32(0);
-
-                    int errorTypeId = reader.GetInt32(1);
-
-                    WrongValue wrongValue = new WrongValue()
-                    {
-                        ErrorType_fk = errorTypeId,
-                        Id = invalidValueId,
-                        Value = GetValue(invalidValueId, ctx)
-                    };
-                    Validation_WrongValue.Add(wrongValue);
+                    SetAllWrongValuesToCorrected(connection);
                 }
+                else
+                {
+                    UpdateWrongValues(connection);
+                }
+                
             }
             catch (Exception e)
             {
-                throw new Exception(string.Format("Exception occurred while executing '{0}': {1}", q, e.GetBaseException().Message));
+                throw new Exception(string.Format("Exception occurred while executing '{0}': {1}", CompiledQuery, e.GetBaseException().Message));
             }
             finally
             {
@@ -157,11 +148,41 @@ namespace SqlServerValidationToolkit.Model.Entities.Rule
             }
         }
 
+        private void UpdateWrongValues(System.Data.Common.DbConnection connection)
+        {
+            string q = CompiledQuery;
+            var c = connection.CreateCommand();
+            c.CommandText = q;
+            var reader = c.ExecuteReader();
+
+
+            while (reader.Read())
+            {
+                //the query returns the id of the invalid value and the errortype-id
+                int invalidValueId = reader.GetInt32(0);
+
+                int errorTypeId = reader.GetInt32(1);
+
+                WrongValue wrongValue = new WrongValue()
+                {
+                    ErrorType_fk = errorTypeId,
+                    Id = invalidValueId,
+                    Value = GetValue(invalidValueId, connection)
+                };
+                Validation_WrongValue.Add(wrongValue);
+            }
+        }
+
+        private void SetAllWrongValuesToCorrected(System.Data.Common.DbConnection connection)
+        {
+            throw new NotImplementedException();
+        }
+
 
         /// <summary>
         /// Returns the value of the column for the id
         /// </summary>
-        private string GetValue(int invalidValueId, SqlServerValidationToolkitContext ctx)
+        private string GetValue(int invalidValueId, System.Data.Common.DbConnection connection)
         {
             string selectValueSqlFormat = "SELECT [{0}] FROM [{1}] WHERE [{2}]={3}";
             string selectValueSql = string.Format(selectValueSqlFormat,
@@ -169,7 +190,7 @@ namespace SqlServerValidationToolkit.Model.Entities.Rule
                 Column.Source.Name,
                 Column.Source.IdColumnName,
                 invalidValueId);
-            var c = ctx.Database.Connection.CreateCommand();
+            var c = connection.CreateCommand();
             c.CommandText = selectValueSql;
             var result = c.ExecuteScalar();
             return result.ToString();
