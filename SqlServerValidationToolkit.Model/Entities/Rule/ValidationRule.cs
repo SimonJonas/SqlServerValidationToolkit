@@ -163,13 +163,28 @@ namespace SqlServerValidationToolkit.Model.Entities.Rule
 
                 int errorTypeId = reader.GetInt32(1);
 
-                WrongValue wrongValue = new WrongValue()
+                WrongValue existingWrongValue = Validation_WrongValue.SingleOrDefault(wv=>
+                    wv.ErrorType_fk==errorTypeId 
+                    &&
+                    wv.Id == invalidValueId
+                    );
+
+                string value = GetValue(invalidValueId, connection);
+
+                if (existingWrongValue==null)
                 {
-                    ErrorType_fk = errorTypeId,
-                    Id = invalidValueId,
-                    Value = GetValue(invalidValueId, connection)
-                };
-                Validation_WrongValue.Add(wrongValue);
+                    WrongValue wrongValue = new WrongValue()
+                    {
+                        ErrorType_fk = errorTypeId,
+                        Id = invalidValueId,
+                        Value = value
+                    };
+                    Validation_WrongValue.Add(wrongValue);
+                }
+                else
+                {
+                    existingWrongValue.Value = value;
+                }
             }
         }
 
