@@ -106,16 +106,10 @@ namespace SqlServerValidationToolkit.Model.Context
             SaveChanges();
         }
 
-        public void Validate()
-        {
-            //this.Database.ExecuteSqlCommand("EXECUTE [dbo].[Validation_USP_ExecuteValidation]");
+        //public void Validate()
+        //{
+        //    this.Database.ExecuteSqlCommand("EXECUTE [dbo].[Validation_USP_ExecuteValidation]");
 
-            foreach (var source in Sources)
-            {
-                source.Validate(this);
-            }
-            SaveChanges();
-
-        }
+        //}
     }
 }

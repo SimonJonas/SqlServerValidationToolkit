@@ -62,7 +62,7 @@ namespace SqlServerValidationToolkit.UnitTests
             var ctxBabies = TestDatabaseContext.Create(Settings.Default.ConnectionString);
 
             CorrectLength(ctxBabies);
-            ctx.Validate();
+            ctx.Validate(SqlServerValidationToolkitContext.Create(Settings.Default.ConnectionString));
 
             Assert.IsFalse(WrongLengthEntriesExisting(ctx));
         }
@@ -99,7 +99,7 @@ namespace SqlServerValidationToolkit.UnitTests
             Console.WriteLine("ignore Errortype {0} on column {1} for Baby {2}", wrongV.ErrorType_fk, wrongV.Validation_ValidationRule.Column.Column_id, wrongV.Id);
             ctx.SaveChanges();
 
-            ctx.Validate();
+            ctx.Validate(SqlServerValidationToolkitContext.Create(Settings.Default.ConnectionString));
 
             var newWrongValue = ctx.WrongValues.Single(wrongValue =>
                     wrongValue.Validation_ValidationRule.Column.Name == "Weight" &&
@@ -294,7 +294,7 @@ namespace SqlServerValidationToolkit.UnitTests
             using (var ctx = SqlServerValidationToolkitContext.Create())
             {
                 bool babyEntryExisted = WrongBabyEntryExists(columnName, babyId, ctx);
-                ctx.Validate();
+                ctx.Validate(SqlServerValidationToolkitContext.Create(Settings.Default.ConnectionString));
                 bool babyEntryExists = WrongBabyEntryExists(columnName, babyId, ctx);
                 Assert.IsFalse(babyEntryExisted);
                 Assert.IsTrue(babyEntryExists);
@@ -334,7 +334,7 @@ namespace SqlServerValidationToolkit.UnitTests
             using (var ctx = SqlServerValidationToolkitContext.Create())
             {
                 bool babyEntryExisted = WrongBabyEntryExists(columnName, babyId, ctx);
-                ctx.Validate();
+                ctx.Validate(SqlServerValidationToolkitContext.Create(Settings.Default.ConnectionString));
                 bool babyEntryExists = WrongBabyEntryExists(columnName, babyId, ctx);
                 Assert.IsFalse(babyEntryExisted);
                 Assert.IsTrue(babyEntryExists);
@@ -354,7 +354,7 @@ namespace SqlServerValidationToolkit.UnitTests
                 rule.Minimum = null;
                 rule.CompiledQuery = rule.Query;
                 ctx.SaveChanges();
-                ctx.Validate();
+                ctx.Validate(SqlServerValidationToolkitContext.Create(Settings.Default.ConnectionString));
 
                 int wrongValuesCountAfter = ctx.WrongValues.Count();
 

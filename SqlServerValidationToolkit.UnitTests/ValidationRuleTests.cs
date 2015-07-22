@@ -32,13 +32,13 @@ namespace SqlServerValidationToolkit.UnitTests
             {
                 initializer.AddValidation(ctx);
 
-                ctx.Validate();
+                ctx.Validate(SqlServerValidationToolkitContext.Create(Settings.Default.ConnectionString));
 
                 ctx.ValidationRules.ToList().ForEach(vr => vr.IsActive = false);
 
                 ctx.SaveChanges();
 
-                ctx.Validate();
+                ctx.Validate(SqlServerValidationToolkitContext.Create(Settings.Default.ConnectionString));
 
                 Assert.IsTrue(ctx.WrongValues.All(wv => wv.Is_Corrected));
             }
