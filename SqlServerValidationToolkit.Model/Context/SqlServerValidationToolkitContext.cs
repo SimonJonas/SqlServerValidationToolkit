@@ -104,6 +104,7 @@ namespace SqlServerValidationToolkit.Model.Context
                 source.Validate(ctxSqlServer);
             }
             SaveChanges();
+            this.Database.ExecuteSqlCommand("DELETE FROM Validation_WrongValue WHERE Is_Corrected=1");
         }
 
         //public void Validate()

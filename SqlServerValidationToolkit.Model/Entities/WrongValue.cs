@@ -42,5 +42,9 @@ namespace SqlServerValidationToolkit.Model.Entities
                 return string.Format(format, Errortype.Description);
             }
         }
+        public override string ToString()
+        {
+            return string.Format("{0}: ErrorType: {1}, ValidationRule_fk: {2}",WrongValue_id,Errortype.Description,ValidationRule_fk);
+        }
     }
 }

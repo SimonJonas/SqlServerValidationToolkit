@@ -196,11 +196,6 @@ namespace SqlServerValidationToolkit.Model.Entities.Rule
             foreach (var wvCorrected in correctedWrongValues)
             {
                 wvCorrected.Is_Corrected = true;
-                var wvCorrectedAttached = ctx.WrongValues.SingleOrDefault(wv => wv.Id == wvCorrected.Id && wv.ErrorType_fk == wvCorrected.ErrorType_fk);
-                if (wvCorrectedAttached!=null)
-                {
-                    ctx.WrongValues.Remove(wvCorrectedAttached);
-                }
             }
         }
 

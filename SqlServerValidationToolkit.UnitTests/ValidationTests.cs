@@ -182,10 +182,19 @@ namespace SqlServerValidationToolkit.UnitTests
         private static void AssertWrongValueIsCorrected(long babyId, string columnName)
         {
             var ctx = SqlServerValidationToolkitContext.Create();
-            Assert.IsFalse(
-                ctx.WrongValues.Any(wrongValue =>
+
+            var uncorrectedWrongValues = ctx.WrongValues.Where(wrongValue =>
                     wrongValue.Validation_ValidationRule.Column.Name == columnName &&
-                    wrongValue.Id == babyId));
+                    wrongValue.Id == babyId);
+
+            string n = "";
+            foreach (var wv in uncorrectedWrongValues)
+            {
+                n += wv;
+            }
+
+            Assert.IsFalse(
+                uncorrectedWrongValues.Any(),"uncorrected wrong values exist: "+n);
         }
 
         [TestMethod]

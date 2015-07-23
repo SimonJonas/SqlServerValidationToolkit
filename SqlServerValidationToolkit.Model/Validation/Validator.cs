@@ -101,16 +101,10 @@ namespace SqlServerValidationToolkit.Model.Validation
 
         public void ExecuteValidation()
         {
-            var sources = _ctxLocalDb.Sources.ToList();
             using (var ctxSqlServer = SqlServerValidationToolkitContext.Create(_connectionStringSqlServer))
             {
-                foreach(var source in sources)
-                {
-                    source.Validate(ctxSqlServer);
-                }
+                _ctxLocalDb.Validate(ctxSqlServer);
             }
-            //Save the updated WrongValue-entries
-            _ctxLocalDb.SaveChanges();
         }
 
         public IEnumerable<ErrorType> ErrorTypes
