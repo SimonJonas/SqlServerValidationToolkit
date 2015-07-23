@@ -27,6 +27,8 @@ namespace SqlServerValidationToolkit.Model.Entities
         [Key]
         public int ErrorType_id { get; set; }
 
+        public int ErrorTypeIdForValidationQueries { get; set; }
+
         [MaxLength(100)]
         public string Check_Type { get; set; }
 

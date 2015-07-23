@@ -71,6 +71,13 @@ namespace SqlServerValidationToolkit.Model.DatabaseInitialization
                     new ErrorType("Like","not like"),
                 });
             ctx.SaveChanges();
+
+            //set id for validation queries to the id that is automatically set
+            foreach (var errorType in ctx.Errortypes)
+            {
+                errorType.ErrorTypeIdForValidationQueries = errorType.ErrorType_id;
+            }
+            ctx.SaveChanges();
         }
 
 
