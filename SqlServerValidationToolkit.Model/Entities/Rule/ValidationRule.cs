@@ -1,4 +1,5 @@
-﻿using SqlServerValidationToolkit.Model.Context;
+﻿using log4net;
+using SqlServerValidationToolkit.Model.Context;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -12,6 +13,8 @@ namespace SqlServerValidationToolkit.Model.Entities.Rule
     [Table("Validation_ValidationRule")]
     public abstract class ValidationRule
     {
+        ILog _log = LogManager.GetLogger(typeof(ValidationRule));
+
         public ValidationRule()
         {
             this.Validation_WrongValue = new HashSet<WrongValue>();
@@ -134,7 +137,7 @@ namespace SqlServerValidationToolkit.Model.Entities.Rule
                 }
                 else
                 {
-                    UpdateWrongValues(connection);
+                    UpdateWrongValues(connection, ctx);
                 }
                 
             }
@@ -148,13 +151,14 @@ namespace SqlServerValidationToolkit.Model.Entities.Rule
             }
         }
 
-        private void UpdateWrongValues(System.Data.Common.DbConnection connection)
+        private void UpdateWrongValues(System.Data.Common.DbConnection connection, SqlServerValidationToolkitContext ctx)
         {
             string q = CompiledQuery;
             var c = connection.CreateCommand();
             c.CommandText = q;
             var reader = c.ExecuteReader();
 
+            List<WrongValue> correctedWrongValues = Validation_WrongValue.ToList();
 
             while (reader.Read())
             {
@@ -184,6 +188,18 @@ namespace SqlServerValidationToolkit.Model.Entities.Rule
                 else
                 {
                     existingWrongValue.Value = value;
+                    correctedWrongValues.Remove(existingWrongValue);
+                }
+            }
+
+            _log.Info(string.Format("{0} wrong values are corrected", correctedWrongValues.Count));
+            foreach (var wvCorrected in correctedWrongValues)
+            {
+                wvCorrected.Is_Corrected = true;
+                var wvCorrectedAttached = ctx.WrongValues.SingleOrDefault(wv => wv.Id == wvCorrected.Id && wv.ErrorType_fk == wvCorrected.ErrorType_fk);
+                if (wvCorrectedAttached!=null)
+                {
+                    ctx.WrongValues.Remove(wvCorrectedAttached);
                 }
             }
         }
