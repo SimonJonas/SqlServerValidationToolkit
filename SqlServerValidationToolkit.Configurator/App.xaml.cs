@@ -1,4 +1,5 @@
-﻿using SqlServerValidationToolkit.Configurator.Properties;
+﻿using log4net;
+using SqlServerValidationToolkit.Configurator.Properties;
 using SqlServerValidationToolkit.Model.Context;
 using SqlServerValidationToolkit.Model.DatabaseInitialization;
 using SqlServerValidationToolkit.Model.Entities;
@@ -17,6 +18,8 @@ namespace SqlServerValidationToolkit.Configurator
     /// </summary>
     public partial class App : Application
     {
+        ILog _log = LogManager.GetLogger(typeof(App));
+
         protected override void OnStartup(StartupEventArgs e)
         {
             using (var ctx = SqlServerValidationToolkitContext.Create())
@@ -31,6 +34,7 @@ namespace SqlServerValidationToolkit.Configurator
                     },
                     (ex) =>
                     {
+                        _log.Error("Exception occurred while updating the connection string", ex);
                         MessageBox.Show(string.Format("An error occurred: '{0}'" + Environment.NewLine + "The application will shut down. Please start it again and select another database.", ex.Message), "Validation toolkit", MessageBoxButton.OK, MessageBoxImage.Error);
                         App.Current.Shutdown();
                     }
@@ -46,6 +50,7 @@ namespace SqlServerValidationToolkit.Configurator
         private void Application_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
             var baseException = e.Exception.GetBaseException();
+            _log.Error("Exception occurred", e.Exception);
             string message = string.Format("{0}" + Environment.NewLine + "at {1}", baseException.Message, baseException.StackTrace);
             MessageBox.Show(message, "Unhandled Exception occured");
             e.Handled = true;
