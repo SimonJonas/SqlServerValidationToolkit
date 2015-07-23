@@ -154,7 +154,7 @@ namespace SqlServerValidationToolkit.Configurator
             {
                 vm.ShowUpdateEntitesView();
             }
-            else if (CtrlKeyPressed(e, Key.V))
+            else if (CtrlKeyPressed(e, Key.E))
             {
                 vm.ExecuteValidation();
             }
