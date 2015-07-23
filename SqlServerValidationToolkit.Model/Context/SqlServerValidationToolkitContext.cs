@@ -52,6 +52,14 @@ namespace SqlServerValidationToolkit.Model.Context
             return ctx;
 
         }
+
+        public static DbConnection CreateConnection(string connectionString)
+        {
+            SqlConnectionFactory f = new SqlConnectionFactory();
+            var connection = f.CreateConnection(connectionString);
+            return connection;
+        }
+
         public static SqlServerValidationToolkitContext Create(string connectionString)
         {
 

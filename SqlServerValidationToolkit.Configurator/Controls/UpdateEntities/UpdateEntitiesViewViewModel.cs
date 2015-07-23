@@ -211,10 +211,8 @@ AND table_name = '{0}'";
 
         public void Init(string connectionString)
         {
-            using (var ctx = SqlServerValidationToolkitContext.Create(connectionString))
+            using (var connection = SqlServerValidationToolkitContext.CreateConnection(connectionString))
             {
-                var adapter = (IObjectContextAdapter)ctx;
-                var connection = ((EntityConnection)adapter.ObjectContext.Connection).StoreConnection;
                 Tables = GetTables(connection).OrderBy(t => t.Name).ToList();
             }
         }
