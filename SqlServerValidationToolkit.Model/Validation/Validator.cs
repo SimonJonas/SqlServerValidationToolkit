@@ -186,5 +186,9 @@ namespace SqlServerValidationToolkit.Model.Validation
                 }
             }
         }
+        public string GetConnectionString()
+        {
+            return _connectionStringSqlServer;
+        }
     }
 }

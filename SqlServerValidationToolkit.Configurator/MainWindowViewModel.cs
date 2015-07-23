@@ -146,7 +146,7 @@ namespace SqlServerValidationToolkit.Configurator
         public void ShowUpdateEntitesView()
         {
             var vm = new UpdateEntitiesViewViewModel(this);
-            vm.Init();
+            vm.Init(this._validator.GetConnectionString());
             Messenger.Default.Send(vm);
         }
 

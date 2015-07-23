@@ -20,6 +20,7 @@ using SqlServerValidationToolkit.Configurator.Controls.Columns;
 using System.Text.RegularExpressions;
 using SqlServerValidationToolkit.Model.Context;
 using SqlServerValidationToolkit.Model.Entities;
+using SqlServerValidationToolkit.Model.Validation;
 
 namespace SqlServerValidationToolkit.Configurator.Controls.UpdateEntities
 {
@@ -67,14 +68,16 @@ namespace SqlServerValidationToolkit.Configurator.Controls.UpdateEntities
 
         private void UpdateSources()
         {
-            using (var ctx = SqlServerValidationToolkitContext.Create(Settings.Default.DbConnectionString))
+            using (var ctx = SqlServerValidationToolkitContext.Create())
             {
+                ctx.Database.Connection.Open();
                 using (var scope = new TransactionScope(TransactionScopeOption.Required))
                 {
                     UpdateSources(ctx);
                     ctx.SaveChanges();
                     scope.Complete();
                 }
+                ctx.Database.Connection.Close();
             }
         }
 
@@ -89,8 +92,11 @@ namespace SqlServerValidationToolkit.Configurator.Controls.UpdateEntities
 
         private static Source GetSource(SqlServerValidationToolkitContext ctx, TableViewModel table)
         {
-            var existingSource = ctx.Sources
-                .Include((s) => s.Columns)
+            var db = ctx.Databases
+                .Include((d) => d.Sources)
+                .Include((d) => d.Sources.Select(s=>s.Columns)).Single();
+            var existingSource = db.Sources
+                
                 .SingleOrDefault(s => s.Name.Equals(table.Name));
             if (existingSource == null)
             {
@@ -101,7 +107,7 @@ namespace SqlServerValidationToolkit.Configurator.Controls.UpdateEntities
                     IdColumnName = pkColumnName
                 };
                 existingSource.SetName(ctx.Database.Connection.Database, table.Schema, table.Name);
-                ctx.Sources.Add(existingSource);
+                db.Sources.Add(existingSource);
 
             }
             return existingSource;
@@ -203,9 +209,9 @@ AND table_name = '{0}'";
             return sqlType;
         }
 
-        public void Init()
+        public void Init(string connectionString)
         {
-            using (var ctx = SqlServerValidationToolkitContext.Create(Settings.Default.DbConnectionString))
+            using (var ctx = SqlServerValidationToolkitContext.Create(connectionString))
             {
                 var adapter = (IObjectContextAdapter)ctx;
                 var connection = ((EntityConnection)adapter.ObjectContext.Connection).StoreConnection;
