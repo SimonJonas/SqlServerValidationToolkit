@@ -45,14 +45,16 @@ namespace SqlServerValidationToolkit.Configurator.Controls.ValidationRules
 
             _rule.Errortypes.Add(et);
             RaisePropertyChanged(() => ErrorTypes);
-            RaisePropertyChanged(() => RuleContainsUnsavedErrorTypes);
+            RaisePropertyChanged(() => CustomeQueryRuleContainsErrorTypesWithNonUniqueIds);
         }
 
-        public bool RuleContainsUnsavedErrorTypes
+        public bool CustomeQueryRuleContainsErrorTypesWithNonUniqueIds
         {
             get
             {
-                return _rule.Errortypes.Any(et => et.ErrorType_id == 0);
+                //TODO: Implement
+                return false;
+                //return _rule.Errortypes.Any(et => et.ErrorType_id == 0);
             }
         }
 
@@ -61,7 +63,7 @@ namespace SqlServerValidationToolkit.Configurator.Controls.ValidationRules
             _rule.Errortypes.Remove(SelectedErrorType);
             //Delete errorType
             RaisePropertyChanged(() => ErrorTypes);
-            RaisePropertyChanged(() => RuleContainsUnsavedErrorTypes);
+            RaisePropertyChanged(() => CustomeQueryRuleContainsErrorTypesWithNonUniqueIds);
         }
 
         private ErrorType _selectedErrorType;

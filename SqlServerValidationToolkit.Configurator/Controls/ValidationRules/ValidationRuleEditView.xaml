@@ -79,7 +79,7 @@
                           AutoGenerateColumns="False"
                           CanUserAddRows="False">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="Id" Binding="{Binding Path=ErrorType_id, Mode=OneWay}" IsReadOnly="True" />
+                                <DataGridTextColumn Header="Id" Binding="{Binding Path=ErrorTypeIdForValidationQueries}" />
                                 <DataGridTextColumn Header="Errortext" Binding="{Binding Path=Description}" />
 
                             </DataGrid.Columns>
@@ -95,8 +95,8 @@
                         <TextBlock Grid.Row="2" 
                                    Foreground="Red"
                                    TextWrapping="Wrap"
-                                   Visibility="{Binding Path=RuleContainsUnsavedErrorTypes, Converter={StaticResource ResourceKey=BoolToVis}}">
-                        The rule contains unsaved errortypes. After saving, the primary key of each errortype is set and can be used in the query
+                                   Visibility="{Binding Path=CustomeQueryRuleContainsErrorTypesWithNonUniqueIds, Converter={StaticResource ResourceKey=BoolToVis}}">
+                        The rule contains errortypes with id's that are used by another errorType. Please change the id to a unique value.
                         </TextBlock>
                     </Grid>
                 </Expander>
