@@ -165,5 +165,10 @@ namespace SqlServerValidationToolkit.Configurator.Controls.ValidationRules
                 return aggregatedValidationResult;
             }
         }
+
+        internal void NotifyErrorTypeChanged()
+        {
+            RaisePropertyChanged(() => CustomeQueryRuleContainsErrorTypesWithNonUniqueIds);
+        }
     }
 }

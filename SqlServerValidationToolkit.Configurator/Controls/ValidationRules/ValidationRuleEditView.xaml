@@ -77,7 +77,8 @@
                         </Grid.RowDefinitions>
                         <DataGrid ItemsSource="{Binding Path=ErrorTypes}" SelectedItem="{Binding Path=SelectedErrorType}" 
                           AutoGenerateColumns="False"
-                          CanUserAddRows="False">
+                          CanUserAddRows="False" RowEditEnding="DataGrid_RowEditEnding"
+                         >
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Id" Binding="{Binding Path=ErrorTypeIdForValidationQueries}" />
                                 <DataGridTextColumn Header="Errortext" Binding="{Binding Path=Description}" />

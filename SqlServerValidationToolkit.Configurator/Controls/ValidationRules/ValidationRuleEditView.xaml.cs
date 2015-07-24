@@ -44,5 +44,11 @@ namespace SqlServerValidationToolkit.Configurator.Controls.ValidationRules
                 MessageBox.Show(query);
             }
         }
+
+        private void DataGrid_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
+        {
+            var vm = DataContext as ValidationRuleEditViewViewModel;
+            vm.NotifyErrorTypeChanged();
+        }
     }
 }
