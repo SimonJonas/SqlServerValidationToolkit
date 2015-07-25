@@ -1,4 +1,5 @@
-﻿using SqlServerValidationToolkit.Model.Entities.Rule;
+﻿using SqlServerValidationToolkit.Model.Context;
+using SqlServerValidationToolkit.Model.Entities.Rule;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,8 +14,8 @@ namespace SqlServerValidationToolkit.Configurator.Controls.ValidationRules
 
         private CustomQueryRule _rule;
 
-        public CustomQueryRuleEditViewViewModel(CustomQueryRule r)
-            : base(r)
+        public CustomQueryRuleEditViewViewModel(CustomQueryRule r, SqlServerValidationToolkitContext ctx)
+            : base(r,ctx)
         {
             _rule = r;
         }

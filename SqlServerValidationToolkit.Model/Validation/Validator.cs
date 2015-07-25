@@ -19,6 +19,14 @@ namespace SqlServerValidationToolkit.Model.Validation
         SqlServerValidationToolkitContext _ctxLocalDb;
         string _connectionStringSqlServer;
 
+        public SqlServerValidationToolkitContext CtxLocalDb
+        {
+            get
+            {
+                return _ctxLocalDb;
+            }
+        }
+
         public Validator()
         {
             string decryptedConnectionString = GetDecryptedConnectionString();

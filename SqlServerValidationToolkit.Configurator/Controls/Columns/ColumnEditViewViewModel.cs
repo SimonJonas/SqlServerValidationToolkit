@@ -35,7 +35,7 @@ namespace SqlServerValidationToolkit.Configurator.Controls.Columns
             }
         }
 
-        private static ValidationRuleEditViewViewModel GetViewModel(ValidationRule r)
+        private ValidationRuleEditViewViewModel GetViewModel(ValidationRule r)
         {
             ValidationRuleEditViewViewModel vm;
             if (r is MinMaxRule)
@@ -48,7 +48,7 @@ namespace SqlServerValidationToolkit.Configurator.Controls.Columns
             }
             else if (r is CustomQueryRule)
             {
-                vm = new CustomQueryRuleEditViewViewModel((CustomQueryRule)r);
+                vm = new CustomQueryRuleEditViewViewModel((CustomQueryRule)r, _validator.CtxLocalDb);
             }
             else if (r is LikeRule)
             {
@@ -95,7 +95,7 @@ namespace SqlServerValidationToolkit.Configurator.Controls.Columns
             }
             else if (r is CustomQueryRule)
             {
-                vm = new CustomQueryRuleEditViewViewModel((CustomQueryRule)r);
+                vm = new CustomQueryRuleEditViewViewModel((CustomQueryRule)r, _validator.CtxLocalDb);
             }
             else
             {

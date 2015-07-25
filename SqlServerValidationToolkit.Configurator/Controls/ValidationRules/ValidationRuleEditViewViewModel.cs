@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight.Command;
+using SqlServerValidationToolkit.Model.Context;
 using SqlServerValidationToolkit.Model.Entities;
 using SqlServerValidationToolkit.Model.Entities.Rule;
 using System;
@@ -13,9 +14,12 @@ namespace SqlServerValidationToolkit.Configurator.Controls.ValidationRules
 {
     public abstract class ValidationRuleEditViewViewModel : SelectableViewModel, IDataErrorInfo
     {
-        public ValidationRuleEditViewViewModel(ValidationRule rule)
+        private SqlServerValidationToolkitContext _ctx;
+
+        public ValidationRuleEditViewViewModel(ValidationRule rule, SqlServerValidationToolkitContext ctx=null)
         {
             _rule = rule;
+            _ctx = ctx;
 
             AddNewErrorTypeCommand = new RelayCommand(() => AddNewErrorType(), () => _rule is CustomQueryRule);
             DeleteSelectedErrorTypeCommand = new RelayCommand(() => DeleteSelectedErrorType(), () => _rule is CustomQueryRule);
@@ -52,9 +56,22 @@ namespace SqlServerValidationToolkit.Configurator.Controls.ValidationRules
         {
             get
             {
-                //TODO: Implement
+                //TODO: Check first the rule's errortypes without going to the database
+                if (_ctx==null)
+                {
+                    return false;
+                }
+                foreach (var etOfCurrentRule in Rule.Errortypes)
+                {
+                    var customErrorTypesWithSameCode = _ctx.Errortypes
+                        .Where(et => et.ErrorType_id!=etOfCurrentRule.ErrorType_id)
+                        .Where(et => et.ErrorTypeIdForValidationQueries == etOfCurrentRule.ErrorTypeIdForValidationQueries);
+                    if (customErrorTypesWithSameCode.Any())
+                    {
+                        return true;
+                    }
+                }
                 return false;
-                //return _rule.Errortypes.Any(et => et.ErrorType_id == 0);
             }
         }
 
