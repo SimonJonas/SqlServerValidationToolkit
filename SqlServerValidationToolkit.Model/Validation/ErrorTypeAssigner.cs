@@ -30,10 +30,14 @@ namespace SqlServerValidationToolkit.Model.Validation
         /// </summary>
         public void AddErrorTypes(ValidationRule rule, string checkType)
         {
-            foreach (var et in _errorTypes.Where(et => et.Check_Type == checkType))
+            bool dontAddErrorTypesByCheckType = rule is CustomQueryRule;
+            if (!dontAddErrorTypesByCheckType)
             {
-                rule.Errortypes.Add(et);
-                et.ValidationRules.Add(rule);
+                foreach (var et in _errorTypes.Where(et => et.Check_Type == checkType))
+                {
+                    rule.Errortypes.Add(et);
+                    et.ValidationRules.Add(rule);
+                }
             }
             var notEntered = _errorTypes.Single(et => et.Check_Type == "Common" && et.Description == "not entered");
             rule.Errortypes.Add(notEntered);
