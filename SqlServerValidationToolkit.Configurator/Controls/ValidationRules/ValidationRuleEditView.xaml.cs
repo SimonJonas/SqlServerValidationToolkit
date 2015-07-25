@@ -45,10 +45,21 @@ namespace SqlServerValidationToolkit.Configurator.Controls.ValidationRules
             }
         }
 
-        private void DataGrid_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
+        private bool isManualEditCommit;
+        private void HandleMainDataGridCellEditEnding(
+          object sender, DataGridCellEditEndingEventArgs e)
         {
-            var vm = DataContext as ValidationRuleEditViewViewModel;
-            vm.NotifyErrorTypeChanged();
+            if (!isManualEditCommit)
+            {
+                isManualEditCommit = true;
+                DataGrid grid = (DataGrid)sender;
+                grid.CommitEdit(DataGridEditingUnit.Row, true);
+
+                var vm = DataContext as ValidationRuleEditViewViewModel;
+                vm.NotifyErrorTypeChanged();
+
+                isManualEditCommit = false;
+            }
         }
     }
 }
