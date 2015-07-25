@@ -33,9 +33,11 @@ namespace SqlServerValidationToolkit.Model.Validation
             foreach (var et in _errorTypes.Where(et => et.Check_Type == checkType))
             {
                 rule.Errortypes.Add(et);
+                et.ValidationRules.Add(rule);
             }
             var notEntered = _errorTypes.Single(et => et.Check_Type == "Common" && et.Description == "not entered");
             rule.Errortypes.Add(notEntered);
+            notEntered.ValidationRules.Add(rule);
         }
         /// <summary>
         /// Adds the errortypes to the rule with it's checkType and  the notEntered-errorType
