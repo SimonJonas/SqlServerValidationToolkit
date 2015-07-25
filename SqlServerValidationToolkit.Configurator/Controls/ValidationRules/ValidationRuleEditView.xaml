@@ -81,7 +81,7 @@
                                   CellEditEnding="HandleMainDataGridCellEditEnding"
                          >
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="Id" Binding="{Binding Path=ErrorTypeIdForValidationQueries}" />
+                                <DataGridTextColumn Header="Code" Binding="{Binding Path=CodeForValidationQueries}" />
                                 <DataGridTextColumn Header="Errortext" Binding="{Binding Path=Description}" />
 
                             </DataGrid.Columns>
@@ -97,8 +97,8 @@
                         <TextBlock Grid.Row="2" 
                                    Foreground="Red"
                                    TextWrapping="Wrap"
-                                   Visibility="{Binding Path=CustomeQueryRuleContainsErrorTypesWithNonUniqueIds, Converter={StaticResource ResourceKey=BoolToVis}}">
-                        The rule contains errortypes with id's that are used by another errorType. Please change the id to a unique value.
+                                   Visibility="{Binding Path=CustomeQueryRuleContainsErrorTypesWithNonUniqueCodes, Converter={StaticResource ResourceKey=BoolToVis}}">
+                        The rule contains errortypes with codes that are used by another errorType. Please change the code to a unique value.
                         </TextBlock>
                     </Grid>
                 </Expander>

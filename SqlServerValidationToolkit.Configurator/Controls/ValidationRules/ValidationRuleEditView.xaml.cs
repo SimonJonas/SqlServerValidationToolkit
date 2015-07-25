@@ -56,7 +56,7 @@ namespace SqlServerValidationToolkit.Configurator.Controls.ValidationRules
                 grid.CommitEdit(DataGridEditingUnit.Row, true);
 
                 var vm = DataContext as ValidationRuleEditViewViewModel;
-                vm.NotifyErrorTypeChanged();
+                vm.NotifyNonUniqueCheck();
 
                 isManualEditCommit = false;
             }

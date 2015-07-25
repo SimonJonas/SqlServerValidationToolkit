@@ -49,10 +49,10 @@ namespace SqlServerValidationToolkit.Configurator.Controls.ValidationRules
 
             _rule.Errortypes.Add(et);
             RaisePropertyChanged(() => ErrorTypes);
-            RaisePropertyChanged(() => CustomeQueryRuleContainsErrorTypesWithNonUniqueIds);
+            NotifyNonUniqueCheck();
         }
 
-        public bool CustomeQueryRuleContainsErrorTypesWithNonUniqueIds
+        public bool CustomeQueryRuleContainsErrorTypesWithNonUniqueCodes
         {
             get
             {
@@ -64,7 +64,9 @@ namespace SqlServerValidationToolkit.Configurator.Controls.ValidationRules
                 foreach (var etOfCurrentRule in Rule.Errortypes)
                 {
                     var customErrorTypesWithSameCode = _ctx.Errortypes
+                        //not the same errorType
                         .Where(et => et.ErrorType_id!=etOfCurrentRule.ErrorType_id)
+                        //but the same code
                         .Where(et => et.CodeForValidationQueries == etOfCurrentRule.CodeForValidationQueries);
                     if (customErrorTypesWithSameCode.Any())
                     {
@@ -80,7 +82,7 @@ namespace SqlServerValidationToolkit.Configurator.Controls.ValidationRules
             _rule.Errortypes.Remove(SelectedErrorType);
             //Delete errorType
             RaisePropertyChanged(() => ErrorTypes);
-            RaisePropertyChanged(() => CustomeQueryRuleContainsErrorTypesWithNonUniqueIds);
+            NotifyNonUniqueCheck();
         }
 
         private ErrorType _selectedErrorType;
@@ -183,9 +185,9 @@ namespace SqlServerValidationToolkit.Configurator.Controls.ValidationRules
             }
         }
 
-        internal void NotifyErrorTypeChanged()
+        internal void NotifyNonUniqueCheck()
         {
-            RaisePropertyChanged(() => CustomeQueryRuleContainsErrorTypesWithNonUniqueIds);
+            RaisePropertyChanged(() => CustomeQueryRuleContainsErrorTypesWithNonUniqueCodes);
         }
     }
 }
