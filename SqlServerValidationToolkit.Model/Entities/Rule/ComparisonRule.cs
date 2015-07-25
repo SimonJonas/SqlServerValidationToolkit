@@ -38,19 +38,15 @@ namespace SqlServerValidationToolkit.Model.Entities.Rule
             get
             {
 
-                string selectErrorTypeIdFormatString = @"SELECT {0}, CASE {7} ELSE {1} END AS ErrorType_fk
+                string selectErrorTypeIdFormatString = @"SELECT {0}, CASE {7} ELSE '{1}' END AS ErrorType_fk
 FROM {2}
 WHERE NOT({3} {4} {5})
 {6}";
 
-                int errorTypeId;
-
-
-                errorTypeId = GetErrorTypeId();
-
+                string errorTypeCode = GetErrorTypeCode();
                 return string.Format(selectErrorTypeIdFormatString,
                     Column.Source.IdColumnName,
-                    errorTypeId,
+                    errorTypeCode,
                     Column.Source.Name,
                     GetColumnName(),
                     ComparisonSymbol,
@@ -61,127 +57,89 @@ WHERE NOT({3} {4} {5})
             }
         }
 
+        public const string GreaterThanErrorType = "GreaterThan";
+        public const string SmallerThanErrorTypeCode = "SmallerThan";
+        public const string GreaterThanOrEqualsErrorTypeCode = "GreaterThanOrEquals";
+        public const string SmallerThanOrEqualsErrorTypeCode = "SmallerThanOrEquals";
+
+        public const string LaterThanErrorTypeCode = "LaterThan";
+        public const string EarlierThanErrorTypeCode = "EarlierThan";
+        public const string LaterThanOrEqualsErrorTypeCode = "LaterThanOrEquals";
+        public const string EarlierThanOrEqualsErrorTypeCode = "EarlierThanOrEquals";
+
+        public const string NotEqualsErrorTypeCode = "NotEquals";
+        public const string EqualsErrorTypeCode = "Equals";
+        public const string AtTheSameTimeAsErrorTypeCode = "AtTheSameTimeAs";
+        
 
         /// <summary>
-        /// Returns the error type id depending on the comparison symbol
+        /// Returns the error type code depending on the comparison symbol
         /// </summary>
-        private int GetErrorTypeId()
+        private string GetErrorTypeCode()
         {
-            int errorTypeId;
+            string errorTypeCode;
             string comparisonSymbol = ComparisonSymbol.Trim();
 
-            if (comparisonSymbol == "<" )
+            if (comparisonSymbol == "<")
             {
                 if (Column.Type == "datetime")
                 {
-                    errorTypeId = GetLaterThanOrEqualsErrorTypeId();
+                    errorTypeCode = LaterThanOrEqualsErrorTypeCode;
                 }
                 else
                 {
-                    errorTypeId = GetGreaterThanOrEqualsErrorTypeId();
+                    errorTypeCode = GreaterThanOrEqualsErrorTypeCode;
                 }
             }
             else if (comparisonSymbol == "<=")
             {
                 if (Column.Type == "datetime")
                 {
-                    errorTypeId = GetLaterThanErrorTypeId();
+                    errorTypeCode = LaterThanErrorTypeCode;
                 }
                 else
                 {
-                    errorTypeId = GetGreaterThanErrorTypeId();
+                    errorTypeCode = GreaterThanErrorType;
                 }
             }
             else if (comparisonSymbol == ">")
             {
                 if (Column.Type == "datetime")
                 {
-                    errorTypeId = GetEarlierThanOrEqualsErrorTypeId();
+                    errorTypeCode = EarlierThanOrEqualsErrorTypeCode;
                 }
                 else
                 {
-                    errorTypeId = GetSmallerThanOrEqualsErrorTypeId();
+                    errorTypeCode = SmallerThanOrEqualsErrorTypeCode;
                 }
             }
             else if (comparisonSymbol == ">=")
             {
                 if (Column.Type == "datetime")
                 {
-                    errorTypeId = GetEarlierThanErrorTypeId();
+                    errorTypeCode = EarlierThanErrorTypeCode;
                 }
                 else
                 {
-                    errorTypeId = GetSmallerThanErrorTypeId();
+                    errorTypeCode = SmallerThanErrorTypeCode;
                 }
             }
             else if (comparisonSymbol == "=")
             {
-                errorTypeId = GetNotEqualsErrorTypeId();
+                errorTypeCode = NotEqualsErrorTypeCode;
             }
             else if (comparisonSymbol == "!=")
             {
-                errorTypeId = GetEqualsErrorTypeId();
+                errorTypeCode = EqualsErrorTypeCode;
             }
             else
             {
                 throw new ArgumentException(string.Format("Unknown comparison symbol: {0}", comparisonSymbol));
             }
-            return errorTypeId;
+            return errorTypeCode;
         }
 
-        private new int GetErrorTypeId(string description)
-        {
-            return base.GetErrorTypeId("Comparison", description);
-        }
 
-        private int GetGreaterThanErrorTypeId()
-        {
-            return GetErrorTypeId("greater than");
-        }
-        private int GetGreaterThanOrEqualsErrorTypeId()
-        {
-            return GetErrorTypeId("greater than or equals");
-        }
-
-        private int GetSmallerThanErrorTypeId()
-        {
-            return GetErrorTypeId("smaller than");
-        }
-        private int GetSmallerThanOrEqualsErrorTypeId()
-        {
-            return GetErrorTypeId("smaller than or equals");
-        }
-
-        private int GetLaterThanErrorTypeId()
-        {
-            return GetErrorTypeId("later than");
-        }
-        private int GetLaterThanOrEqualsErrorTypeId()
-        {
-            return GetErrorTypeId("later than or at the same time as");
-        }
-
-        private int GetEarlierThanErrorTypeId()
-        {
-            return GetErrorTypeId("earlier than");
-        }
-        private int GetEarlierThanOrEqualsErrorTypeId()
-        {
-            return GetErrorTypeId("earlier than or at the same time as");
-        }
-
-        private int GetNotEqualsErrorTypeId()
-        {
-            return GetErrorTypeId("not equals");
-        }
-        private int GetEqualsErrorTypeId()
-        {
-            return GetErrorTypeId("equals");
-        }
-        private int GetAtTheSameTimeAsErrorTypeId()
-        {
-            return GetErrorTypeId("at the same time as");
-        }
 
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {

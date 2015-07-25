@@ -68,11 +68,11 @@ namespace SqlServerValidationToolkit.Model.Entities
         /// <summary>
         /// Fills the wrongValues-table with all wrong values from the column's rules
         /// </summary>
-        public void Validate(SqlServerValidationToolkitContext ctx)
+        public void Validate(System.Data.Common.DbConnection connection, SqlServerValidationToolkitContext ctx)
         {
             foreach (var rule in this.ValidationRules)
             {
-                rule.Validate(ctx);       
+                rule.Validate(connection, ctx);       
             }
         }
 

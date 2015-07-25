@@ -119,19 +119,18 @@ namespace SqlServerValidationToolkit.UnitTests
 
             };
 
+            string customQueryCode = "BirthDateRightAfterHospitalEntry";
 
-            var errorType = new ErrorType()
-            {
-                Check_Type = "CustomQuery",
-                Description = "The birthdate must be less than two days after the Hospital Entry",
-            };
+            var errorType = new ErrorType(customQueryCode, 
+                "CustomQuery",
+                "The birthdate must be less than two days after the Hospital Entry");
             ctx.Errortypes.Add(errorType);
             ctx.SaveChanges();
 
 
-            var birthDateValidationRule = ValidationRuleFactory.CreateCustomQueryRule(string.Format(@"SELECT [BabyID], {0} AS ErrorType_fk
+            var birthDateValidationRule = ValidationRuleFactory.CreateCustomQueryRule(string.Format(@"SELECT [BabyID], '{0}' AS ErrorType_code
   FROM [dbo].[Babies]
-  WHERE DATEDIFF(day,Hospital_entry,Birth_date)>1", errorType.ErrorType_id));
+  WHERE DATEDIFF(day,Hospital_entry,Birth_date)>1", customQueryCode));
 
             birthDateValidationRule.Errortypes.Add(errorType);
 

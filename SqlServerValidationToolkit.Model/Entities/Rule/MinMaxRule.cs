@@ -10,6 +10,11 @@ namespace SqlServerValidationToolkit.Model.Entities.Rule
 {
     public class MinMaxRule : ValidationRule, IValidatableObject
     {
+        public const string TooLowErrorTypeCode = "TooLow";
+        public const string TooHighErrorTypeCode = "TooHigh";
+        public const string TooEarlyErrorTypeCode = "TooEarly";
+        public const string TooLateErrorTypeCode = "TooLate";
+
         public Nullable<long> Minimum { get; set; }
         public Nullable<long> Maximum { get; set; }
 
@@ -23,16 +28,11 @@ namespace SqlServerValidationToolkit.Model.Entities.Rule
             {
                 if (Minimum.HasValue || Maximum.HasValue)
                 {
-                    int errorTypeIdMin = GetErrorTypeId("MinMax", "Too low");
-                    int errorTypeIdMax = GetErrorTypeId("MinMax", "Too high");
-
-                    return GetMinMaxQuery(errorTypeIdMin, errorTypeIdMax);
+                    return GetMinMaxQuery();
                 }
                 if (MinimumDateTime.HasValue || MaximumDateTime.HasValue)
                 {
-                    int errorTypeIdMin = GetErrorTypeId("MinMax", "Too early");
-                    int errorTypeIdMax = GetErrorTypeId("MinMax", "Too late");
-                    return GetMinMaxQueryForDates(errorTypeIdMin, errorTypeIdMax);
+                    return GetMinMaxQueryForDates();
                 }
                 return string.Empty;
             }
@@ -41,11 +41,9 @@ namespace SqlServerValidationToolkit.Model.Entities.Rule
         /// <summary>
         /// Returns the query for dateTime-values
         /// </summary>
-        private string GetMinMaxQueryForDates(int errorTypeIdMin, int errorTypeIdMax)
+        private string GetMinMaxQueryForDates()
         {
             string columnName = GetColumnName();
-            
-            int errorTypeNotEntered = GetErrorTypeId("Common", "not entered");
 
             string minimumCheck = string.Format("{0} < '{1}'",
                     columnName,
@@ -60,7 +58,7 @@ namespace SqlServerValidationToolkit.Model.Entities.Rule
             bool minimumHasValue = MinimumDateTime.HasValue;
             bool maximumHasValue = MaximumDateTime.HasValue;
 
-            return GetMinMaxQuery(errorTypeIdMin, errorTypeIdMax, minimumCheck, maximumCheck, minimumHasValue, maximumHasValue);
+            return GetMinMaxQuery(minimumCheck, maximumCheck, minimumHasValue, maximumHasValue);
         }
 
         /// <summary>
@@ -74,11 +72,9 @@ namespace SqlServerValidationToolkit.Model.Entities.Rule
         /// <summary>
         /// Returns the query for the int-values
         /// </summary>
-        private string GetMinMaxQuery(int errorTypeIdMin, int errorTypeIdMax)
+        private string GetMinMaxQuery()
         {
             string columnName = GetColumnName();
-
-            int errorTypeNotEntered = GetErrorTypeId("Common", "not entered");
 
             string minimumCheck = string.Format("{0} < {1}",
                     columnName,
@@ -93,23 +89,25 @@ namespace SqlServerValidationToolkit.Model.Entities.Rule
             bool minimumHasValue = Minimum.HasValue;
             bool maximumHasValue = Maximum.HasValue;
 
-            return GetMinMaxQuery(errorTypeIdMin, errorTypeIdMax, minimumCheck, maximumCheck, minimumHasValue, maximumHasValue);
+            return GetMinMaxQuery(minimumCheck, maximumCheck, minimumHasValue, maximumHasValue);
         }
 
         /// <summary>
         /// Returns the query for the minimum- maximum-check
         /// depending if the minimum or maximum-value is set or not
         /// </summary>
-        private string GetMinMaxQuery(int errorTypeIdMin, int errorTypeIdMax, string minimumCheck, string maximumCheck, bool minimumHasValue, bool maximumHasValue)
+        private string GetMinMaxQuery(string minimumCheck, string maximumCheck, bool minimumHasValue, bool maximumHasValue, bool isDateQuery=false)
         {
 
             string nullCheck = GetNullCheck();
             string nullCase = GetNullCase();
 
+            string minErrorCode = isDateQuery ? TooEarlyErrorTypeCode : TooLowErrorTypeCode;
+            string maxErrorCode = isDateQuery ? TooLateErrorTypeCode : TooHighErrorTypeCode;
 
             if (minimumHasValue && maximumHasValue)
             {
-                string queryFormat = @"SELECT {0},CASE WHEN ({1}) THEN {2} WHEN ({3}) THEN {4} {5} END AS ErrorType_fk
+                string queryFormat = @"SELECT {0},CASE WHEN ({1}) THEN '{2}' WHEN ({3}) THEN '{4}' {5} END AS ErrorType_code
 	FROM 
 	{6}
 	WHERE 
@@ -118,9 +116,9 @@ namespace SqlServerValidationToolkit.Model.Entities.Rule
 
                 //0: id-column
                 //1: min-check
-                //2: min-errorId
+                //2: min-error code
                 //3: max-check
-                //4: max-errorId
+                //4: max-error code
                 //5: null-case
                 //6: source
                 //7: null-check
@@ -128,9 +126,9 @@ namespace SqlServerValidationToolkit.Model.Entities.Rule
                 return string.Format(queryFormat,
                     Column.Source.IdColumnName,
                     minimumCheck,
-                    errorTypeIdMin,
+                    minErrorCode,
                     maximumCheck,
-                    errorTypeIdMax,
+                    maxErrorCode,
                     nullCase,
                     Column.Source.Name,
                     nullCheck
@@ -140,7 +138,7 @@ namespace SqlServerValidationToolkit.Model.Entities.Rule
             {
 
                 //only minimum is set
-                string queryFormat = @"SELECT {0},CASE WHEN ({1}) THEN {2} {3} END AS ErrorType_fk
+                string queryFormat = @"SELECT {0},CASE WHEN ({1}) THEN '{2}' {3} END AS ErrorType_code
 	FROM 
 	{4}
 	WHERE 
@@ -149,7 +147,7 @@ namespace SqlServerValidationToolkit.Model.Entities.Rule
 
                 //0: id-column
                 //1: min-check
-                //2: min-errorId
+                //2: min-error code
                 //3: null-case
                 //4: source
                 //5: null-check
@@ -157,7 +155,7 @@ namespace SqlServerValidationToolkit.Model.Entities.Rule
                 return string.Format(queryFormat,
                     Column.Source.IdColumnName,
                     minimumCheck,
-                    errorTypeIdMin,
+                    minErrorCode,
                     nullCase,
                     Column.Source.Name,
                     nullCheck
@@ -167,7 +165,7 @@ namespace SqlServerValidationToolkit.Model.Entities.Rule
             {
 
                 //only maximum is set
-                string queryFormat = @"SELECT {0},CASE WHEN ({1}) THEN {2} {3} END AS ErrorType_fk
+                string queryFormat = @"SELECT {0},CASE WHEN ({1}) THEN '{2}' {3} END AS ErrorType_code
 	FROM 
 	{4}
 	WHERE 
@@ -176,7 +174,7 @@ namespace SqlServerValidationToolkit.Model.Entities.Rule
 
                 //0: id-column
                 //1: max-check
-                //2: max-errorId
+                //2: max-error code
                 //3: null-case
                 //4: source
                 //5: null-check
@@ -184,7 +182,7 @@ namespace SqlServerValidationToolkit.Model.Entities.Rule
                 return string.Format(queryFormat,
                     Column.Source.IdColumnName,
                     maximumCheck,
-                    errorTypeIdMax,
+                    maxErrorCode,
                     nullCase,
                     Column.Source.Name,
                     nullCheck

@@ -86,11 +86,11 @@ namespace SqlServerValidationToolkit.Model.Entities
         /// <summary>
         /// Validates all columns
         /// </summary>
-        public void Validate(SqlServerValidationToolkitContext ctx)
+        public void Validate(System.Data.Common.DbConnection connection, SqlServerValidationToolkitContext ctx)
         {
             foreach(var column in this.Columns)
             {
-                column.Validate(ctx);
+                column.Validate(connection, ctx);
             }
         }
     }

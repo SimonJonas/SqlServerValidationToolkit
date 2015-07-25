@@ -15,6 +15,8 @@ namespace SqlServerValidationToolkit.Model.Entities.Rule
     {
         ILog _log = LogManager.GetLogger(typeof(ValidationRule));
 
+        public const string NotEnteredErrorTypeCode = "NotEntered";
+
         public ValidationRule()
         {
             this.Validation_WrongValue = new HashSet<WrongValue>();
@@ -50,15 +52,6 @@ namespace SqlServerValidationToolkit.Model.Entities.Rule
             get;
         }
 
-        protected int GetErrorTypeId(string checkType)
-        {
-            return Errortypes.Single(et => et.Check_Type.Equals(checkType)).ErrorType_id;
-        }
-
-        protected int GetErrorTypeId(string checkType, string description)
-        {
-            return Errortypes.Single(et => et.Check_Type.Equals(checkType) && et.Description == description).ErrorType_id;
-        }
 
         /// <summary>
         /// Returns the check if the column is null depending on the NullValueTreatment
@@ -85,15 +78,14 @@ namespace SqlServerValidationToolkit.Model.Entities.Rule
         }
 
         /// <summary>
-        /// Returns the case inside the switch-statement if the value is null and returns the correct errorTypeId
+        /// Returns the case inside the switch-statement if the value is null and returns the correct code
         /// </summary>
         protected string GetNullCase()
         {
-            int errorTypeNotEntered = GetErrorTypeId("Common", "not entered");
             return NullValueTreatment.HasValue && NullValueTreatment.Value == Entities.NullValueTreatment.InterpretAsError ?
-                string.Format("WHEN ({0} IS NULL) THEN {1}",
-                    Column.Name, errorTypeNotEntered
-                    ) : "WHEN (1=0) THEN -1";
+                string.Format("WHEN ({0} IS NULL) THEN '{1}'",
+                    Column.Name, NotEnteredErrorTypeCode
+                    ) : "WHEN (1=0) THEN NULL";
         }
 
         /// <summary>
@@ -118,10 +110,8 @@ namespace SqlServerValidationToolkit.Model.Entities.Rule
         /// <summary>
         /// Fills the wrongValues-table with all wrong values from the rule
         /// </summary>
-        public void Validate(SqlServerValidationToolkitContext ctx)
+        public void Validate(System.Data.Common.DbConnection connection, SqlServerValidationToolkitContext ctx)
         {
-            var connection = ctx.Database.Connection;
-
             if (connection.State==System.Data.ConnectionState.Closed)
             {
                 connection.Open();
@@ -143,7 +133,7 @@ namespace SqlServerValidationToolkit.Model.Entities.Rule
             }
             catch (Exception e)
             {
-                throw new Exception(string.Format("Exception occurred while executing '{0}': {1}", CompiledQuery, e.GetBaseException().Message));
+                throw new Exception(string.Format("Exception occurred while executing '{0}'", CompiledQuery),e);
             }
             finally
             {
@@ -165,10 +155,12 @@ namespace SqlServerValidationToolkit.Model.Entities.Rule
                 //the query returns the id of the invalid value and the errortype-id
                 int invalidValueId = reader.GetInt32(0);
 
-                int errorTypeId = reader.GetInt32(1);
+                string errorTypeCode = reader.GetString(1);
 
-                WrongValue existingWrongValue = Validation_WrongValue.SingleOrDefault(wv=>
-                    wv.ErrorType_fk==errorTypeId 
+
+                WrongValue existingWrongValue = Validation_WrongValue
+                    .SingleOrDefault(wv=>
+                    wv.Errortype.CodeForValidationQueries==errorTypeCode 
                     &&
                     wv.Id == invalidValueId
                     );
@@ -177,9 +169,16 @@ namespace SqlServerValidationToolkit.Model.Entities.Rule
 
                 if (existingWrongValue==null)
                 {
+                    ErrorType errorType = ctx.Errortypes.Where(et => et.CodeForValidationQueries == errorTypeCode).SingleOrDefault();
+
+                    if (errorType==null) //errorType should exist
+                    {
+                        throw new Exception("ErrorType not found for code '" + errorTypeCode+"'");
+                    }
+                    
                     WrongValue wrongValue = new WrongValue()
                     {
-                        ErrorType_fk = errorTypeId,
+                        Errortype = errorType,
                         Id = invalidValueId,
                         Value = value
                     };

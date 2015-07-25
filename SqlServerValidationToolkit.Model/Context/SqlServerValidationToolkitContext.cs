@@ -107,9 +107,19 @@ namespace SqlServerValidationToolkit.Model.Context
         public void Validate(SqlServerValidationToolkitContext ctxSqlServer)
         {
 
-            foreach (var source in Sources)
+            foreach (var source in Sources
+                //include the errorType to get to the code of the wrong-values
+                .Include(
+                s=>s.Columns
+                    .Select(c=>c.ValidationRules
+                        .Select(r=>r.Validation_WrongValue
+                            .Select(wv=>wv.Errortype)
+                            )
+                            )
+                            )
+                            )
             {
-                source.Validate(ctxSqlServer);
+                source.Validate(ctxSqlServer.Database.Connection, this);
             }
             SaveChanges();
             this.Database.ExecuteSqlCommand("DELETE FROM Validation_WrongValue WHERE Is_Corrected=1");

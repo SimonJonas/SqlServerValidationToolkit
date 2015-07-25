@@ -9,6 +9,7 @@ namespace SqlServerValidationToolkit.Model.Entities.Rule
 {
     public class LikeRule : ValidationRule
     {
+        public const string NotLikeErrorTypeCode = "NotLike";
         [Required]
         public string LikeExpression { get; set; }
 
@@ -25,28 +26,30 @@ namespace SqlServerValidationToolkit.Model.Entities.Rule
 
                 string nullCheck = GetNullCheck();
 
-                string queryFormat = @"SELECT {0}, CASE {6} ELSE {1} END as ErrorType_fk 
+                string queryFormat = @"SELECT {0}, CASE {6} ELSE '{1}' END as ErrorType_code 
 	FROM 
     {2}
 	WHERE 
     {3} NOT LIKE '{4}'
 	{5}";
 
+                //0: id column
+                //1: error type code
+                //2: source-name
+                //3: column-name
+                //4: like-expression
+                //5: null-check
+                //6: null-case
+
                 return string.Format(queryFormat,
                     Column.Source.IdColumnName,
-                    GetErrorTypeId(),
+                    NotLikeErrorTypeCode,
                     Column.Source.Name,
                     columnName,
                     LikeExpression,
                     nullCheck,
                     GetNullCase());
             }
-        }
-
-
-        private int GetErrorTypeId()
-        {
-            return base.GetErrorTypeId("Like");
         }
 
         public override string ErrorDescriptionFormat

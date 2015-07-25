@@ -65,7 +65,7 @@ namespace SqlServerValidationToolkit.Configurator.Controls.ValidationRules
                 {
                     var customErrorTypesWithSameCode = _ctx.Errortypes
                         .Where(et => et.ErrorType_id!=etOfCurrentRule.ErrorType_id)
-                        .Where(et => et.ErrorTypeIdForValidationQueries == etOfCurrentRule.ErrorTypeIdForValidationQueries);
+                        .Where(et => et.CodeForValidationQueries == etOfCurrentRule.CodeForValidationQueries);
                     if (customErrorTypesWithSameCode.Any())
                     {
                         return true;

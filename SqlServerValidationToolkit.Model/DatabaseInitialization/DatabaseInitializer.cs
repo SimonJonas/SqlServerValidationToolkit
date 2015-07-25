@@ -1,5 +1,6 @@
 ﻿using SqlServerValidationToolkit.Model.Context;
 using SqlServerValidationToolkit.Model.Entities;
+using SqlServerValidationToolkit.Model.Entities.Rule;
 using SqlServerValidationToolkit.Model.Properties;
 using System;
 using System.Collections.Generic;
@@ -52,31 +53,23 @@ namespace SqlServerValidationToolkit.Model.DatabaseInitialization
         {
             ctx.Errortypes.AddRange(new List<ErrorType>()
                 {
-                    new ErrorType("MinMax","Too low"),
-                    new ErrorType("MinMax","Too high"),
-                    new ErrorType("MinMax","Too early"),
-                    new ErrorType("MinMax","Too late"),
-                    new ErrorType("Common","not entered"),
-                    new ErrorType("Comparison","greater than"),
-                    new ErrorType("Comparison","smaller than"),
-                    new ErrorType("Comparison","later than"),
-                    new ErrorType("Comparison","earlier than"),
-                    new ErrorType("Comparison","greater than or equals"),
-                    new ErrorType("Comparison","smaller than or equals"),
-                    new ErrorType("Comparison","later than or at the same time as"),
-                    new ErrorType("Comparison","earlier than or at the same time as"),
-                    new ErrorType("Comparison","not equals"),
-                    new ErrorType("Comparison","equals"),
-                    new ErrorType("Comparison","at the same time as"),
-                    new ErrorType("Like","not like"),
+                    new ErrorType(MinMaxRule.TooLowErrorTypeCode,"MinMax","Too low"),
+                    new ErrorType(MinMaxRule.TooHighErrorTypeCode,"MinMax","Too high"),
+                    new ErrorType(MinMaxRule.TooEarlyErrorTypeCode,"MinMax","Too early"),
+                    new ErrorType(MinMaxRule.TooLateErrorTypeCode,"MinMax","Too late"),
+                    new ErrorType(ValidationRule.NotEnteredErrorTypeCode,"Common","not entered"),
+                    new ErrorType(ComparisonRule.GreaterThanErrorType,"Comparison","greater than"),
+                    new ErrorType(ComparisonRule.SmallerThanErrorTypeCode,"Comparison","smaller than"),
+                    new ErrorType(ComparisonRule.LaterThanErrorTypeCode,"Comparison","later than"),
+                    new ErrorType(ComparisonRule.EarlierThanErrorTypeCode,"Comparison","earlier than"),
+                    new ErrorType(ComparisonRule.GreaterThanOrEqualsErrorTypeCode,"Comparison","greater than or equals"),
+                    new ErrorType(ComparisonRule.SmallerThanOrEqualsErrorTypeCode,"Comparison","smaller than or equals"),
+                    new ErrorType(ComparisonRule.LaterThanOrEqualsErrorTypeCode,"Comparison","later than or at the same time as"),
+                    new ErrorType(ComparisonRule.EarlierThanOrEqualsErrorTypeCode,"Comparison","earlier than or at the same time as"),
+                    new ErrorType(ComparisonRule.NotEqualsErrorTypeCode,"Comparison","not equals"),
+                    new ErrorType(ComparisonRule.EqualsErrorTypeCode,"Comparison","equals"),
+                    new ErrorType(LikeRule.NotLikeErrorTypeCode,"Like","not like"),
                 });
-            ctx.SaveChanges();
-
-            //set id for validation queries to the id that is automatically set
-            foreach (var errorType in ctx.Errortypes)
-            {
-                errorType.ErrorTypeIdForValidationQueries = errorType.ErrorType_id;
-            }
             ctx.SaveChanges();
         }
 

@@ -18,8 +18,9 @@ namespace SqlServerValidationToolkit.Model.Entities
             this.ValidationRules = new HashSet<ValidationRule>();
         }
 
-        public ErrorType(string checkType, string description)
+        public ErrorType(string code, string checkType, string description)
         {
+            CodeForValidationQueries = code;
             Check_Type = checkType;
             Description = description;
         }
@@ -27,7 +28,8 @@ namespace SqlServerValidationToolkit.Model.Entities
         [Key]
         public int ErrorType_id { get; set; }
 
-        public int ErrorTypeIdForValidationQueries { get; set; }
+        [MaxLength(40)]
+        public string CodeForValidationQueries { get; set; }
 
         [MaxLength(100)]
         public string Check_Type { get; set; }
