@@ -155,14 +155,6 @@ namespace SqlServerValidationToolkit.Configurator
         public void Save()
         {
             _sourcesViewViewModel.Save();
-            
-            if (this.SourcesViewViewModel.SelectedColumn!=null && 
-                this.SourcesViewViewModel.SelectedColumn.SelectedValidationRule!=null && 
-                this.SourcesViewViewModel.SelectedColumn.SelectedValidationRule.Rule is CustomQueryRule)
-            {
-                //refresh after saving to update errortypes of customQuery-validationrules
-                Init();
-            }
         }
 
 
