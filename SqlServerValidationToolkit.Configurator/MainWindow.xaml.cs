@@ -69,7 +69,7 @@ namespace SqlServerValidationToolkit.Configurator
 
         private void AskUserHowToHandleUnsavedChanges(SaveChangesBeforeValidationMessage m)
         {
-            var res = MessageBox.Show("There are unsaved changes. Would you want to save them before executing the validation-procedure?", "Unsaved changes", MessageBoxButton.YesNoCancel);
+            var res = MessageBox.Show("There are unsaved changes. Would you want to save them before executing the validation?", "Unsaved changes", MessageBoxButton.YesNoCancel);
             HandleUnsavedChanges answer;
             switch (res)
             {
