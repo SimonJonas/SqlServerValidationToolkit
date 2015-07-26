@@ -34,7 +34,7 @@ SELECT BabyID,CASE WHEN (Length < 10) THEN 'TooLow' WHEN (60 < Length) THEN 'Too
 For the null values there are three strategies:
 - Ignore: Null-values are not validated
 - InterpretAsError: Null-values have a special code 'NotEntered'
-- ConvertToDefaultValue: Values are converted to the default value of the column
+- ConvertToDefaultValue: Values are converted to 0 for int-columns, an empty string for string-columns and the date 01.01.0001 for datetime-columns
 
 After the validation you can see all invalid values in the "WrongValues"-tab:
 ![wrongValues](https://cloud.githubusercontent.com/assets/3718526/8893464/23790f1c-3391-11e5-9ccc-0c2db82a95c2.png)
