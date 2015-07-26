@@ -151,16 +151,6 @@ namespace SqlServerValidationToolkit.Configurator.Controls.Columns
                 return Column.IsNumeric;
             }
         }
-        public bool IsDateTime
-        {
-            get
-            {
-                if (Column == null)
-                    return false;
-                //TODO: Fix
-                return !Column.IsNumeric;
-            }
-        }
 
         public bool IsString
         {
