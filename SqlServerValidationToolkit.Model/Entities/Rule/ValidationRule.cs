@@ -96,8 +96,23 @@ namespace SqlServerValidationToolkit.Model.Entities.Rule
             string columnName = Column.Name;
             if (NullValueTreatment == Entities.NullValueTreatment.ConvertToDefaultValue)
             {
-                //TODO: Find out how to get the default-value in SQL
-                columnName = string.Format("ISNULL({0},DEFAULT()", columnName);
+                //the default value is dependent of the column-type
+                string defaultValue;
+
+                if (Column.IsNumeric)
+                {
+                    defaultValue = "0";
+                }
+                else if (Column.IsDateTime)
+                {
+                    defaultValue = "GETDATE()";
+                } else
+                {
+                    defaultValue = "''";
+                }
+
+                
+                columnName = string.Format("ISNULL({0},{1})", columnName,defaultValue);
             }
             return columnName;
         }
