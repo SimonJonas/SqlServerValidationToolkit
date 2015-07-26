@@ -29,7 +29,6 @@ SELECT BabyID,CASE WHEN (Length < 10) THEN 'TooLow' WHEN (60 < Length) THEN 'Too
 ```
 
 For the null values there are three strategies:
-![nullvaluestrategies](https://cloud.githubusercontent.com/assets/3718526/8893420/c6696dcc-338f-11e5-85f1-1ebf1d4c9a7e.png)
-Ignore: Null-values are not validated
-InterpretAsError: Null-values have a special code 'NotEntered'
-ConvertToDefaultValue: Values are converted to the default value of the column
+- Ignore: Null-values are not validated
+- InterpretAsError: Null-values have a special code 'NotEntered'
+- ConvertToDefaultValue: Values are converted to the default value of the column
