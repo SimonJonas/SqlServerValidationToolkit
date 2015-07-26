@@ -32,3 +32,6 @@ For the null values there are three strategies:
 - Ignore: Null-values are not validated
 - InterpretAsError: Null-values have a special code 'NotEntered'
 - ConvertToDefaultValue: Values are converted to the default value of the column
+
+After the validation you can see all invalid values in the "WrongValues"-tab:
+![wrongValues](https://cloud.githubusercontent.com/assets/3718526/8893464/23790f1c-3391-11e5-9ccc-0c2db82a95c2.png)
