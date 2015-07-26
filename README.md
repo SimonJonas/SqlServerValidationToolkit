@@ -19,7 +19,7 @@ The following rule-types are available:
 ##Example
 
 Below you see the configuration for a MinMax-rule for the column "Length" of the table "Babies". Valid values are between 0 and 60. Null values should be interpreted as error:
-![Configuration](https://cloud.githubusercontent.com/assets/3718526/8893417/ba56b31e-338f-11e5-83bb-e7341258b392.png)
+![Configuration](https://cloud.githubusercontent.com/assets/3718526/8893479/cd6ee726-3391-11e5-8ddd-916545af51c4.png)
 
 The rule in the screenshot creates the following query:
 ```sql
