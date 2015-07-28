@@ -1,7 +1,7 @@
 # SqlServerValidationToolkit
 A tool for data-validation of SQL Server tables
 
-##What it is
+##What is it?
 
 The tool is a small tool that allows to quickly define rules for column-values. You can use the tool to get an overview of invalid valid and to constantly corrrect them. Everytime you run the validation you have a current view of all invalid values.
 
@@ -15,6 +15,10 @@ The following rule-types are available:
 - Comparison-rule to compare the value of one column with the value of another column
 - CustomQuery-rule which allows you to define a custom query and define your own error types. The query returns the id of the invalid values and the errorType-code.
 
+##Where can I use it?
+In a perfect world you would not need this tool. The applications would all validate the input-data themselves and give the user immediate feedback if one of the rules is broken. However sometimes applications don't validate or they don't validate the right thing and after a while your boss comes and sais the existing data needs to be shipped to a data warehouse. What do you do? You validate yourself. You write all SQL-queries that filter the wrong values in the ETL-process or you correct them one by one. 
+
+For this process the tool was written. If you use it, you will not need to write so many SQL queries and keep track of all the wrong values. The tool does that for you. You can also copy the generated SQL queries and use them in your ETL-process. And with the customQuery-rule you can validate very complex situations.
 
 ##Example
 
