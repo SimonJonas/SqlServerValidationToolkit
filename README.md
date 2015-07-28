@@ -3,7 +3,7 @@ A tool for data-validation of SQL Server tables
 
 ##What is it?
 
-The tool is a small tool that allows to quickly define rules for column-values. You can use the tool to get an overview of invalid valid and to constantly corrrect them. Everytime you run the validation you have a current view of all invalid values.
+The SqlServerValidationToolkit is a small tool that allows to quickly define rules for column-values. You can use the tool to get an overview of invalid valid and to constantly corrrect them. Everytime you run the validation you have a current view of all invalid values.
 
 It is easy to set up. Just run the exe and define the database to validate. Then import the metadata for the tables you want to validate, define rules and execute the validation. 
 
