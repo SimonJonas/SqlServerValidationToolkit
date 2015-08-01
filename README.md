@@ -15,6 +15,9 @@ The following rule-types are available:
 - Comparison-rule to compare the value of one column with the value of another column
 - CustomQuery-rule which allows you to define a custom query and define your own error types. The query returns the id of the invalid values and the errorType-code.
 
+##Are there alternatives?
+If you are using Integration Services and want to integrate your validation into your SSIS-project, you can use the components of the TaskFactory from PragmaticsWorks. It is available under http://pragmaticworks.com/Products/Task-Factory. This tool is a small open source alternative. In future releases it will have a command line interface and will be usable also from an SSIS-Project. 
+
 ##Where can I use it?
 In a perfect world you would not need this tool. The applications would all validate the input-data themselves and give the user immediate feedback if one of the rules is broken. However sometimes applications don't validate or they don't validate the right thing and after a while your boss comes and sais the existing data needs to be shipped to a data warehouse. What do you do? You validate yourself. You write all SQL-queries that filter the wrong values in the ETL-process or you correct them one by one. 
 
