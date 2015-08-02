@@ -96,7 +96,8 @@ namespace SqlServerValidationToolkit.Configurator
             {
                 Content = v,
                 Owner = this,
-                SizeToContent= System.Windows.SizeToContent.WidthAndHeight
+                SizeToContent= System.Windows.SizeToContent.WidthAndHeight,
+                Title = "Select tables to import"
             };
             vm.OnSourceUpdated = () => w.Close();
             var res = w.ShowDialog();

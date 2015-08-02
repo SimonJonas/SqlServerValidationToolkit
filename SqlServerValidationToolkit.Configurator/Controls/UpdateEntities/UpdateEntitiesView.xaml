@@ -9,10 +9,16 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <GroupBox Header="Tables" Grid.Row="0">
+        <TextBlock Grid.Row="0" 
+                   TextWrapping="Wrap"
+                   Margin="5">
+            Select one or multiple tables to import or updated.<LineBreak/>
+        Only tables with a single primary key are supported.</TextBlock>
+        <GroupBox Header="Tables" Grid.Row="1">
             <ListBox ItemsSource="{Binding Path=Tables}" 
                      DisplayMemberPath="Name"
                      SelectionMode="Extended"
@@ -29,8 +35,8 @@
                 </ListBox.ItemContainerStyle>
             </ListBox>
         </GroupBox>
-        <WrapPanel Grid.Row="1" Margin="5">
-            <Button Command="{Binding Path=UpdateSourcesCommand}">Import selected tables</Button>
+        <WrapPanel Grid.Row="2" Margin="5">
+            <Button Command="{Binding Path=UpdateSourcesCommand}">Import</Button>
         </WrapPanel>
     </Grid>
 </UserControl>
