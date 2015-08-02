@@ -16,7 +16,7 @@
         <TextBlock Grid.Row="0" 
                    TextWrapping="Wrap"
                    Margin="5">
-            Select one or multiple tables to import or updated.<LineBreak/>
+            Select one or multiple tables to import.<LineBreak/>
         Only tables with a single primary key are supported.</TextBlock>
         <GroupBox Header="Tables" Grid.Row="1">
             <ListBox ItemsSource="{Binding Path=Tables}" 
