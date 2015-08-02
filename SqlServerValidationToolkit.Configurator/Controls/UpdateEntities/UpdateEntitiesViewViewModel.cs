@@ -21,11 +21,13 @@ using System.Text.RegularExpressions;
 using SqlServerValidationToolkit.Model.Context;
 using SqlServerValidationToolkit.Model.Entities;
 using SqlServerValidationToolkit.Model.Validation;
+using log4net;
 
 namespace SqlServerValidationToolkit.Configurator.Controls.UpdateEntities
 {
     class UpdateEntitiesViewViewModel
     {
+        private ILog _log = LogManager.GetLogger(typeof(UpdateEntitiesViewViewModel));
         private MainWindowViewModel _mainWindowViewModel;
 
         public UpdateEntitiesViewViewModel()
@@ -155,6 +157,7 @@ AND table_name = '{0}'";
                     else
                     {
                         //Log not added column
+                        _log.WarnFormat("The column '{0}' cannot be imported because it's type '{1}' is not supported to import", column.Name, column.SqlType);
                     }
                 }
                 else
