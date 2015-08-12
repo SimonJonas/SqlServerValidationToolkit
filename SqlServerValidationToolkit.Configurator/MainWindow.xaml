@@ -13,7 +13,7 @@
         mc:Ignorable="d" 
         d:DataContext="{d:DesignInstance Type=configurator:MainWindowViewModel, IsDesignTimeCreatable=True}"
         Closing="Window_Closing"
-        Height="350" Width="525">
+        Height="500" Width="1024">
     <Window.DataContext>
         <configurator:MainWindowViewModel />
     </Window.DataContext>
