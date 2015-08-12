@@ -18,6 +18,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Style="{StaticResource ResourceKey=DetailLabelColumn}" />
                 <ColumnDefinition />
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
             <Grid.RowDefinitions>
@@ -47,6 +48,7 @@
                 
 
             </StackPanel>
+            <CheckBox Grid.Row="0" Grid.Column="2" IsChecked="{Binding Path=NoMinimum}">No minimum</CheckBox>
             <Label Grid.Row="1">
                 <Label.ToolTip>
                     <Grid>
@@ -67,6 +69,7 @@
                 <wpfTool:DateTimePicker Value="{Binding MaximumDateTime}" 
                             Visibility="{Binding IsDateTime, Converter={StaticResource ResourceKey=BoolToVis}}"/>
             </StackPanel>
+            <CheckBox Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" IsChecked="{Binding Path=NoMaximum}">No maximum</CheckBox>
         </Grid>
     </GroupBox>
 </UserControl>
