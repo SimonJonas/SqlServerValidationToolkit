@@ -46,6 +46,7 @@ namespace SqlServerValidationToolkit.Configurator.Controls.ValidationRules
                 _rule.Minimum = value;
                 RaisePropertyChanged(() => Minimum);
                 RaisePropertyChanged(() => Maximum);
+                RaisePropertyChanged(() => NoMinimum);
                 RaisePropertyChanged(() => Header);
                 RecompileQuery();
             }
@@ -62,6 +63,7 @@ namespace SqlServerValidationToolkit.Configurator.Controls.ValidationRules
                 _rule.Maximum = value;
                 RaisePropertyChanged(() => Minimum);
                 RaisePropertyChanged(() => Maximum);
+                RaisePropertyChanged(() => NoMaximum);
                 RaisePropertyChanged(() => Header);
                 RecompileQuery();
             }
@@ -76,8 +78,9 @@ namespace SqlServerValidationToolkit.Configurator.Controls.ValidationRules
             set
             {
                 _rule.MinimumDateTime = value;
-                RaisePropertyChanged(() => Minimum);
-                RaisePropertyChanged(() => Maximum);
+                RaisePropertyChanged(() => MinimumDateTime);
+                RaisePropertyChanged(() => MaximumDateTime);
+                RaisePropertyChanged(() => NoMinimum);
                 RaisePropertyChanged(() => Header);
                 RecompileQuery();
             }
@@ -92,10 +95,69 @@ namespace SqlServerValidationToolkit.Configurator.Controls.ValidationRules
             set
             {
                 _rule.MaximumDateTime = value;
-                RaisePropertyChanged(() => Minimum);
-                RaisePropertyChanged(() => Maximum);
+                RaisePropertyChanged(() => MinimumDateTime);
+                RaisePropertyChanged(() => MaximumDateTime);
+                RaisePropertyChanged(() => NoMaximum);
                 RaisePropertyChanged(() => Header);
                 RecompileQuery();
+            }
+        }
+
+        public bool NoMaximum
+        {
+            get
+            {
+                if (IsNumeric)
+                {
+                    return _rule.Maximum == null;
+                } else
+                {
+                    return _rule.MaximumDateTime == null;
+                }
+            }
+            set
+            {
+                if (IsNumeric)
+                {
+
+                    long? newValue = value ? (long?)null : 0;
+                    Maximum = newValue;
+                }
+                else
+                {
+                    DateTime? newValueDateTime = value ? (DateTime?)null : DateTime.Today;
+                    MaximumDateTime = newValueDateTime;
+                }
+
+            }
+        }
+        public bool NoMinimum
+        {
+            get
+            {
+                if (IsNumeric)
+                {
+                    return _rule.Minimum == null;
+                }
+                else
+                {
+                    return _rule.MinimumDateTime == null;
+                }
+            }
+            set
+            {
+                if (IsNumeric)
+                {
+
+                    long? newValue = value ? (long?)null : 0;
+                    Minimum = newValue;
+                }
+                else
+                {
+                    DateTime? newValueDateTime = value ? (DateTime?)null : DateTime.Today;
+                    MinimumDateTime = newValueDateTime;
+                }
+
             }
         }
     }
