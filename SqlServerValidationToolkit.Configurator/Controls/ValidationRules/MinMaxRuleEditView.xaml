@@ -8,7 +8,7 @@
              xmlns:vr="clr-namespace:SqlServerValidationToolkit.Configurator.Controls.ValidationRules"
              xmlns:wpfTool="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
              d:DataContext="{d:DesignInstance Type=vr:MinMaxRuleEditViewViewModel, IsDesignTimeCreatable=True}"
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="400">
 
     <GroupBox Header="Min-Max">
         <GroupBox.Resources>
@@ -42,15 +42,21 @@
             <StackPanel Grid.Row="0" Grid.Column="1" >
                 <TextBox x:Name="txtMin" 
                          Text="{Binding Path=Minimum, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, TargetNullValue=''}" 
-                         Visibility="{Binding IsNumeric, Converter={StaticResource ResourceKey=BoolToVis}}"/>
-                <wpfTool:DateTimePicker Value="{Binding MinimumDateTime}"
+                         Visibility="{Binding IsNumeric, Converter={StaticResource ResourceKey=BoolToVis}}"
+                         Margin="0,3,0,0"
+                         />
+                <wpfTool:DateTimePicker Value="{Binding Path=MinimumDateTime}"
                             Visibility="{Binding IsDateTime, Converter={StaticResource ResourceKey=BoolToVis}}" 
                             Format="UniversalSortableDateTime"
+                                        Margin="0,3,0,0"
                                         />
                 
 
             </StackPanel>
-            <CheckBox Grid.Row="0" Grid.Column="2" IsChecked="{Binding Path=NoMinimum}">No minimum</CheckBox>
+            <CheckBox Grid.Row="0" Grid.Column="2" 
+                      IsChecked="{Binding Path=NoMinimum}" 
+                      VerticalAlignment="Center"
+                      Margin="0,0,0,1">No minimum</CheckBox>
             <Label Grid.Row="1">
                 <Label.ToolTip>
                     <Grid>
@@ -67,12 +73,17 @@
             <StackPanel  Grid.Row="1" Grid.Column="1">
 
                 <TextBox Visibility="{Binding IsNumeric, Converter={StaticResource ResourceKey=BoolToVis}}" 
-                         Text="{Binding Path=Maximum,UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, TargetNullValue=''}" />
+                         Text="{Binding Path=Maximum,UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, TargetNullValue=''}" 
+                         Margin="0,3,0,0"/>
                 <wpfTool:DateTimePicker Value="{Binding MaximumDateTime}" 
                             Visibility="{Binding IsDateTime, Converter={StaticResource ResourceKey=BoolToVis}}"
-                                        Format="UniversalSortableDateTime"/>
+                                        Format="UniversalSortableDateTime"
+                                        Margin="0,3,0,0"/>
             </StackPanel>
-            <CheckBox Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" IsChecked="{Binding Path=NoMaximum}">No maximum</CheckBox>
+            <CheckBox Grid.Row="1" Grid.Column="2" 
+                      VerticalAlignment="Center" 
+                      IsChecked="{Binding Path=NoMaximum}"
+                      Margin="0,0,0,1">No maximum</CheckBox>
         </Grid>
     </GroupBox>
 </UserControl>
