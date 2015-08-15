@@ -203,11 +203,11 @@ namespace SqlServerValidationToolkit.Model.Entities.Rule
                     "MinimumDateTime","MaximumDateTime"
                 };
 
-            if (!Minimum.HasValue && !Maximum.HasValue)
+            if (Column.IsNumeric && !Minimum.HasValue && !Maximum.HasValue)
             {
                 result.Add(new ValidationResult("no Minimum or Maximum value is set", minMaxList));
             }
-            if (!MinimumDateTime.HasValue && !MaximumDateTime.HasValue)
+            if (Column.IsDateTime && !MinimumDateTime.HasValue && !MaximumDateTime.HasValue)
             {
                 result.Add(new ValidationResult("no Minimum or Maximum value is set", minMaxDateTimeList));
             }
