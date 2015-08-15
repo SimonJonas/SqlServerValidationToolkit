@@ -16,12 +16,12 @@ The following rule-types are available:
 - CustomQuery-rule which allows you to define a custom query and define your own error types. The query returns the id of the invalid values and the errorType-code.
 
 ##Are there alternatives?
-If you are using Integration Services and want to integrate your validation into your SSIS-project, you can use the "Data validation transform"-component from PragmaticsWorks. It is available under http://pragmaticworks.com/Products/Features/Feature/DataValidationTransform. The disadvantage is that you can only validate regular expressions. This tool has the advantage that it can also validate numeric and dateTime-fields. In future releases it will have a command line interface and will be usable also from an SSIS-Project. 
+If you are using Integration Services and want to integrate your validation into your SSIS-project, you can use the "Data validation transform"-component from PragmaticsWorks. It is available under http://pragmaticworks.com/Products/Features/Feature/DataValidationTransform. But it can only validate regular expressions. This tool has the advantage that it can also validate numeric and dateTime-fields. In future releases it will have a command line interface and will be usable also from an SSIS-Project. 
 
 ##Where can I use it?
 In a perfect world you would not need this tool. The applications would all validate the input-data themselves and give the user immediate feedback if one of the rules is broken. However sometimes applications don't validate or they don't validate the right thing and after a while your boss comes and sais the existing data needs to be shipped to a data warehouse. What do you do? You validate yourself. You write all SQL-queries that filter the wrong values in the ETL-process or you correct them one by one. 
 
-For this process the tool was written. If you use it, you will not need to write so many SQL queries and keep track of all the wrong values. The tool does that for you. You can also copy the generated SQL queries and use them in your ETL-process. And with the customQuery-rule you can validate very complex situations.
+To help you in this process the tool was written. If you use it, you will not need to write so many SQL queries and keep track of all the wrong values. The tool does that for you. You can also copy the generated SQL queries and use them in your ETL-process. And with the customQuery-rule you can validate very complex situations.
 
 ##Example
 
