@@ -194,25 +194,33 @@ namespace SqlServerValidationToolkit.Model.Entities.Rule
         {
             List<System.ComponentModel.DataAnnotations.ValidationResult> result = new List<ValidationResult>();
 
-            if (!Minimum.HasValue && !Maximum.HasValue && !MinimumDateTime.HasValue && !MaximumDateTime.HasValue)
+            var minMaxList = new List<string>()
+                {
+                    "Minimum","Maximum"
+                };
+            var minMaxDateTimeList = new List<string>()
+                {
+                    "MinimumDateTime","MaximumDateTime"
+                };
+
+            if (!Minimum.HasValue && !Maximum.HasValue)
             {
-                result.Add(new ValidationResult("no Minimum or Maximum value is set"));
+                result.Add(new ValidationResult("no Minimum or Maximum value is set", minMaxList));
             }
+            if (!MinimumDateTime.HasValue && !MaximumDateTime.HasValue)
+            {
+                result.Add(new ValidationResult("no Minimum or Maximum value is set", minMaxDateTimeList));
+            }
+
 
             if (Minimum.HasValue && Maximum.HasValue && Minimum > Maximum)
             {
-                result.Add(new ValidationResult("The minimum must be smaller than the maximum", new List<string>()
-                {
-                    "Minimum","Maximum"
-                }));
+                result.Add(new ValidationResult("The minimum must be smaller than the maximum", minMaxList));
             }
 
             if (MinimumDateTime.HasValue && MaximumDateTime.HasValue && MinimumDateTime > MaximumDateTime)
             {
-                result.Add(new ValidationResult("The minimum must be earlier than the maximum", new List<string>()
-                {
-                    "Minimum","Maximum"
-                }));
+                result.Add(new ValidationResult("The minimum must be earlier than the maximum", minMaxDateTimeList));
             }
             return result;
         }

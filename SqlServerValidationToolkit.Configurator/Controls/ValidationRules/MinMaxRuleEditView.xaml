@@ -45,7 +45,7 @@
                          Visibility="{Binding IsNumeric, Converter={StaticResource ResourceKey=BoolToVis}}"
                          Margin="0,3,0,0"
                          />
-                <wpfTool:DateTimePicker Value="{Binding Path=MinimumDateTime}"
+                <wpfTool:DateTimePicker Value="{Binding Path=MinimumDateTime, ValidatesOnDataErrors=True}"
                             Visibility="{Binding IsDateTime, Converter={StaticResource ResourceKey=BoolToVis}}" 
                             Format="UniversalSortableDateTime"
                                         Margin="0,3,0,0"
@@ -75,7 +75,7 @@
                 <TextBox Visibility="{Binding IsNumeric, Converter={StaticResource ResourceKey=BoolToVis}}" 
                          Text="{Binding Path=Maximum,UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, TargetNullValue=''}" 
                          Margin="0,3,0,0"/>
-                <wpfTool:DateTimePicker Value="{Binding MaximumDateTime}" 
+                <wpfTool:DateTimePicker Value="{Binding MaximumDateTime, ValidatesOnDataErrors=True}" 
                             Visibility="{Binding IsDateTime, Converter={StaticResource ResourceKey=BoolToVis}}"
                                         Format="UniversalSortableDateTime"
                                         Margin="0,3,0,0"/>
