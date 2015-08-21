@@ -23,6 +23,7 @@ namespace SqlServerValidationToolkit.Configurator
 
         protected override void OnStartup(StartupEventArgs e)
         {
+
             using (var ctx = SqlServerValidationToolkitContext.Create())
             {
                 if (!ctx.Databases.Any())
@@ -43,6 +44,16 @@ namespace SqlServerValidationToolkit.Configurator
                         SetDbConnectionString();
                     }
                 }
+            }
+
+            if (e.Args.Count()==1 && e.Args[0]=="-v")
+            {
+                _log.Info("Starting validation");
+                var validator = new Validator();
+                validator.ExecuteValidation();
+                _log.Info("Executed validation");
+                Application.Current.Shutdown();
+                return;
             }
 
             base.OnStartup(e);
