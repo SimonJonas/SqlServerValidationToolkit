@@ -52,6 +52,7 @@ namespace SqlServerValidationToolkit.Configurator
                 var validator = new Validator();
                 validator.ExecuteValidation();
                 _log.Info("Executed validation");
+                Console.WriteLine("Executed validation");
                 Application.Current.Shutdown();
                 return;
             }
