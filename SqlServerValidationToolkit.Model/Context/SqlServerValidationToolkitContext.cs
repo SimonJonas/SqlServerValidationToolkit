@@ -2,6 +2,7 @@
 using SqlServerValidationToolkit.Model.Entities;
 using SqlServerValidationToolkit.Model.Entities.Rule;
 using SqlServerValidationToolkit.Model.Entities.Temp;
+using SqlServerValidationToolkit.Model.Properties;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -37,17 +38,24 @@ namespace SqlServerValidationToolkit.Model.Context
 
         public static SqlServerValidationToolkitContext Create()
         {
-            string databaseFileName = "SqlServerValidationToolkit.Model.Context.SqlServerValidationToolkitContext.sdf";
-            string sqlServerCompactConnectionString = string.Format("Data Source={0}",databaseFileName);
+            SqlServerValidationToolkitContext ctx;
 
-            var ctx = new SqlServerValidationToolkitContext(sqlServerCompactConnectionString);
-
-            if (!File.Exists(databaseFileName))
+            if (Settings.Default.StoreDataInSqlServer)
             {
-                ctx.Database.CreateIfNotExists();
-                DatabaseInitializer.AddErrorTypes(ctx);
+                ctx = SqlServerValidationToolkitContext.Create(Settings.Default.SqlServerConnectionString);
+            } else
+            {
+                string databaseFileName = "SqlServerValidationToolkit.Model.Context.SqlServerValidationToolkitContext.sdf";
+                string sqlServerCompactConnectionString = string.Format("Data Source={0}", databaseFileName);
+
+                ctx = new SqlServerValidationToolkitContext(sqlServerCompactConnectionString);
+                if (!File.Exists(databaseFileName))
+                {
+                    ctx.Database.CreateIfNotExists();
+                }
             }
 
+            DatabaseInitializer.AddErrorTypes(ctx);
 
             return ctx;
 

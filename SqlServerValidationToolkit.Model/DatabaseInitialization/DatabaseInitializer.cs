@@ -51,6 +51,10 @@ namespace SqlServerValidationToolkit.Model.DatabaseInitialization
 
         public static void AddErrorTypes(SqlServerValidationToolkitContext ctx)
         {
+            if (ctx.Errortypes.Any())
+            {
+                return;
+            }
             ctx.Errortypes.AddRange(new List<ErrorType>()
                 {
                     new ErrorType(MinMaxRule.TooLowErrorTypeCode,"MinMax","Too low"),
