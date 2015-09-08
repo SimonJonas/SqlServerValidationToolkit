@@ -38,11 +38,8 @@ namespace SqlServerValidationToolkit.Configurator.Controls.ValidationRules
 
         private void ShowQuery(ValidationRuleEditViewViewModel vm)
         {
-            using (var ctx = SqlServerValidationToolkitContext.Create())
-            {
-                string query = vm.Rule.Query;
-                MessageBox.Show(query);
-            }
+            string query = vm.Rule.Query;
+            MessageBox.Show(query);
         }
 
         private bool isManualEditCommit;

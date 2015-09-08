@@ -23,6 +23,7 @@ namespace SqlServerValidationToolkit.Configurator
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            System.Data.Entity.Database.SetInitializer<SqlServerValidationToolkitContext>(new CreateSqlServerValidationToolkitDb());
 
             using (var ctx = SqlServerValidationToolkitContext.Create())
             {

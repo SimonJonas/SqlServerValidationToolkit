@@ -70,6 +70,7 @@ namespace SqlServerValidationToolkit.Configurator.Controls.UpdateEntities
 
         private void UpdateSources()
         {
+            //TODO: Use own context-class
             using (var ctx = SqlServerValidationToolkitContext.Create())
             {
                 ctx.Database.Connection.Open();
@@ -85,6 +86,7 @@ namespace SqlServerValidationToolkit.Configurator.Controls.UpdateEntities
 
         private void UpdateSources(SqlServerValidationToolkitContext ctx)
         {
+            //TODO: Use own context-class
             foreach (var table in Tables.Where(t => t.IsSelected))
             {
                 var source = GetSource(ctx, table);
@@ -94,6 +96,7 @@ namespace SqlServerValidationToolkit.Configurator.Controls.UpdateEntities
 
         private static Source GetSource(SqlServerValidationToolkitContext ctx, TableViewModel table)
         {
+            //TODO: Use own context-class
             var db = ctx.Databases
                 .Include((d) => d.Sources)
                 .Include((d) => d.Sources.Select(s=>s.Columns)).Single();
@@ -214,6 +217,7 @@ AND table_name = '{0}'";
 
         public void Init(string connectionString)
         {
+            //TODO: Use own context-class
             using (var connection = SqlServerValidationToolkitContext.CreateConnection(connectionString))
             {
                 Tables = GetTables(connection).OrderBy(t => t.Name).ToList();

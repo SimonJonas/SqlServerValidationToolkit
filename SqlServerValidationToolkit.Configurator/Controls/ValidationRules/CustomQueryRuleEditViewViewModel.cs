@@ -17,6 +17,7 @@ namespace SqlServerValidationToolkit.Configurator.Controls.ValidationRules
         public CustomQueryRuleEditViewViewModel(CustomQueryRule r, SqlServerValidationToolkitContext ctx)
             : base(r,ctx)
         {
+            //TODO: Use own context-class
             _rule = r;
         }
 

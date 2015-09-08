@@ -86,15 +86,7 @@ namespace SqlServerValidationToolkit.Model.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to USE [ValidationToolkit_UnitTest]
-        ///
-        ///SELECT TOP 1000 [MigrationId]
-        ///      ,[ContextKey]
-        ///      ,[Model]
-        ///      ,[ProductVersion]
-        ///  FROM [dbo].[__MigrationHistory]
-        ///  WHERE ContextKey=&apos;SqlServerValidationToolkit.Model.Context.SqlServerValidationToolkitContext&apos;
-        ///
+        ///   Looks up a localized string similar to 
         ///IF (EXISTS(SELECT * FROM [__MigrationHistory]))
         ///BEGIN
         ///	DROP TABLE [dbo].[__MigrationHistory]
@@ -104,13 +96,46 @@ namespace SqlServerValidationToolkit.Model.Properties {
         ///
         ///DROP TABLE [dbo].[Validation_WrongValue]
         ///
+        ///
+        ///DROP TABLE [dbo].[Validation_ValidationRule_ErrorType]
+        ///
         ///DROP TABLE [dbo].[Validation_Errortype]
         ///
-        ///DROP TABLE [dbo].[V [rest of string was truncated]&quot;;.
+        ///DROP TABLE [dbo].[Validation_ValidationRule]
+        ///
+        ///DROP TABLE [dbo].[Validation_Column]
+        ///
+        ///
+        ///DROP TABLE [dbo].[Validation_Log]
+        ///
+        ///DROP TABLE [dbo].[Validation_Source]
+        ///
+        ///--drop stored procedures
+        ///DROP PROCEDURE [dbo].[Valid [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string UninstallToolkit {
             get {
                 return ResourceManager.GetString("UninstallToolkit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CREATE VIEW Validation_ColumnsWithWrongValues
+        ///AS
+        ///SELECT 
+        ///	DISTINCT -- distinct because the entry could contain multiple wrong values
+        ///	wv.[Id],
+        ///	c.Name as columnName,
+        ///	s.Name as sourceName
+        ///  FROM [dbo].[Validation_WrongValue] wv
+        ///  JOIN dbo.Validation_ValidationRule vr ON wv.ValidationRule_fk = vr.ValidationRule_id
+        ///  JOIN dbo.Validation_Column c ON vr.Column_fk = c.Column_id
+        ///  JOIN dbo.Validation_Source s ON c.Source_fk = s.Source_id
+        ///.
+        /// </summary>
+        internal static string Views {
+            get {
+                return ResourceManager.GetString("Views", resourceCulture);
             }
         }
     }

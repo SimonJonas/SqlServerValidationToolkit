@@ -13,13 +13,14 @@ using System.Threading.Tasks;
 
 namespace SqlServerValidationToolkit.Model.DatabaseInitialization
 {
-    public class DropCreateSqlServerValidationToolkitDb : DropCreateDatabaseIfModelChanges<SqlServerValidationToolkitContext>
+    public class CreateSqlServerValidationToolkitDb : CreateDatabaseIfNotExists<SqlServerValidationToolkitContext>
     {
         protected override void Seed(SqlServerValidationToolkitContext context)
         {
-            context.Database.ExecuteSqlCommand(string.Format(
-                        @"CREATE UNIQUE INDEX LX_{0} ON {0} ({1})",
-                                 "Validation_Errortype", "Check_Type, Description"));
+            //context.Database.ExecuteSqlCommand(string.Format(
+            //            @"CREATE UNIQUE INDEX LX_{0} ON {0} ({1})",
+            //                     "Validation_Errortype", "Check_Type, Description"));
+            context.Database.ExecuteSqlCommand(Resources.Views);
 
         }
     }
