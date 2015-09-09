@@ -48,3 +48,6 @@ After the validation you can see all invalid values in the "WrongValues"-tab:
 
 ##Why are the imported tables called Source?
 Because I would like to extend the tool so that you can also validate views in a future version.
+
+##SSIS integration
+You can integrate the validation toolkit in the SSIS-package. Just add a Execute Process Task and set "-v" in the Arguments-row. In the SqlServerValidationToolkit.Configurator.exe.config-file go to the bottom of the file and set the StoreDataInSqlServer-setting to "True" and set the connection string to the database where the metadata is stored in the SqlServerConnectionString-setting. After the validation the Validation_WrongValue-table contains all wrong values and can be used in the SSIS-package, for example to be filtered for a ETL-process.
