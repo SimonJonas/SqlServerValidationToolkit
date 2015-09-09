@@ -40,7 +40,7 @@ namespace SqlServerValidationToolkit.Model.Context
         {
             SqlServerValidationToolkitContext ctx;
 
-            if (Settings.Default.StoreDataInSqlServer)
+            if (Settings.Default.StoreMetadataInSqlServer)
             {
                 ctx = SqlServerValidationToolkitContext.Create(Settings.Default.SqlServerConnectionString);
             } else

@@ -26,9 +26,9 @@ namespace SqlServerValidationToolkit.Model.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool StoreDataInSqlServer {
+        public bool StoreMetadataInSqlServer {
             get {
-                return ((bool)(this["StoreDataInSqlServer"]));
+                return ((bool)(this["StoreMetadataInSqlServer"]));
             }
         }
         
