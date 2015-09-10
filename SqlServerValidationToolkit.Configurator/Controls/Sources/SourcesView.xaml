@@ -7,6 +7,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
              d:DataContext="{d:DesignInstance Type=controls:SourcesViewViewModel, IsDesignTimeCreatable=True}">
+    <UserControl.Resources>
+        <controls:BooleanToVisibilityConverterDontCollapse x:Key="boolToVisConverter" />
+    </UserControl.Resources>
     <Grid >
 
         <Grid.ColumnDefinitions>
@@ -88,7 +91,7 @@
                     </ListBox.ItemContainerStyle>
                 </ListBox>
 
-                <Grid Grid.Row="1" DockPanel.Dock="Bottom">
+                <Grid Grid.Row="1" DockPanel.Dock="Bottom" Visibility="{Binding Path=SourceIsSelected, Converter={StaticResource boolToVisConverter}}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
@@ -132,7 +135,7 @@
                         </Style>
                     </ListBox.ItemContainerStyle>
                 </ListBox>
-                <WrapPanel Grid.Row="1">
+                <WrapPanel Grid.Row="1"  Visibility="{Binding Path=ColumnIsSelected, Converter={StaticResource boolToVisConverter}}">
                     <Button Command="{Binding Path=AddMinMaxRuleCommand}" ToolTip="Add MinMax-Rule" IsEnabled="{Binding Path=MinMaxRuleCanBeAdded}">
                         <Image Source="../../Images/16x16/AddMinMaxRule.png" Width="16" Height="16" />
                     </Button>

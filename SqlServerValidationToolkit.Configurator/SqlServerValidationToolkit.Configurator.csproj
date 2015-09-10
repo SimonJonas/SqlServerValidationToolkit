@@ -140,6 +140,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ConnectionStringUpdater.cs" />
+    <Compile Include="Controls\Sources\BooleanToVisibilityConverterDontCollapse.cs" />
     <Compile Include="Controls\UpdateEntities\ColumnViewModel.cs" />
     <Compile Include="Controls\UpdateEntities\TableViewModel.cs" />
     <Compile Include="Controls\UpdateEntities\UpdateEntitiesView.xaml.cs">
