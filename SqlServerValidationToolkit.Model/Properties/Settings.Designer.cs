@@ -36,9 +36,9 @@ namespace SqlServerValidationToolkit.Model.Properties {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Data Source=localhost;Initial Catalog=myDatabase;Integrated Security=True;Multipl" +
             "eActiveResultSets=True;")]
-        public string SqlServerConnectionString {
+        public string MetadataDatabaseConnectionString {
             get {
-                return ((string)(this["SqlServerConnectionString"]));
+                return ((string)(this["MetadataDatabaseConnectionString"]));
             }
         }
     }

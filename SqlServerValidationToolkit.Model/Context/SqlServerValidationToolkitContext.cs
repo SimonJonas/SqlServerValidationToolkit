@@ -42,7 +42,7 @@ namespace SqlServerValidationToolkit.Model.Context
 
             if (Settings.Default.StoreMetadataInSqlServer)
             {
-                ctx = SqlServerValidationToolkitContext.Create(Settings.Default.SqlServerConnectionString);
+                ctx = SqlServerValidationToolkitContext.Create(Settings.Default.MetadataDatabaseConnectionString);
             } else
             {
                 string databaseFileName = "SqlServerValidationToolkit.Model.Context.SqlServerValidationToolkitContext.sdf";
