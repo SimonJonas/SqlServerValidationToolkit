@@ -22,7 +22,7 @@ using System.Windows.Input;
 
 namespace SqlServerValidationToolkit.Configurator
 {
-    class MainWindowViewModel : INotifyPropertyChanged
+    class MainWindowViewModel : INotifyPropertyChanged, IDisposable
     {
 
         public ICommand InstallOnDatabaseCommand
@@ -386,6 +386,11 @@ namespace SqlServerValidationToolkit.Configurator
                     return ctx.Database.Connection.DataSource;
                 }
             }
+        }
+
+        public void Dispose()
+        {
+            _validator.Dispose();
         }
     }
 }
