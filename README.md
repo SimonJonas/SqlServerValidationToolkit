@@ -2,21 +2,28 @@
 A tool for data-validation of SQL Server tables
 
 ##What is it?
-
 The SqlServerValidationToolkit allows you to quickly define rules for column-values. You can use the tool to get an overview of invalid valid and to constantly corrrect them. Everytime you run the validation you have a current view of all invalid values.
 
-It is easy to set up. Just run the exe and define the database to validate. Then import the metadata for the tables you want to validate, define rules and execute the validation. 
+You can use the tool in a local mode where the metadata are stored locally or in a shared mode where you store them in a SQL Server database that you can access from an SSIS-package.
 
-The metadata is stored in a local database. The connection string is stored in the database in encrypted form. It can only be read from the local computer.
-
+##Rule types
 The following rule-types are available:
 - MinMax-rule
 - Like-rule with a like-expression
 - Comparison-rule to compare the value of one column with the value of another column
 - CustomQuery-rule which allows you to define a custom query and define your own error types. The query returns the id of the invalid values and the errorType-code.
 
-##Are there alternatives?
-If you are using Integration Services and want to integrate your validation into your SSIS-project, you can use the "Data validation transform"-component from PragmaticsWorks. It is available under http://pragmaticworks.com/Products/Features/Feature/DataValidationTransform. But it can only validate regular expressions. This tool has the advantage that it can also validate numeric and dateTime-fields. In future releases it will have a command line interface and will be usable also from an SSIS-Project. 
+##SSIS Integration
+You can integrate the validation toolkit in the SSIS-package. 
+- Prepare the validation toolkit: In the SqlServerValidationToolkit.Configurator.exe.config-file go to the bottom of the file. Set the "StoreMetadataInSqlServer"-setting to "True" and in the "MetadataDatabaseConnectionString" set the connection string to the metadata-database.
+- Define the rules for the validation as in the local mode.
+- Integrate the tool into SSIS: In the project add an "Execute Process" Task and set "-v" in the Arguments-row.  
+- Handle the invalid data: For example if you want to import the data into a data warehouse you can access the view [Validation_EntriesWithWrongValues] from the metadata database to access the Id-values of the invalid entries to exclude them from the import.
+
+##What are the alternatives?
+- A simple way is to use SSIS with lookup transformations and conditional splits to weed out invalid data. This is a standard approach but if you have a lot of tables to validate, the validation logic is spread over many places. Also it means that you have to change and redeploy the SSIS package when the validation logic changes. This can be time consuming. The validation toolkit extracts the validation logic into an external component.
+- The "Data validation transform"-component from PragmaticsWorks (http://pragmaticworks.com/Products/Features/Feature/DataValidationTransform) can validate regular expressions. 
+- Data Quality services (https://msdn.microsoft.com/en-us/library/ff877917.aspx) is the service from Microsoft to validate data. The validation toolkit is a simple alternative.
 
 ##Where can I use it?
 In a perfect world you would not need this tool. The applications would all validate the input-data themselves and give the user immediate feedback if one of the rules is broken. However sometimes applications don't validate or they don't validate the right thing and after a while your boss comes and sais the existing data needs to be shipped to a data warehouse. What do you do? You validate yourself. You write all SQL-queries that filter the wrong values in the ETL-process or you correct them one by one. 
@@ -49,5 +56,3 @@ After the validation you can see all invalid values in the "WrongValues"-tab:
 ##Why are the imported tables called Source?
 Because I would like to extend the tool so that you can also validate views in a future version.
 
-##SSIS integration
-You can integrate the validation toolkit in the SSIS-package. Just add a Execute Process Task and set "-v" in the Arguments-row. In the SqlServerValidationToolkit.Configurator.exe.config-file go to the bottom of the file and set the StoreDataInSqlServer-setting to "True" and set the connection string to the database where the metadata is stored in the SqlServerConnectionString-setting. After the validation the Validation_WrongValue-table contains all wrong values and can be used in the SSIS-package, for example to be filtered for a ETL-process.
